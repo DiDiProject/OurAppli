@@ -1,8 +1,11 @@
 package com.example.didi.ourapplicavin.controleursIHM;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
 
@@ -32,6 +35,19 @@ public class AffichageMenuPrincipal extends Activity {
         bdd = (Button) findViewById(R.id.voirBdd);
         recherche = (Button) findViewById(R.id.voidRecherche);
         ajoutVinbdd = (Button) findViewById(R.id.ajoutVinbdd);
+
+        cave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Réagir au clic
+                // Le premier paramètre est le nom de l'activité actuelle
+                // Le second est le nom de l'activité de destination
+                Toast.makeText(AffichageMenuPrincipal.this, "Le contenu de votre cave à vin virtuelle va s'afficher !", Toast.LENGTH_SHORT).show();
+                Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichageCave.class);
+                // Puis on lance l'intent !
+                startActivity(secondeActivite);
+            }
+        });
 
     }
 

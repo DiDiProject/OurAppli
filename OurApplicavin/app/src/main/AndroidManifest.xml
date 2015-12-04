@@ -20,6 +20,10 @@
             android:name=".controleursIHM.AffichageMenuPrincipal"
             android:label="@string/title_activity_affichage_menu_principal" >
         </activity>
+        <activity
+            android:name=".controleursIHM.AffichageCave"
+            android:label="@string/title_activity_affichage_cave" >
+        </activity>
     </application>
 
 </manifest>
