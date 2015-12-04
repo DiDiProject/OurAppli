@@ -28,6 +28,10 @@
             android:name=".controleursIHM.AffichagePref"
             android:label="@string/title_activity_affichage_pref" >
         </activity>
+        <activity
+            android:name=".controleursIHM.AffichageBdd"
+            android:label="@string/title_activity_affichage_bdd" >
+        </activity>
     </application>
 
 </manifest>

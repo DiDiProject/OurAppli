@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageBdd">
+
+    <GridView
+        android:id="@+id/tabNomColBdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ajouterCave"
+        android:background="#9dfd9a"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth" />
+
+    <GridView
+        android:id="@+id/tabResultatVinBdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ajouterCave"
+        android:layout_marginTop="65dp"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth" />
+
+    <Button
+        android:id="@+id/ajouterCave"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#b9cefd"
+        android:text="cave ou"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/ajouterPref"
+        android:layout_toStartOf="@+id/ajouterPref" />
+
+    <Button
+        android:id="@+id/ajouterPref"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffcea9"
+        android:text="préférence ?"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/tabNomColBdd" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ajouter ce vin dans la"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

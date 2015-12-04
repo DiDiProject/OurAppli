@@ -16,7 +16,7 @@ public class AffichagePref extends AppCompatActivity {
     private GridView tabNom = null;
     private String[] listeVins;
 
-    public final static String cave = "cave";
+    public final static String cave = "pref";
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -26,8 +26,8 @@ public class AffichagePref extends AppCompatActivity {
 
         //on va cherche le bouton retour et les deux tableaux qu'on a créer sur le layout
         //retour = (Button)findViewById(R.id.retourButton);
-        tabNom = (GridView)findViewById(R.id.tabNomCol);
-        tab = (GridView)findViewById(R.id.tabResultatVin);
+        tabNom = (GridView)findViewById(R.id.tabNomColPref);
+        tab = (GridView)findViewById(R.id.tabResultatVinPref);
 
         // TODO
         // il faudra définir les noms des colonnes

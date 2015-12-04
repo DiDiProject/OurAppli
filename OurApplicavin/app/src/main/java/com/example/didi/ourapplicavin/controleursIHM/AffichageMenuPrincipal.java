@@ -60,6 +60,16 @@ public class AffichageMenuPrincipal extends Activity {
             }
         });
 
+        bdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AffichageMenuPrincipal.this, "Le contenu de la base de données va s'afficher !",
+                        Toast.LENGTH_SHORT).show();
+                Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichageBdd.class);
+                startActivity(secondeActivite);
+            }
+        });
+
     }
 
 }

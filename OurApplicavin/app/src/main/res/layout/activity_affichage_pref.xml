@@ -4,12 +4,11 @@
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichagePref">
 
     <GridView
-        android:id="@+id/tabNomCol"
+        android:id="@+id/tabNomColPref"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/ajoutCave"
         android:background="#ffcea9"
         android:columnWidth="100dp"
         android:gravity="center"
@@ -17,27 +16,16 @@
         android:stretchMode="columnWidth" />
 
     <GridView
-        android:id="@+id/tabResultatVin"
+        android:id="@+id/tabResultatVinPref"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/ajoutCave"
         android:layout_marginTop="65dp"
         android:columnWidth="100dp"
         android:gravity="center"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tabNomCol"
-        android:layout_toEndOf="@+id/nbBouteille"
-        android:layout_toRightOf="@+id/nbBouteille"
-        android:text="bouteille(s)"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="20dp" />
 
 </RelativeLayout>

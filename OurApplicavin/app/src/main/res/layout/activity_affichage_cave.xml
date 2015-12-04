@@ -5,12 +5,12 @@
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageCave">
 
         <GridView
-            android:id="@+id/tabNomCol"
+            android:id="@+id/tabNomColCave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/ajoutCave"
+            android:layout_below="@+id/augmenter"
             android:background="#b9cefd"
             android:columnWidth="100dp"
             android:gravity="center"
@@ -18,12 +18,12 @@
             android:stretchMode="columnWidth" />
 
         <GridView
-            android:id="@+id/tabResultatVin"
+            android:id="@+id/tabResultatVinCave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/ajoutCave"
+            android:layout_below="@+id/augmenter"
             android:layout_marginTop="65dp"
             android:columnWidth="100dp"
             android:gravity="center"
@@ -31,7 +31,7 @@
             android:stretchMode="columnWidth" />
 
         <Button
-            android:id="@+id/ajoutCave"
+            android:id="@+id/augmenter"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,23 +43,22 @@
         <!--android:visibility="invisible"-->
 
         <Button
-            android:id="@+id/ajoutSouhait"
+            android:id="@+id/diminuer"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tabResultatVin"
-            android:layout_toRightOf="@+id/ajoutCave"
+            android:layout_above="@+id/tabResultatVinPref"
+            android:layout_toRightOf="@+id/augmenter"
             android:background="#fdb5b0"
             android:text="-" />
-
 
         <EditText
             android:id="@+id/nbBouteille"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tabNomCol"
-            android:layout_toEndOf="@+id/ajoutSouhait"
-            android:layout_toRightOf="@+id/ajoutSouhait"
+            android:layout_above="@+id/tabNomColCave"
+            android:layout_toEndOf="@+id/diminuer"
+            android:layout_toRightOf="@+id/diminuer"
             android:inputType="number"
             android:text="0" />
 
@@ -68,9 +67,9 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/tabNomCol"
+            android:layout_alignEnd="@+id/tabNomColCave"
             android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/tabNomCol"
+            android:layout_alignRight="@+id/tabNomColCave"
             android:background="#9dfd9a"
             android:text="OK" />
 
@@ -78,7 +77,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tabNomCol"
+            android:layout_above="@+id/tabNomColCave"
             android:layout_toEndOf="@+id/nbBouteille"
             android:layout_toRightOf="@+id/nbBouteille"
             android:text="bouteille(s)"
