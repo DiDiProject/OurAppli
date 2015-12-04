@@ -32,6 +32,10 @@
             android:name=".controleursIHM.AffichageBdd"
             android:label="@string/title_activity_affichage_bdd" >
         </activity>
+        <activity
+            android:name=".controleursIHM.AffichageDetailVin"
+            android:label="@string/title_activity_affichage_detail_vin" >
+        </activity>
     </application>
 
 </manifest>

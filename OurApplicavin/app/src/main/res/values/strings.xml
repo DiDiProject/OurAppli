@@ -8,4 +8,5 @@
     <string name="title_activity_affichage_cave">Votre cave à vins</string>
     <string name="title_activity_affichage_pref">Votre liste de souhait</string>
     <string name="title_activity_affichage_bdd">AffichageBdd</string>
+    <string name="title_activity_affichage_detail_vin">AffichageDetailVin</string>
 </resources>

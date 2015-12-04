@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
 
@@ -75,6 +77,25 @@ public class AffichageCave extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, listeVins);
         tab.setAdapter(adapter);
         tab.setNumColumns(3); //définit le nombre de colonne par ligne comme tabNom
+
+        //quand on fait un clic court sur un des vins (n'importe quelle colonne)
+        //on va afficher le détail de ce vin
+        tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                positionTabNb = position;
+                String s = (String) ((TextView) v).getText();
+                if (position % 3 == 0)
+                    Toast.makeText(getApplicationContext(), "Nom :" + s, Toast.LENGTH_SHORT).show();
+                else if (position % 3 == 1)
+                    Toast.makeText(getApplicationContext(), "Type : " + s, Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Nb : " + s, Toast.LENGTH_SHORT).show();
+                // TODO
+                //afficher le détail du vin en question
+                Intent n = new Intent(AffichageCave.this, AffichageDetailVin.class);
+                startActivity(n);
+            }
+        });
 
     }
 
