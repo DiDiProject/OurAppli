@@ -248,6 +248,13 @@ public class AffichageCave extends AppCompatActivity {
             startActivity(n);
             return true;
         }
+        else if (id == R.id.rechercheCave) {
+            Toast.makeText(AffichageCave.this, "Vous aller effectuer une recherche dans votre cave !",
+                    Toast.LENGTH_SHORT).show();
+            Intent n = new Intent(AffichageCave.this, AffichageRechercheVin.class);
+            startActivity(n);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageRechercheVin">
+    <item android:id="@+id/retourMenu" android:title="Retour au menu principal"></item>
+    <item android:id="@+id/retourCave" android:title="Retour dans votre cave"/>
+    <item android:id="@+id/retourBdd" android:title="Retour dans la base de données"/>
+</menu>

@@ -9,4 +9,5 @@
     <string name="title_activity_affichage_pref">Votre liste de souhait</string>
     <string name="title_activity_affichage_bdd">Base de données des vins</string>
     <string name="title_activity_affichage_detail_vin">Detail du vin</string>
+    <string name="title_activity_affichage_recherche_vin">Faire une recherche</string>
 </resources>

@@ -70,6 +70,16 @@ public class AffichageMenuPrincipal extends Activity {
             }
         });
 
+        recherche.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AffichageMenuPrincipal.this, "Vous aller effectuer une recherche dans la base de données !",
+                        Toast.LENGTH_SHORT).show();
+                Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichageRechercheVin.class);
+                startActivity(secondeActivite);
+            }
+        });
+
     }
 
 }

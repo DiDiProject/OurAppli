@@ -186,6 +186,13 @@ public class AffichageBdd extends AppCompatActivity {
             startActivity(n);
             return true;
         }
+        else if (id == R.id.rechercheBdd) {
+            Toast.makeText(AffichageBdd.this, "Vous aller effectuer une recherche dans la base de données !",
+                    Toast.LENGTH_SHORT).show();
+            Intent n = new Intent(AffichageBdd.this, AffichageRechercheVin.class);
+            startActivity(n);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

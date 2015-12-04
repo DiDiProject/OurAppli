@@ -36,6 +36,10 @@
             android:name=".controleursIHM.AffichageDetailVin"
             android:label="@string/title_activity_affichage_detail_vin" >
         </activity>
+        <activity
+            android:name=".controleursIHM.AffichageRechercheVin"
+            android:label="@string/title_activity_affichage_recherche_vin" >
+        </activity>
     </application>
 
 </manifest>

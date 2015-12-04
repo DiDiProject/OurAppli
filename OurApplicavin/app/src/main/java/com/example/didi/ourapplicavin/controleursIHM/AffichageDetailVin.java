@@ -24,6 +24,7 @@ public class AffichageDetailVin extends AppCompatActivity {
 
     final String NOM_VIN = "nom du vin";
 
+    //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
