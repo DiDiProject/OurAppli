@@ -1,13 +1,76 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageResultatRecherche">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+    <GridView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/name"/>
+        android:id="@+id/tabNomColResultatRecherche"
+        android:numColumns="auto_fit"
+        android:gravity="center"
+        android:columnWidth="100dp"
+        android:stretchMode="columnWidth"
+        android:background="#fdbec3"
+        android:layout_below="@+id/ajoutCaveResultat"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tabResultatVin"
+        android:numColumns="auto_fit"
+        android:gravity="center"
+        android:columnWidth="100dp"
+        android:stretchMode="columnWidth"
+        android:layout_marginTop="65dp"
+        android:layout_below="@+id/ajoutCaveResultat"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/ajoutCaveResultat"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#b9cefd"
+        android:text="cave"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/textView8"
+        android:layout_toEndOf="@+id/textView8" />
+
+    <Button
+        android:id="@+id/ajoutSouhaitResultat"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffcea9"
+        android:text="souhait ?"
+        android:layout_above="@+id/tabNomColResultatRecherche"
+        android:layout_toRightOf="@+id/textOuResultat"
+        android:layout_toEndOf="@+id/textOuResultat" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ajouter ce vin dans "
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=" ou "
+        android:id="@+id/textOuResultat"
+        android:layout_alignBaseline="@+id/textView8"
+        android:layout_alignBottom="@+id/textView8"
+        android:layout_toRightOf="@+id/ajoutCaveResultat"
+        android:layout_toEndOf="@+id/ajoutCaveResultat" />
 
 </RelativeLayout>

@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageResultatRecherche">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/retourMenu" android:title="Retour au menu principal"></item>
+    <item android:id="@+id/retourCave" android:title="Retour dans votre cave"/>
+    <item android:id="@+id/retourRecherche" android:title="Retour à l'écran recherche"></item>
 </menu>

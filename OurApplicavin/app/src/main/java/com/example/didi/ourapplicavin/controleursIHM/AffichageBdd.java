@@ -123,7 +123,6 @@ public class AffichageBdd extends AppCompatActivity {
                 // rajouter si nb col change (plus de 3)
                 //on surligne la ligne du vin
                 changeCouleurLigneVin(posi);
-
                 return true;
             }
         });
@@ -147,7 +146,7 @@ public class AffichageBdd extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO
 
-                Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la liste de préférence !",
+                Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la liste de souhait !",
                         Toast.LENGTH_SHORT).show();
                 boutonsInvisible();
                 rechangeCouleurLigneVin(posi);
