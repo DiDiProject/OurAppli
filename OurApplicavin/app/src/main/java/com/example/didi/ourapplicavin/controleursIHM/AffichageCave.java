@@ -1,5 +1,7 @@
 package com.example.didi.ourapplicavin.controleursIHM;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -104,6 +106,107 @@ public class AffichageCave extends AppCompatActivity {
             }
         });
 
+        tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //pour que l'utilisateur augmente ou diminu le nb de bouteille de ce vin, on rend visible les deux boutons
+                //et on désactive aussi la liste des vins
+                boutonVisible();
+
+                //on met le nombre de bouteille du vin pour que l'utilisateur voit ce nb diminuer ou augmenter
+                // quand il clique sur + ou -
+                String nbBouteilleavant;
+                if (position % 3 == 0) {
+                    nbBouteilleavant = (String) ((TextView) tab.getChildAt(position + 2)).getText();
+                    positionTabNb = position + 2;
+                } else if (position % 3 == 1) {
+                    nbBouteilleavant = (String) ((TextView) tab.getChildAt(position + 1)).getText();
+                    positionTabNb = position+1;
+                } else {
+                    nbBouteilleavant = (String) ((TextView) view).getText();
+                    positionTabNb = position;
+                }
+                nb.setText(nbBouteilleavant); //met le nombre de bouteille du vin en question
+                return true;
+            }
+        });
+
+        //pour augmenter le nombre de bouteille (juste un clique)
+        augmenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int nbavant = Integer.parseInt(nb.getText().toString());
+                nbBouteilleActualiser = nbavant + 1; //on rajouter une bouteille
+                nb.setText(Integer.toString(nbBouteilleActualiser));
+            }
+        });
+
+        diminuer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int nbavant = Integer.parseInt(nb.getText().toString());
+                if(nbavant==1){
+                    AlertDialog.Builder boite;
+                    boite = new AlertDialog.Builder(AffichageCave.this);
+                    boite.setTitle("Boite de dialogue");
+                    boite.setIcon(R.drawable.photovin);
+                    boite.setMessage("Voulez-vous supprimer ce vin ou conserver ce vin dans votre cave avec 0 bouteille ?");
+                    boite.setPositiveButton("Supprimer ce vin", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //on remet les boutons invisibles
+                                    boutonsInvisible();
+                                    // TODO
+                                    //réactualiser la liste des vins (recharger la liste mais avant supp le vin)
+                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
+                                            android.R.layout.simple_list_item_1, listeVins);
+                                    tab.setAdapter(adapter);
+                                }
+                            }
+                    );
+                    boite.setNegativeButton("Conserver ce vin", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // on fait rien, on revient dans l'état précédent
+                                    nb.setText("0");
+                                    boutonsInvisible();
+                                    // TODO
+                                    // reactuliser dans la cave
+                                    // faire plutot : modifier le nb bouteille dans la liste des vins de la cave
+                                    // puis recharger la liste
+                                    //mettre méthode supprVin
+                                    listeVins[positionTabNb] = "0"; // à supprimer quand mofif liste des vins
+                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
+                                            android.R.layout.simple_list_item_1, listeVins);
+                                    tab.setAdapter(adapter);
+                                }
+                            }
+                    );
+
+                    boite.show();
+                    return;
+                }
+                nbBouteilleActualiser = nbavant - 1; //on enlève une bouteille
+                nb.setText(Integer.toString(nbBouteilleActualiser));
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //on récupère le nombre de bouteilles actualisé
+                nbBouteilles = Integer.parseInt(nb.getText().toString());
+
+                //on remet les boutons invisibles
+                boutonsInvisible();
+                // TODO
+                // remettre à jour la liste de vin (nb bouteille à changer)
+                // faire plutot : modifier le nb bouteille dans la liste des vins de la cave
+                // puis recharger la liste
+                // faire une méthode pour ça supprVin
+                listeVins[positionTabNb] = Integer.toString(nbBouteilleActualiser); // à supp quand on a mofif la liste
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
+                        android.R.layout.simple_list_item_1, listeVins);
+                tab.setAdapter(adapter);
+            }
+        });
 
     }
 
