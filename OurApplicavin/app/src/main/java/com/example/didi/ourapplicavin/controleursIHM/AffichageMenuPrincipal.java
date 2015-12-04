@@ -53,7 +53,7 @@ public class AffichageMenuPrincipal extends Activity {
         pref.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AffichageMenuPrincipal.this, "Le contenu de votre liste de préférence va s'afficher !",
+                Toast.makeText(AffichageMenuPrincipal.this, "Le contenu de votre liste de souhait va s'afficher !",
                         Toast.LENGTH_SHORT).show();
                 Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichagePref.class);
                 startActivity(secondeActivite);

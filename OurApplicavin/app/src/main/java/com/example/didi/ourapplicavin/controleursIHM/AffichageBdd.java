@@ -74,10 +74,12 @@ public class AffichageBdd extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
                 //(1ère colonne)
+                // TODO
+                // à changer si plus de 3 col
                 if (position % 3 == 0) {
-                    nomVinSel= (String) ((TextView) v).getText(); // TODO  à changer si plus de 3 col
+                    nomVinSel= (String) ((TextView) v).getText();
                 } else if (position % 3 == 1) {
-                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 1)).getText();// TODO
+                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 1)).getText();
                 } else {
                     nomVinSel = (String) ((TextView) tab.getChildAt(position - 2)).getText();
                 }

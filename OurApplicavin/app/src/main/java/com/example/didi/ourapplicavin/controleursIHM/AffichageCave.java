@@ -115,6 +115,8 @@ public class AffichageCave extends AppCompatActivity {
                 //on met le nombre de bouteille du vin pour que l'utilisateur voit ce nb diminuer ou augmenter
                 // quand il clique sur + ou -
                 String nbBouteilleavant;
+                // TODO
+                // à changer si plus de 3 col
                 if (position % 3 == 0) {
                     nbBouteilleavant = (String) ((TextView) tab.getChildAt(position + 2)).getText();
                     positionTabNb = position + 2;
@@ -145,9 +147,10 @@ public class AffichageCave extends AppCompatActivity {
             public void onClick(View v) {
                 int nbavant = Integer.parseInt(nb.getText().toString());
                 if(nbavant==1){
+                    //affiche une boite de dialogue pour confirmation suppression vin ou conserver ce vin
                     AlertDialog.Builder boite;
                     boite = new AlertDialog.Builder(AffichageCave.this);
-                    boite.setTitle("Boite de dialogue");
+                    boite.setTitle("Suppresion de ce vin de la cave ?");
                     boite.setIcon(R.drawable.photovin);
                     boite.setMessage("Voulez-vous supprimer ce vin ou conserver ce vin dans votre cave avec 0 bouteille ?");
                     boite.setPositiveButton("Supprimer ce vin", new DialogInterface.OnClickListener() {
@@ -164,7 +167,7 @@ public class AffichageCave extends AppCompatActivity {
                     );
                     boite.setNegativeButton("Conserver ce vin", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // on fait rien, on revient dans l'état précédent
+                                    // on revient dans l'état précédent
                                     nb.setText("0");
                                     boutonsInvisible();
                                     // TODO

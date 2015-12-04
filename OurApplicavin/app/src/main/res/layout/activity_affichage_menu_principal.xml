@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="225dp"
-            android:text="Voir sa liste de préférence" />
+            android:text="Voir sa liste de souhait" />
 
         <Button
             android:id="@+id/voirBdd"
