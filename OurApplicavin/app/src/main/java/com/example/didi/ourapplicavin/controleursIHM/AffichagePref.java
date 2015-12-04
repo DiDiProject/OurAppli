@@ -5,31 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import com.example.didi.ourapplicavin.R;
 
-//Classe qui affiche la liste des vins de la cave "virtuelle" de l'utilisateur
-//elle est appelée via le menu principal
-public class AffichageCave extends AppCompatActivity {
-    //Attributs (boutons pour + ou - nbBouteille,
-    // les tableaux (pour nom des col et la liste de vins ...)
-    private Button augmenter = null;
-    private Button diminuer = null;
-    private EditText nb = null;
-    private TextView texte = null;
-    private Button ok = null;
+//Classe qui permet d'afficher la liste de préférence de l'utilisateur
+public class AffichagePref extends AppCompatActivity {
     private GridView tab = null;
     private GridView tabNom = null;
-    private int nbBouteilles;
     private String[] listeVins;
-    private int nbBouteilleActualiser = 0;
-    private int positionTabNb = 0;
 
     public final static String cave = "cave";
 
@@ -37,20 +22,12 @@ public class AffichageCave extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affichage_cave);
+        setContentView(R.layout.activity_affichage_pref);
 
         //on va cherche le bouton retour et les deux tableaux qu'on a créer sur le layout
         //retour = (Button)findViewById(R.id.retourButton);
         tabNom = (GridView)findViewById(R.id.tabNomCol);
         tab = (GridView)findViewById(R.id.tabResultatVin);
-        augmenter = (Button)findViewById(R.id.ajoutCave);
-        diminuer = (Button)findViewById(R.id.ajoutSouhait);
-        nb = (EditText)findViewById(R.id.nbBouteille);
-        texte = (TextView)findViewById(R.id.textView3);
-        ok = (Button)findViewById(R.id.ok);
-
-        //on met les boutons + et - invisible car pas besoin maintenant
-        boutonsInvisible();
 
         // TODO
         // il faudra définir les noms des colonnes
@@ -75,15 +52,14 @@ public class AffichageCave extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, listeVins);
         tab.setAdapter(adapter);
         tab.setNumColumns(3); //définit le nombre de colonne par ligne comme tabNom
-
     }
 
     //Méthode qui perme de mettre un menu à l'écran
-    // ce menu est définit dans menu_affichage_cave
+    // ce menu est définit dans menu_affichage_pref
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_affichage_cave, menu); //on affiche le menu de la cave
+        getMenuInflater().inflate(R.menu.menu_affichage_pref, menu);
         return true;
     }
 
@@ -99,33 +75,18 @@ public class AffichageCave extends AppCompatActivity {
         // si on clique sur le sous menu (retour au menu principal)
         // on va dans l'activité menu principal
         if (id == R.id.retourMenu) {
-            Intent n = new Intent(AffichageCave.this, AffichageMenuPrincipal.class);
+            Intent n = new Intent(AffichagePref.this, AffichageMenuPrincipal.class);
             startActivity(n);
             return true;
         }
+        // si on clique sur le sous menu (aller dans la cave)
+        // on va dans l'activité AffichageCave
+        else if (id == R.id.allerCave){
+            Intent n = new Intent(AffichagePref.this, AffichageCave.class);
+            startActivity(n);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
-    }
-
-    //Méthode qui rend invisble les boutons + et -
-    //et le tableau de la liste de vins devient actif
-    private void boutonsInvisible(){
-        augmenter.setVisibility(View.INVISIBLE);
-        diminuer.setVisibility(View.INVISIBLE);
-        nb.setVisibility(View.INVISIBLE);
-        ok.setVisibility(View.INVISIBLE);
-        texte.setVisibility(View.INVISIBLE);
-        tab.setEnabled(true);
-    }
-
-    //Méthode qui rend visble les boutons + et - pour que l'utilisateur augmente ou diminue le nb de
-    //bouteilles d'un vin et le tableau de la liste de vins devient inactif
-    // (pour pas que l'utilisateur puisse cliquer sur un autre vns)
-    private void boutonVisible(){
-        augmenter.setVisibility(View.VISIBLE);
-        diminuer.setVisibility(View.VISIBLE);
-        nb.setVisibility(View.VISIBLE);
-        ok.setVisibility(View.VISIBLE);
-        texte.setVisibility(View.VISIBLE);
-        tab.setEnabled(false);
     }
 }

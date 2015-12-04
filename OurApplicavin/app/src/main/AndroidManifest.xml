@@ -24,6 +24,10 @@
             android:name=".controleursIHM.AffichageCave"
             android:label="@string/title_activity_affichage_cave" >
         </activity>
+        <activity
+            android:name=".controleursIHM.AffichagePref"
+            android:label="@string/title_activity_affichage_pref" >
+        </activity>
     </application>
 
 </manifest>

@@ -43,7 +43,7 @@
             android:text="Voir sa cave à vin" />
 
         <Button
-            android:id="@+id/voirListe"
+            android:id="@+id/voirPref"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

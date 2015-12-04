@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichagePref">
+    <item android:id="@+id/retourMenu" android:title="Retour au menu principal"></item>
+    <item android:id="@+id/allerCave" android:title="Aller dans votre cave à vins"/>
+</menu>

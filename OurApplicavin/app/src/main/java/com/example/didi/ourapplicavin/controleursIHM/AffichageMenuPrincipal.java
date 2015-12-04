@@ -15,7 +15,7 @@ import com.example.didi.ourapplicavin.R;
 public class AffichageMenuPrincipal extends Activity {
     //Attributs
     private Button cave = null;
-    private Button liste = null;
+    private Button pref = null;
     private Button bdd = null;
     private Button recherche = null;
     private Button ajoutVinbdd = null;
@@ -31,7 +31,7 @@ public class AffichageMenuPrincipal extends Activity {
 
         //on va chercher tous les boutons afin de leur assigner une action (ici changement d'activité)
         cave = (Button) findViewById(R.id.voirCave);
-        liste = (Button) findViewById(R.id.voirListe);
+        pref = (Button) findViewById(R.id.voirPref);
         bdd = (Button) findViewById(R.id.voirBdd);
         recherche = (Button) findViewById(R.id.voidRecherche);
         ajoutVinbdd = (Button) findViewById(R.id.ajoutVinbdd);
@@ -42,9 +42,20 @@ public class AffichageMenuPrincipal extends Activity {
                 // Réagir au clic
                 // Le premier paramètre est le nom de l'activité actuelle
                 // Le second est le nom de l'activité de destination
-                Toast.makeText(AffichageMenuPrincipal.this, "Le contenu de votre cave à vin virtuelle va s'afficher !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AffichageMenuPrincipal.this, "Le contenu de votre cave à vin virtuelle va s'afficher !",
+                        Toast.LENGTH_SHORT).show();
                 Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichageCave.class);
                 // Puis on lance l'intent !
+                startActivity(secondeActivite);
+            }
+        });
+
+        pref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AffichageMenuPrincipal.this, "Le contenu de votre liste de préférence va s'afficher !",
+                        Toast.LENGTH_SHORT).show();
+                Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichagePref.class);
                 startActivity(secondeActivite);
             }
         });
