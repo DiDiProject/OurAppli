@@ -7,18 +7,18 @@ import android.view.MenuItem;
 
 import com.example.didi.ourapplicavin.R;
 
-public class MainMenu extends AppCompatActivity {
+public class AffichageMenuPrincipal extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
+        setContentView(R.layout.activity_affichage_menu_principal);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_affichage_menu_principal, menu);
         return true;
     }
 

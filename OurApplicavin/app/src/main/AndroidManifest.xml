@@ -17,8 +17,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".controleursIHM.MainMenu"
-            android:label="@string/title_activity_main_menu" >
+            android:name=".controleursIHM.AffichageMenuPrincipal"
+            android:label="@string/title_activity_affichage_menu_principal" >
         </activity>
     </application>
 
