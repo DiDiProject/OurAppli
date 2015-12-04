@@ -23,7 +23,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); //on affiche l'écran d'accueil
 
-        //on va chercher le bouton pour accéder ensuite au menu principal
+        //on va chercher le bouton (grâce à son identifiant qu'on a choisi dans le layout)
+        //pour accéder ensuite au menu principal
         menuPrincipal = (Button)findViewById(R.id.allerMenuPrincipal);
         //ainsi lorsqu'on appuie sur ce bouton il va dans une autre activité (le menu principale de l'application))
         menuPrincipal.setOnClickListener(new View.OnClickListener() {
