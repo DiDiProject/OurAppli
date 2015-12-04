@@ -3,6 +3,7 @@ package com.example.didi.ourapplicavin.controleursIHM;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -128,6 +129,15 @@ public class AffichageCave extends AppCompatActivity {
                     positionTabNb = position;
                 }
                 nb.setText(nbBouteilleavant); //met le nombre de bouteille du vin en question
+
+                //view.invalidateDrawable();
+                //view.onDrawForeground();
+                // TODO
+                // rajouter si nb col change (plus de 3)
+                tab.getChildAt(position).setBackgroundColor(Color.rgb(204, 204, 255));
+                tab.getChildAt(position+1).setBackgroundColor(Color.rgb(204, 204, 255));
+                tab.getChildAt(position+2).setBackgroundColor(Color.rgb(204, 204, 255));
+
                 return true;
             }
         });

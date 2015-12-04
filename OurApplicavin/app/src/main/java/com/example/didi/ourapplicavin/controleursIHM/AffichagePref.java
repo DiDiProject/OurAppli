@@ -103,9 +103,7 @@ public class AffichagePref extends AppCompatActivity {
                 //on affiche une boite de dialogue pour confirmation de la suppression de ce vin
                 AlertDialog.Builder boite;
                 boite = new AlertDialog.Builder(AffichagePref.this);
-                boite.setTitle("Suppression de ce vin de la liste de souhait ?");
-                boite.setIcon(R.drawable.photovin);
-                boite.setMessage("Vin en question :" + nomVinSel); //mettre le nom vin
+                boite.setMessage("Suppression du " + nomVinSel + " de la liste de souhait ?");
                 boite.setPositiveButton("Supprimer ce vin", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(), "Ce vin va être supprimer !!!",
