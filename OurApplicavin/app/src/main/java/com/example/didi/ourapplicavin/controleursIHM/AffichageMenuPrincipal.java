@@ -80,6 +80,16 @@ public class AffichageMenuPrincipal extends Activity {
             }
         });
 
+        ajoutVinbdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AffichageMenuPrincipal.this, "Vous aller effectuer un ajout de vin dans la base de données",
+                        Toast.LENGTH_SHORT).show();
+                Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichageAjoutVinBdd.class);
+                startActivity(secondeActivite);
+            }
+        });
+
     }
 
 }

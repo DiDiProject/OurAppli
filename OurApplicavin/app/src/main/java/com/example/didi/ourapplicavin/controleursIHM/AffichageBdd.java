@@ -192,6 +192,13 @@ public class AffichageBdd extends AppCompatActivity {
             startActivity(n);
             return true;
         }
+        else if (id == R.id.ajoutVinBdd) {
+            Toast.makeText(AffichageBdd.this, "Vous aller effectuer un ajout de vin dans la base de données",
+                    Toast.LENGTH_SHORT).show();
+            Intent n = new Intent(AffichageBdd.this, AffichageAjoutVinBdd.class);
+            startActivity(n);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

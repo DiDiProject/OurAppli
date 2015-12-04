@@ -44,6 +44,10 @@
             android:name=".controleursIHM.AffichageResultatRecherche"
             android:label="@string/title_activity_affichage_resultat_recherche" >
         </activity>
+        <activity
+            android:name=".controleursIHM.AffichageAjoutVinBdd"
+            android:label="@string/title_activity_affichage_ajout_vin_bdd" >
+        </activity>
     </application>
 
 </manifest>
