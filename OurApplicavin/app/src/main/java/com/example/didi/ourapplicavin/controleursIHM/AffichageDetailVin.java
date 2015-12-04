@@ -5,17 +5,45 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.didi.ourapplicavin.R;
 
 //Classe qui affiche la description d'un vin
 // (de la cave, de la liste de pref, de la bdd ou d'une recherche)
 public class AffichageDetailVin extends AppCompatActivity {
+    private TextView nomVin  = null;
+    private String string_nomVin = "";
+    private TextView detailVin = null;
+    private String string_detailVin = "";
+    private EditText remarquesVin = null;
+    private  String string_remarquesVin = "";
+    private Button enregistrer = null;
+
+    final String NOM_VIN = "nom du vin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_detail_vin);
+        nomVin = (TextView)findViewById(R.id.nomVin);
+        detailVin = (TextView)findViewById(R.id.detailVin);
+        remarquesVin = (EditText)findViewById(R.id.remarquesVin);
+        enregistrer = (Button)findViewById(R.id.enregistrer);
+
+        Intent intent = getIntent();
+
+        if (intent != null) {
+            nomVin.setText(intent.getStringExtra(NOM_VIN));
+        }
+
+        // TODO
+        // récupérer la desccription du vin en question
+        // récuperer les remarques personnelles
+        // enregistrer les remarques personnelles
+
     }
 
     //Méthode qui perme de mettre un menu à l'écran

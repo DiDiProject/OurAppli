@@ -7,6 +7,6 @@
     <string name="title_activity_affichage_menu_principal">Menu principal</string>
     <string name="title_activity_affichage_cave">Votre cave à vins</string>
     <string name="title_activity_affichage_pref">Votre liste de souhait</string>
-    <string name="title_activity_affichage_bdd">AffichageBdd</string>
-    <string name="title_activity_affichage_detail_vin">AffichageDetailVin</string>
+    <string name="title_activity_affichage_bdd">Base de données des vins</string>
+    <string name="title_activity_affichage_detail_vin">Detail du vin</string>
 </resources>

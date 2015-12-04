@@ -32,8 +32,10 @@ public class AffichageCave extends AppCompatActivity {
     private String[] listeVins;
     private int nbBouteilleActualiser = 0;
     private int positionTabNb = 0;
+    private String nomVinSel = "";
 
     public final static String cave = "cave";
+    final String NOM_VIN = "nom du vin";
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -82,20 +84,26 @@ public class AffichageCave extends AppCompatActivity {
         //on va afficher le détail de ce vin
         tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                positionTabNb = position;
-                String s = (String) ((TextView) v).getText();
-                if (position % 3 == 0)
-                    Toast.makeText(getApplicationContext(), "Nom :" + s, Toast.LENGTH_SHORT).show();
-                else if (position % 3 == 1)
-                    Toast.makeText(getApplicationContext(), "Type : " + s, Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getApplicationContext(), "Nb : " + s, Toast.LENGTH_SHORT).show();
-                // TODO
-                //afficher le détail du vin en question
+                //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
+                //(1ère colonne)
+                if (position % 3 == 0) {
+                    nomVinSel= (String) ((TextView) v).getText(); // TODO  à changer si plus de 3 col
+                } else if (position % 3 == 1) {
+                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 1)).getText();// TODO
+                } else {
+                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 2)).getText();
+                }
+
+                Toast.makeText(getApplicationContext(), "La description de " + nomVinSel + " va s'afficher !",
+                        Toast.LENGTH_SHORT).show();
+                //on va à l'activité détailVin
                 Intent n = new Intent(AffichageCave.this, AffichageDetailVin.class);
+                //en passant des données (nom du vin ici)
+                n.putExtra(NOM_VIN, nomVinSel);
                 startActivity(n);
             }
         });
+
 
     }
 
