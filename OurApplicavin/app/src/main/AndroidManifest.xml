@@ -40,6 +40,10 @@
             android:name=".controleursIHM.AffichageRechercheVin"
             android:label="@string/title_activity_affichage_recherche_vin" >
         </activity>
+        <activity
+            android:name=".controleursIHM.AffichageResultatRecherche"
+            android:label="@string/title_activity_affichage_resultat_recherche" >
+        </activity>
     </application>
 
 </manifest>

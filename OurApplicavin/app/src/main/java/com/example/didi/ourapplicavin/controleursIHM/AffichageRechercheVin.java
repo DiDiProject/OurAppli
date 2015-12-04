@@ -5,17 +5,85 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.didi.ourapplicavin.R;
 
 //classe pour faire une recherche (par nom ou par critère) soit dans la cave ou dans la bdd
 public class AffichageRechercheVin extends AppCompatActivity {
+    //Attributs
+    private EditText nom = null;
+    private Button rechercheNom = null;
+    private Button faireRechercheAvancee = null;
+    private TextView texteRobe = null;
+    private TextView texteCepage = null;
+    private TextView texteRegion = null;
+    private TextView texteMillesime = null;
+    private TextView texteTerroir = null;
+    private EditText robe = null;
+    private EditText cepage = null;
+    private EditText region = null;
+    private EditText mellisesime = null;
+    private EditText terroir = null;
+    private Button rechercheAvancee = null;
+    private boolean avanceeOuPas = false;
+
+    final String NOM_VIN = "nom du vin";
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_recherche_vin);
+
+        nom = (EditText) findViewById(R.id.nom);
+        rechercheNom = (Button) findViewById(R.id.rechercheParNom);
+        faireRechercheAvancee = (Button) findViewById(R.id.faireRechercheAvancee);
+        rechercheAvancee = (Button) findViewById(R.id.rechercheAvancee);
+        texteRobe = (TextView) findViewById(R.id.textRobe);
+        texteCepage = (TextView) findViewById(R.id.textCepage);
+        texteRegion = (TextView) findViewById(R.id.textRegion);
+        texteMillesime = (TextView) findViewById(R.id.textMillesime);
+        texteTerroir = (TextView) findViewById(R.id.textTerroir);
+        robe = (EditText) findViewById(R.id.robe);
+        cepage = (EditText) findViewById(R.id.cepage);
+        region = (EditText) findViewById(R.id.region);
+        mellisesime = (EditText) findViewById(R.id.millesime);
+        terroir = (EditText) findViewById(R.id.terroir);
+
+        this.invisibleRechercheAvancee();
+
+        rechercheNom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+                Intent n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
+                n.putExtra(NOM_VIN, nom.getText().toString());
+                startActivity(n);
+            }
+        });
+
+        faireRechercheAvancee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+                avanceeOuPas = true;
+                visibleRechercheAvancee();
+
+            }
+        });
+
+        rechercheAvancee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+                Intent n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
+                startActivity(n);
+            }
+        });
     }
 
     //Méthode qui perme de mettre un menu à l'écran
@@ -52,4 +120,33 @@ public class AffichageRechercheVin extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void visibleRechercheAvancee() {
+        texteRobe.setVisibility(View.VISIBLE);
+        texteCepage.setVisibility(View.VISIBLE);
+        texteRegion.setVisibility(View.VISIBLE);
+        texteMillesime.setVisibility(View.VISIBLE);
+        texteTerroir.setVisibility(View.VISIBLE);
+        robe.setVisibility(View.VISIBLE);
+        cepage.setVisibility(View.VISIBLE);
+        region.setVisibility(View.VISIBLE);
+        mellisesime.setVisibility(View.VISIBLE);
+        region.setVisibility(View.VISIBLE);
+        rechercheAvancee.setVisibility(View.VISIBLE);
+    }
+
+    private void invisibleRechercheAvancee() {
+        texteRobe.setVisibility(View.INVISIBLE);
+        texteCepage.setVisibility(View.INVISIBLE);
+        texteRegion.setVisibility(View.INVISIBLE);
+        texteMillesime.setVisibility(View.INVISIBLE);
+        texteTerroir.setVisibility(View.INVISIBLE);
+        robe.setVisibility(View.INVISIBLE);
+        cepage.setVisibility(View.INVISIBLE);
+        region.setVisibility(View.INVISIBLE);
+        mellisesime.setVisibility(View.INVISIBLE);
+        terroir.setVisibility(View.INVISIBLE);
+        rechercheAvancee.setVisibility(View.INVISIBLE);
+    }
+
 }
