@@ -1,8 +1,9 @@
 package com.example.didi.ourapplicavin.controleursIHM;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +24,9 @@ public class AffichageBdd extends AppCompatActivity {
     private Button ajoutCave = null;
     private Button ajoutPref = null;
     private TextView texte = null;
+    private TextView texteOu = null;
     private String nomVinSel = "";
+    private int posi;
 
     public final static String cave = "bdd";
     final String NOM_VIN = "nom du vin";
@@ -41,6 +44,7 @@ public class AffichageBdd extends AppCompatActivity {
         ajoutCave = (Button)findViewById(R.id.ajouterCave);
         ajoutPref = (Button)findViewById(R.id.ajouterPref);
         texte = (TextView)findViewById(R.id.textView4);
+        texteOu = (TextView)findViewById(R.id.textOu);
 
         boutonsInvisible();
 
@@ -93,6 +97,63 @@ public class AffichageBdd extends AppCompatActivity {
                 startActivity(n);
             }
         });
+
+        //
+        tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //on rend visible les boutons ajout dans cave ou pref
+                boutonsVisible();
+
+                //on va chercher la position nomVin
+                posi = position;
+                // TODO
+                // à changer si plus de 3 col
+                if (position % 3 == 0) {
+                    posi = position;
+                    nomVinSel= (String) ((TextView) view).getText();
+                } else if (position % 3 == 1) {
+                    posi = position - 1;
+                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 1)).getText();
+                } else {
+                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 2)).getText();
+                    posi = position - 2;
+                }
+
+                // TODO
+                // rajouter si nb col change (plus de 3)
+                //on surligne la ligne du vin
+                changeCouleurLigneVin(posi);
+
+                return true;
+            }
+        });
+
+        // on ajout le vin dans la cave
+        ajoutCave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+
+                Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
+                        Toast.LENGTH_SHORT).show();
+                boutonsInvisible();
+                rechangeCouleurLigneVin(posi);
+            }
+        });
+
+        // on ajoute le vin dans la liste de préférence
+        ajoutPref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+
+                Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la liste de préférence !",
+                        Toast.LENGTH_SHORT).show();
+                boutonsInvisible();
+                rechangeCouleurLigneVin(posi);
+            }
+        });
+
     }
 
     //Méthode qui perme de mettre un menu à l'écran
@@ -133,6 +194,7 @@ public class AffichageBdd extends AppCompatActivity {
         ajoutCave.setVisibility(View.INVISIBLE);
         ajoutPref.setVisibility(View.INVISIBLE);
         texte.setVisibility(View.INVISIBLE);
+        texteOu.setVisibility(View.INVISIBLE);
         tab.setEnabled(true);
     }
 
@@ -140,7 +202,21 @@ public class AffichageBdd extends AppCompatActivity {
         ajoutCave.setVisibility(View.VISIBLE);
         ajoutPref.setVisibility(View.VISIBLE);
         texte.setVisibility(View.VISIBLE);
+        texteOu.setVisibility(View.VISIBLE);
         tab.setEnabled(false);
     }
 
+    //on surligne la ligne (vin sélectionné)
+    private void changeCouleurLigneVin(int position){
+        tab.getChildAt(position).setBackgroundColor(Color.rgb(176, 242, 182));
+        tab.getChildAt(position+1).setBackgroundColor(Color.rgb(176, 242, 182));
+        tab.getChildAt(position+2).setBackgroundColor(Color.rgb(176, 242, 182));
+    }
+
+    //on désurligne la ligne
+    private void rechangeCouleurLigneVin(int position){
+        tab.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
+        tab.getChildAt(position+1).setBackgroundColor(Color.TRANSPARENT);
+        tab.getChildAt(position+2).setBackgroundColor(Color.TRANSPARENT);
+    }
 }

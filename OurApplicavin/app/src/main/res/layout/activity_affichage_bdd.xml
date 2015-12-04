@@ -35,10 +35,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#b9cefd"
-        android:text="cave ou"
+        android:text="cave"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/ajouterPref"
-        android:layout_toStartOf="@+id/ajouterPref" />
+        android:layout_toRightOf="@+id/textView4"
+        android:layout_toEndOf="@+id/textView4" />
 
     <Button
         android:id="@+id/ajouterPref"
@@ -48,17 +48,29 @@
         android:background="#ffcea9"
         android:text="préférence ?"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/tabNomColBdd" />
+        android:layout_toRightOf="@+id/textOu"
+        android:layout_toEndOf="@+id/textOu" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ajouter ce vin dans la"
+        android:text="Ajouter ce vin dans "
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=" ou "
+        android:id="@+id/textOu"
+        android:layout_alignBaseline="@+id/textView4"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_toRightOf="@+id/ajouterCave"
+        android:layout_toEndOf="@+id/ajouterCave" />
 
 </RelativeLayout>

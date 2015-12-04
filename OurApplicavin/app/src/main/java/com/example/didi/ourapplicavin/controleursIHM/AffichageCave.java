@@ -107,14 +107,14 @@ public class AffichageCave extends AppCompatActivity {
             }
         });
 
+        //clique long => +/- nb bouteille
         tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //pour que l'utilisateur augmente ou diminu le nb de bouteille de ce vin, on rend visible les deux boutons
                 //et on désactive aussi la liste des vins
                 boutonVisible();
 
-                //on met le nombre de bouteille du vin pour que l'utilisateur voit ce nb diminuer ou augmenter
-                // quand il clique sur + ou -
+                //on va chercher la position nomVin
                 String nbBouteilleavant;
                 // TODO
                 // à changer si plus de 3 col
@@ -130,13 +130,10 @@ public class AffichageCave extends AppCompatActivity {
                 }
                 nb.setText(nbBouteilleavant); //met le nombre de bouteille du vin en question
 
-                //view.invalidateDrawable();
-                //view.onDrawForeground();
                 // TODO
                 // rajouter si nb col change (plus de 3)
-                tab.getChildAt(position).setBackgroundColor(Color.rgb(204, 204, 255));
-                tab.getChildAt(position+1).setBackgroundColor(Color.rgb(204, 204, 255));
-                tab.getChildAt(position+2).setBackgroundColor(Color.rgb(204, 204, 255));
+                //on surligne la ligne du vin
+               changeCouleurLigneVin(positionTabNb);
 
                 return true;
             }
@@ -167,6 +164,7 @@ public class AffichageCave extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     //on remet les boutons invisibles
                                     boutonsInvisible();
+                                    rechangeCouleurLigneVin(positionTabNb);
                                     // TODO
                                     //réactualiser la liste des vins (recharger la liste mais avant supp le vin)
                                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
@@ -180,6 +178,7 @@ public class AffichageCave extends AppCompatActivity {
                                     // on revient dans l'état précédent
                                     nb.setText("0");
                                     boutonsInvisible();
+                                    rechangeCouleurLigneVin(positionTabNb);
                                     // TODO
                                     // reactuliser dans la cave
                                     // faire plutot : modifier le nb bouteille dans la liste des vins de la cave
@@ -209,6 +208,7 @@ public class AffichageCave extends AppCompatActivity {
 
                 //on remet les boutons invisibles
                 boutonsInvisible();
+                rechangeCouleurLigneVin(positionTabNb);
                 // TODO
                 // remettre à jour la liste de vin (nb bouteille à changer)
                 // faire plutot : modifier le nb bouteille dans la liste des vins de la cave
@@ -272,5 +272,19 @@ public class AffichageCave extends AppCompatActivity {
         ok.setVisibility(View.VISIBLE);
         texte.setVisibility(View.VISIBLE);
         tab.setEnabled(false);
+    }
+
+    //on surligne la ligne (vin sélectionné)
+    private void changeCouleurLigneVin(int position){
+        tab.getChildAt(position-2).setBackgroundColor(Color.rgb(204, 204, 255));
+        tab.getChildAt(position-1).setBackgroundColor(Color.rgb(204, 204, 255));
+        tab.getChildAt(position).setBackgroundColor(Color.rgb(204, 204, 255));
+    }
+
+    //on désurligne la ligne
+    private void rechangeCouleurLigneVin(int position){
+        tab.getChildAt(position-2).setBackgroundColor(Color.TRANSPARENT);
+        tab.getChildAt(position-1).setBackgroundColor(Color.TRANSPARENT);
+        tab.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
     }
 }

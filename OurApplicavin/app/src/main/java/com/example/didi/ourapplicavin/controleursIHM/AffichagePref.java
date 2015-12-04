@@ -87,9 +87,9 @@ public class AffichagePref extends AppCompatActivity {
             }
         });
 
+        //clique long => suppresion vin => boite de dialogue pour confirmation
         tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
                 //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
                 //(1ère colonne)
                 if (position % 3 == 0) {
