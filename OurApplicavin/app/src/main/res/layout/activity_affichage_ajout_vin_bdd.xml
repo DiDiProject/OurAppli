@@ -18,7 +18,93 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
+            android:text="Remplisser les champs puis cliquer sur ajout de ce vin dans la base de données."
+            android:id="@+id/textView9"
+            android:textSize="20dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:textColor="#24950d"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nom : "
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/texteNomAjout" />
+
+        <!-- texte pour avoir le nom -->
+        <EditText
+            android:id="@+id/nomAjout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="70dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Couleur : "
+            android:id="@+id/texteRobeAjout"
+            android:layout_marginTop="140dp"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <!-- texte pour avoir la robe -->
+        <EditText
+            android:id="@+id/robeAjout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:layout_marginLeft="70dp" />
+
+        <TextView
+            android:id="@+id/textCepageAjout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cépage :"
+            android:layout_marginTop="180dp"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:id="@+id/cepageAjout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:layout_marginLeft="70dp" />
+
+        <TextView
+            android:id="@+id/textRegionAjout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="220dp"
+            android:layout_marginLeft="5dp"
+            android:text="Région :" />
+
+        <EditText
+            android:id="@+id/regionAjout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:layout_marginLeft="70dp" />
+
+        <Button
+            android:id="@+id/ajoutVinDsBdd"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#9dfd9a"
+            android:text="  Ajouter ce vin dans la base de données  "
+            android:layout_marginTop="260dp"
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 </ScrollView>

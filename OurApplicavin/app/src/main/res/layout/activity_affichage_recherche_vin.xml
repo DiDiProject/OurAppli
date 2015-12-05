@@ -21,7 +21,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="15dp"
-            android:text="Nom du vin:"
+            android:layout_marginLeft="10dp"
+            android:text="Nom :"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="15dp" />
 
@@ -31,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/textView7" />
+            android:layout_marginLeft="70dp" />
 
         <!-- bouton pour faire la recherche avec le nom du dessus -->
         <Button
@@ -39,10 +40,10 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:background="#fdbec3"
+            android:text="  Recherche  "
             android:layout_below="@+id/nom"
-            android:text="Recherche" />
+            android:layout_marginLeft="10dp" />
 
         <!-- bouton pour faire une recherche par critère (avancée) -->
         <Button
@@ -51,9 +52,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/nom"
-            android:layout_toEndOf="@+id/rechercheParNom"
-            android:layout_toRightOf="@+id/rechercheParNom"
-            android:text="Faire une recherche avancée" />
+            android:layout_marginLeft="120dp"
+            android:background="#66ee17ee"
+            android:text=" ou faire une recherche avancée  " />
 
         <TextView
             android:id="@+id/textRobe"
@@ -63,6 +64,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/rechercheParNom"
             android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
             android:text="Robe :"
             android:textSize="15dp" />
 
@@ -71,8 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rechercheParNom"
-            android:layout_toEndOf="@+id/textRobe"
-            android:layout_toRightOf="@+id/textRobe" />
+            android:layout_marginLeft="70dp" />
 
         <TextView
             android:id="@+id/textCepage"
@@ -82,6 +83,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/robe"
             android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
             android:text="Cépage :" />
 
         <EditText
@@ -89,8 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/robe"
-            android:layout_toEndOf="@+id/textCepage"
-            android:layout_toRightOf="@+id/textCepage" />
+            android:layout_marginLeft="70dp" />
 
         <TextView
             android:id="@+id/textRegion"
@@ -100,6 +101,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/cepage"
             android:layout_marginTop="25dp"
+            android:layout_marginLeft="10dp"
             android:text="Région :" />
 
         <EditText
@@ -107,10 +109,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cepage"
-            android:layout_toEndOf="@+id/textCepage"
-            android:layout_toRightOf="@+id/textCepage" />
+            android:layout_marginLeft="70dp" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/textMillesime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -144,17 +145,18 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/textTerroir"
             android:layout_toEndOf="@+id/textTerroir"
-            android:layout_toRightOf="@+id/textTerroir" />
+            android:layout_toRightOf="@+id/textTerroir" />-->
 
         <Button
             android:id="@+id/rechercheAvancee"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textTerroir"
-            android:text="Recherche Avancée" />
+            android:background="#fdbec3"
+            android:text="  Recherche Avancée  "
+            android:layout_below="@+id/textRegion"
+            android:layout_toRightOf="@+id/robe"
+            android:layout_toEndOf="@+id/robe" />
 
     </RelativeLayout>
 

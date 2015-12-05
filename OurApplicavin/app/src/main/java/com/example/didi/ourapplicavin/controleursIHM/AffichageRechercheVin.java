@@ -21,13 +21,13 @@ public class AffichageRechercheVin extends AppCompatActivity {
     private TextView texteRobe = null;
     private TextView texteCepage = null;
     private TextView texteRegion = null;
-    private TextView texteMillesime = null;
-    private TextView texteTerroir = null;
+    //private TextView texteMillesime = null;
+    //private TextView texteTerroir = null;
     private EditText robe = null;
     private EditText cepage = null;
     private EditText region = null;
-    private EditText mellisesime = null;
-    private EditText terroir = null;
+    //private EditText mellisesime = null;
+    //private EditText terroir = null;
     private Button rechercheAvancee = null; //bouton pour faire la recherche par critère
     //Attributs pour cette classe
     private boolean avanceeOuPas = false; //si on ait dans recherche par critère ou pas (non de base)
@@ -47,13 +47,13 @@ public class AffichageRechercheVin extends AppCompatActivity {
         texteRobe = (TextView) findViewById(R.id.textRobe);
         texteCepage = (TextView) findViewById(R.id.textCepage);
         texteRegion = (TextView) findViewById(R.id.textRegion);
-        texteMillesime = (TextView) findViewById(R.id.textMillesime);
-        texteTerroir = (TextView) findViewById(R.id.textTerroir);
+        //texteMillesime = (TextView) findViewById(R.id.textMillesime);
+        //texteTerroir = (TextView) findViewById(R.id.textTerroir);
         robe = (EditText) findViewById(R.id.robe);
         cepage = (EditText) findViewById(R.id.cepage);
         region = (EditText) findViewById(R.id.region);
-        mellisesime = (EditText) findViewById(R.id.millesime);
-        terroir = (EditText) findViewById(R.id.terroir);
+        //mellisesime = (EditText) findViewById(R.id.millesime);
+        //terroir = (EditText) findViewById(R.id.terroir);
         // on rend les différents champs (sauf nom) invisible car de base recherche par nom et pas par critère
         this.invisibleRechercheAvancee();
 
@@ -135,13 +135,13 @@ public class AffichageRechercheVin extends AppCompatActivity {
         texteRobe.setVisibility(View.VISIBLE);
         texteCepage.setVisibility(View.VISIBLE);
         texteRegion.setVisibility(View.VISIBLE);
-        texteMillesime.setVisibility(View.VISIBLE);
-        texteTerroir.setVisibility(View.VISIBLE);
+        //texteMillesime.setVisibility(View.VISIBLE);
+        //texteTerroir.setVisibility(View.VISIBLE);
         robe.setVisibility(View.VISIBLE);
         cepage.setVisibility(View.VISIBLE);
         region.setVisibility(View.VISIBLE);
-        mellisesime.setVisibility(View.VISIBLE);
-        terroir.setVisibility(View.VISIBLE);
+        //mellisesime.setVisibility(View.VISIBLE);
+        //terroir.setVisibility(View.VISIBLE);
         rechercheAvancee.setVisibility(View.VISIBLE);
     }
 
@@ -150,13 +150,13 @@ public class AffichageRechercheVin extends AppCompatActivity {
         texteRobe.setVisibility(View.INVISIBLE);
         texteCepage.setVisibility(View.INVISIBLE);
         texteRegion.setVisibility(View.INVISIBLE);
-        texteMillesime.setVisibility(View.INVISIBLE);
-        texteTerroir.setVisibility(View.INVISIBLE);
+        //texteMillesime.setVisibility(View.INVISIBLE);
+        //texteTerroir.setVisibility(View.INVISIBLE);
         robe.setVisibility(View.INVISIBLE);
         cepage.setVisibility(View.INVISIBLE);
         region.setVisibility(View.INVISIBLE);
-        mellisesime.setVisibility(View.INVISIBLE);
-        terroir.setVisibility(View.INVISIBLE);
+        //mellisesime.setVisibility(View.INVISIBLE);
+        //terroir.setVisibility(View.INVISIBLE);
         rechercheAvancee.setVisibility(View.INVISIBLE);
     }
 
