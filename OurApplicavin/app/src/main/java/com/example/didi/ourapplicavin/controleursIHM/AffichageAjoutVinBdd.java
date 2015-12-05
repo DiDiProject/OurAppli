@@ -1,8 +1,8 @@
 package com.example.didi.ourapplicavin.controleursIHM;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +31,7 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_ajout_vin_bdd); //on affiche le layout associé
         //on va cherche tous les élements qui nous interresse dans le layout
-        nom = (EditText) findViewById(R.id.nom);
+        nom = (EditText) findViewById(R.id.nomAjout);
         robe = (EditText) findViewById(R.id.robeAjout);
         cepage = (EditText) findViewById(R.id.cepageAjout);
         region = (EditText) findViewById(R.id.regionAjout);
@@ -54,6 +54,10 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
                 robe.setText("");
                 cepage.setText("");
                 region.setText("");
+
+                //puis on revient au menu principal
+                Intent n = new Intent(AffichageAjoutVinBdd.this, AffichageMenuPrincipal.class);
+                startActivity(n);
             }
         });
 
