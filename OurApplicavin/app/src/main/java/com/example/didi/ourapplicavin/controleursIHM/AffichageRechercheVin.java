@@ -131,7 +131,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
         cepage.setVisibility(View.VISIBLE);
         region.setVisibility(View.VISIBLE);
         mellisesime.setVisibility(View.VISIBLE);
-        region.setVisibility(View.VISIBLE);
+        terroir.setVisibility(View.VISIBLE);
         rechercheAvancee.setVisibility(View.VISIBLE);
     }
 

@@ -25,6 +25,7 @@ public class AffichagePref extends AppCompatActivity {
 
     public final static String cave = "pref";
     final String NOM_VIN = "nom du vin";
+    private int nbColParLigne = 4; //définit le nb de col par ligne pour la liste
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -40,43 +41,38 @@ public class AffichagePref extends AppCompatActivity {
         // TODO
         // il faudra définir les noms des colonnes
         String[] title = new String[]{
-                "Nom du vin", "Type", "Nb de bouteilles"};
+                "Nom du vin", "Type", "Nb de bouteilles", "Région"};
         ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, title);
         tabNom.setAdapter(adapterTitle);
         //on veut qu'il y ait que 3 colonnes sur une ligne
-        tabNom.setNumColumns(3);
+        tabNom.setNumColumns(nbColParLigne);
         //tabNom.setBackgroundColor(Color.CYAN);
 
         // TODO
         // il faudra mettre la liste des vins provenant de la cave à vin de l'utilisateur
         listeVins = new String[]{
-                "Bordeaux", "rouge", "8",
-                "Cadillac", "blanc", "0",
-                "Riesling", "blanc", "5",
-                "Whispering Angel", "rosé", "3",
-                "MonBazillac", "blanc", "10"};
+                "Bordeaux", "rouge", "8", "rr1",
+                "Cadillac", "blanc", "5", "rr1",
+                "Riesling", "blanc", "5", "rr1",
+                "Whispering Angel", "rosé", "3", "rr1",
+                "MonBazillac", "blanc", "10", "rr1",
+        };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, listeVins);
         tab.setAdapter(adapter);
-        tab.setNumColumns(3); //définit le nombre de colonne par ligne comme tabNom
+        tab.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne comme tabNom
 
         //quand on fait un clic court sur un des vins (n'importe quelle colonne)
         //on va afficher le détail de ce vin
         tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
-                //(1ère colonne)
-                // TODO
-                // à changer si plus de 3 col
-                if (position % 3 == 0) {
-                    nomVinSel = (String) ((TextView) v).getText();
-                } else if (position % 3 == 1) {
-                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 1)).getText();
-                } else {
-                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 2)).getText();
+                for (int i = 0; i < nbColParLigne; i++) {
+                    if (position % nbColParLigne == i) {
+                        nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
+                    }
                 }
-
                 Toast.makeText(getApplicationContext(), "La description de " + nomVinSel + " va s'afficher !",
                         Toast.LENGTH_SHORT).show();
                 //on va à l'activité détailVin
@@ -91,13 +87,10 @@ public class AffichagePref extends AppCompatActivity {
         tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
-                //(1ère colonne)
-                if (position % 3 == 0) {
-                    nomVinSel= (String) ((TextView) view).getText(); // TODO  à changer si plus de 3 col
-                } else if (position % 3 == 1) {
-                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 1)).getText();// TODO
-                } else {
-                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 2)).getText();
+                for (int i = 0; i < nbColParLigne; i++) {
+                    if (position % nbColParLigne == i) {
+                        nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
+                    }
                 }
 
                 //on affiche une boite de dialogue pour confirmation de la suppression de ce vin
@@ -119,7 +112,7 @@ public class AffichagePref extends AppCompatActivity {
                 );
                 boite.setNegativeButton("Conserver ce vin", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                               // on fait rien
+                                // on fait rien
                             }
                         }
                 );

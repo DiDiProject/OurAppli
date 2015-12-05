@@ -28,6 +28,7 @@ public class AffichageResultatRecherche extends AppCompatActivity {
     private int posi;
 
     final String NOM_VIN = "nom du vin";
+    private int nbColParLigne = 4; //définit le nb de col par ligne pour la liste
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -41,53 +42,51 @@ public class AffichageResultatRecherche extends AppCompatActivity {
 //            nomVin.setText(intent.getStringExtra(NOM_VIN));
 //        }
 
-        tabNomCol = (GridView)findViewById(R.id.tabNomColResultatRecherche);
-        tabResultatVin = (GridView)findViewById(R.id.tabResultatVin);
-        ajoutCave = (Button)findViewById(R.id.ajoutCaveResultat);
-        ajoutSouhait = (Button)findViewById(R.id.ajoutSouhaitResultat);
-        texte = (TextView)findViewById(R.id.textView8);
-        texteOu = (TextView)findViewById(R.id.textOuResultat);
+        tabNomCol = (GridView) findViewById(R.id.tabNomColResultatRecherche);
+        tabResultatVin = (GridView) findViewById(R.id.tabResultatVin);
+        ajoutCave = (Button) findViewById(R.id.ajoutCaveResultat);
+        ajoutSouhait = (Button) findViewById(R.id.ajoutSouhaitResultat);
+        texte = (TextView) findViewById(R.id.textView8);
+        texteOu = (TextView) findViewById(R.id.textOuResultat);
 
         this.boutonInvisible();
 
+        // TODO
         //il faudra définir les noms des colonnes
-        String[] title = new String[] {
-                "Nom du vin", "Type", "Nb de bouteilles"};
+        String[] title = new String[]{
+                "Nom du vin", "Type", "Nb de bouteilles", "Région"};
         ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, title);
         tabNomCol.setAdapter(adapterTitle);
-        tabNomCol.setNumColumns(3); //pour lui dire que sur une ligne du tableau, il doit y avoir que 3 colonnes
+        tabNomCol.setNumColumns(nbColParLigne); //pour lui dire que sur une ligne du tableau, il doit y avoir que 3 colonnes
         //tabNom.setBackgroundColor(Color.CYAN);
 
+        // TODO
         //il faudra mettre la liste des vins provenant de la recherche
-        String[] numbers = new String[] {
-                "Bordeaux", "rouge", "8",
-                "Cadillac", "blanc", "1",
-                "Riesling", "blanc", "5",
-                "Whispering Angel", "rosé", "3",
-                "MonBazillac", "blanc", "10",
-                "Champagne dom pérignon", "blanc", "10",
-                "Gewurztraminer d'Alsace", "blanc", "1",
-                "Monbazillac", "balnc", "4",};
+        String[] numbers = new String[]{
+                "Bordeaux", "rouge", "8", "rr1",
+                "Cadillac", "blanc", "1", "rr1",
+                "Riesling", "blanc", "5", "rr1",
+                "Whispering Angel", "rosé", "3", "rr1",
+                "MonBazillac", "blanc", "10", "rr1",
+                "Champagne dom pérignon", "blanc", "10", "rr1",
+                "Gewurztraminer d'Alsace", "blanc", "1", "rr1",
+                "Monbazillac", "balnc", "4", "rr1"
+        };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, numbers);
         tabResultatVin.setAdapter(adapter);
-        tabResultatVin.setNumColumns(3);
+        tabResultatVin.setNumColumns(nbColParLigne);
 
         tabResultatVin.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
-                //(1ère colonne)
-                // TODO
-                // à changer si plus de 3 col
-                if (position % 3 == 0) {
-                    nomVinSel = (String) ((TextView) v).getText();
-                } else if (position % 3 == 1) {
-                    nomVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - 1)).getText();
-                } else {
-                    nomVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - 2)).getText();
+                for (int i = 0; i < nbColParLigne; i++) {
+                    if (position % nbColParLigne == i) {
+                        nomVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i)).getText();
+                    }
                 }
-
+                //Affichage court
                 Toast.makeText(getApplicationContext(), "La description de " + nomVinSel + " va s'afficher !",
                         Toast.LENGTH_SHORT).show();
                 //on va à l'activité détailVin
@@ -102,25 +101,16 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO
                 // ajouter le vin en question à la cave ou à la liste de souhait
-                Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
-                        Toast.LENGTH_SHORT).show();
                 boutonVisible();
 
                 //on va chercher la position nomVin
                 posi = position;
-                // TODO
-                // à changer si plus de 3 col
-                if (position % 3 == 0) {
-                    posi = position;
-                    nomVinSel = (String) ((TextView) view).getText();
-                } else if (position % 3 == 1) {
-                    posi = position - 1;
-                    nomVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - 1)).getText();
-                } else {
-                    nomVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - 2)).getText();
-                    posi = position - 2;
+                for (int i = 0; i < nbColParLigne; i++) {
+                    if (position % nbColParLigne == i) {
+                        nomVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i)).getText();
+                        posi = position - i;
+                    }
                 }
-
                 changeCouleurLigneVin(posi);
                 return true;
             }
@@ -180,13 +170,13 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             return true;
         }
         //aller à la cave
-        else if (id == R.id.retourCave){
+        else if (id == R.id.retourCave) {
             Intent n = new Intent(AffichageResultatRecherche.this, AffichageCave.class);
             startActivity(n);
             return true;
         }
         //retour à la recherche
-        else if (id == R.id.retourRecherche){
+        else if (id == R.id.retourRecherche) {
             Intent n = new Intent(AffichageResultatRecherche.this, AffichageRechercheVin.class);
             startActivity(n);
             return true;
@@ -195,7 +185,7 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void boutonVisible(){
+    private void boutonVisible() {
         ajoutCave.setVisibility(View.VISIBLE);
         ajoutSouhait.setVisibility(View.VISIBLE);
         texte.setVisibility(View.VISIBLE);
@@ -203,7 +193,7 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         tabResultatVin.setEnabled(false);
     }
 
-    private void boutonInvisible(){
+    private void boutonInvisible() {
         ajoutCave.setVisibility(View.INVISIBLE);
         ajoutSouhait.setVisibility(View.INVISIBLE);
         texte.setVisibility(View.INVISIBLE);
@@ -212,16 +202,16 @@ public class AffichageResultatRecherche extends AppCompatActivity {
     }
 
     //on surligne la ligne (vin sélectionné)
-    private void changeCouleurLigneVin(int position){
-        tabResultatVin.getChildAt(position).setBackgroundColor(Color.rgb(253, 190, 195));
-        tabResultatVin.getChildAt(position+1).setBackgroundColor(Color.rgb(253, 190, 195));
-        tabResultatVin.getChildAt(position+2).setBackgroundColor(Color.rgb(253, 190, 195));
+    private void changeCouleurLigneVin(int position) {
+        for(int i = 0 ; i<nbColParLigne; i++){
+            tabResultatVin.getChildAt(position+i).setBackgroundColor(Color.rgb(253, 190, 195));
+        }
     }
 
     //on désurligne la ligne
-    private void rechangeCouleurLigneVin(int position){
-        tabResultatVin.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
-        tabResultatVin.getChildAt(position+1).setBackgroundColor(Color.TRANSPARENT);
-        tabResultatVin.getChildAt(position+2).setBackgroundColor(Color.TRANSPARENT);
+    private void rechangeCouleurLigneVin(int position) {
+        for(int i = 0 ; i<nbColParLigne; i++){
+            tabResultatVin.getChildAt(position+i).setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 }
