@@ -175,6 +175,12 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             startActivity(n);
             return true;
         }
+        //aller à la cave
+        else if (id == R.id.retourBdd) {
+            Intent n = new Intent(AffichageResultatRecherche.this, AffichageBdd.class);
+            startActivity(n);
+            return true;
+        }
         //retour à la recherche
         else if (id == R.id.retourRecherche) {
             Intent n = new Intent(AffichageResultatRecherche.this, AffichageRechercheVin.class);
@@ -204,7 +210,7 @@ public class AffichageResultatRecherche extends AppCompatActivity {
     //on surligne la ligne (vin sélectionné)
     private void changeCouleurLigneVin(int position) {
         for(int i = 0 ; i<nbColParLigne; i++){
-            tabResultatVin.getChildAt(position+i).setBackgroundColor(Color.rgb(253, 190, 195));
+            tabResultatVin.getChildAt(position+i).setBackgroundColor(Color.rgb(253, 220, 216));
         }
     }
 

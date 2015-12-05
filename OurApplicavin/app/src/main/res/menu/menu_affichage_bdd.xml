@@ -4,6 +4,6 @@
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageBdd">
     <item android:id="@+id/retourMenu" android:title="Retour au menu principal"></item>
     <item android:id="@+id/allerCave" android:title="Aller dans votre cave à vins"/>
-    <item android:id="@+id/rechercheBdd" android:title="Faire une recherche dans la base de données"></item>
+    <item android:id="@+id/rechercheBdd" android:title="Rechercher des vins"></item>
     <item android:id="@+id/ajoutVinBdd" android:title="Ajouter un vin dans la base de données"></item>
 </menu>

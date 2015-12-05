@@ -288,7 +288,7 @@ public class AffichageCave extends AppCompatActivity {
     //position doit être celui du nom
     private void changeCouleurLigneVin(int position) {
         for(int i = 0 ; i<nbColParLigne; i++){
-            tab.getChildAt(position+i).setBackgroundColor(Color.rgb(204, 204, 255));
+            tab.getChildAt(position+i).setBackgroundColor(Color.rgb(176, 222, 253));
         }
     }
 

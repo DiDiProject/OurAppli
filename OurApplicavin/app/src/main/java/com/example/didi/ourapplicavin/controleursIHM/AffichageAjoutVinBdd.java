@@ -1,5 +1,6 @@
 package com.example.didi.ourapplicavin.controleursIHM;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,7 +31,21 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.retourMenu) {
+            Intent n = new Intent(AffichageAjoutVinBdd.this, AffichageMenuPrincipal.class);
+            startActivity(n);
+            return true;
+        } else if( id == R.id.allerCave){
+            Intent n = new Intent(AffichageAjoutVinBdd.this, AffichageCave.class);
+            startActivity(n);
+            return true;
+        } else if( id == R.id.allerPref){
+            Intent n = new Intent(AffichageAjoutVinBdd.this, AffichagePref.class);
+            startActivity(n);
+            return true;
+        } else if( id == R.id.allerBdd){
+            Intent n = new Intent(AffichageAjoutVinBdd.this, AffichageBdd.class);
+            startActivity(n);
             return true;
         }
 

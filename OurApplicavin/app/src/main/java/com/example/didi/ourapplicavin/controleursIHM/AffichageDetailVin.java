@@ -69,6 +69,18 @@ public class AffichageDetailVin extends AppCompatActivity {
             Intent n = new Intent(AffichageDetailVin.this, AffichageMenuPrincipal.class);
             startActivity(n);
             return true;
+        } else if( id == R.id.allerCave){
+            Intent n = new Intent(AffichageDetailVin.this, AffichageCave.class);
+            startActivity(n);
+            return true;
+        } else if( id == R.id.allerPref){
+            Intent n = new Intent(AffichageDetailVin.this, AffichagePref.class);
+            startActivity(n);
+            return true;
+        } else if( id == R.id.allerBdd){
+            Intent n = new Intent(AffichageDetailVin.this, AffichageBdd.class);
+            startActivity(n);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

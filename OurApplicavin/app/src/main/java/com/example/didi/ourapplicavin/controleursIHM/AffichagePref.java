@@ -223,7 +223,7 @@ public class AffichagePref extends AppCompatActivity {
     //on surligne la ligne (vin sélectionné)
     private void changeCouleurLigneVin(int position) {
         for (int i = 0; i < nbColParLigne; i++) {
-            tab.getChildAt(position + i).setBackgroundColor(Color.rgb(176, 242, 182));
+            tab.getChildAt(position + i).setBackgroundColor(Color.rgb(255, 228, 196));
         }
     }
 

@@ -1,8 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageBdd">
 
+    <!-- écran de la base de données -->
+
+    <!-- tableau pour afficher les noms des différentes colonnes de la liste de vin -->
     <GridView
         android:id="@+id/tabNomColBdd"
         android:layout_width="wrap_content"
@@ -16,6 +20,7 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth" />
 
+    <!-- tableau qui affiche la liste des vins de la cave -->
     <GridView
         android:id="@+id/tabResultatVinBdd"
         android:layout_width="wrap_content"
@@ -29,61 +34,66 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth" />
 
+    <!-- bouton pour ajouter le vin dans la cave -->
     <Button
         android:id="@+id/ajouterCave"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#b9cefd"
-        android:text="cave"
         android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textView4"
         android:layout_toRightOf="@+id/textView4"
-        android:layout_toEndOf="@+id/textView4" />
+        android:background="#b9cefd"
+        android:text="cave" />
 
+    <!-- bouton pour ajouter le vin dans la liste de souhait -->
     <Button
         android:id="@+id/ajouterPref"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#ffcea9"
-        android:text="souhait ?"
         android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textOu"
         android:layout_toRightOf="@+id/textOu"
-        android:layout_toEndOf="@+id/textOu" />
+        android:background="#ffcea9"
+        android:text="souhait ?" />
 
+    <!-- texte qui affiche l'ajout -->
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:text="Ajout dans la "
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="15dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textSize="15dp" />
 
+    <!-- texte pour séparer les deux boutons précédents -->
     <TextView
+        android:id="@+id/textOu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="  ou  "
-        android:id="@+id/textOu"
         android:layout_alignBaseline="@+id/textView4"
         android:layout_alignBottom="@+id/textView4"
+        android:layout_toEndOf="@+id/ajouterCave"
         android:layout_toRightOf="@+id/ajouterCave"
-        android:layout_toEndOf="@+id/ajouterCave" />
+        android:text="  ou  "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <!-- bouton pour annuler le vin sélecionné -->
     <Button
+        android:id="@+id/annulerBdd"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Annuler"
-        android:id="@+id/annulerBdd"
-        android:background="#9dfd9a"
         android:layout_above="@+id/tabNomColBdd"
-        android:layout_toRightOf="@+id/ajouterPref"
-        android:layout_toEndOf="@+id/ajouterPref"
         android:layout_marginLeft="40dp"
-        android:layout_marginStart="40dp" />
+        android:layout_marginStart="40dp"
+        android:layout_toEndOf="@+id/ajouterPref"
+        android:layout_toRightOf="@+id/ajouterPref"
+        android:background="#9dfd9a"
+        android:text="Annuler" />
 
 </RelativeLayout>

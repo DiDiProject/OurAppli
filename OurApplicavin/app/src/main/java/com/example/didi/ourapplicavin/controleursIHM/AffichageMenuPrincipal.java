@@ -33,7 +33,7 @@ public class AffichageMenuPrincipal extends Activity {
         cave = (Button) findViewById(R.id.voirCave);
         pref = (Button) findViewById(R.id.voirPref);
         bdd = (Button) findViewById(R.id.voirBdd);
-        recherche = (Button) findViewById(R.id.voidRecherche);
+        recherche = (Button) findViewById(R.id.faireRechercheBdd);
         ajoutVinbdd = (Button) findViewById(R.id.ajoutVinbdd);
 
         cave.setOnClickListener(new View.OnClickListener() {

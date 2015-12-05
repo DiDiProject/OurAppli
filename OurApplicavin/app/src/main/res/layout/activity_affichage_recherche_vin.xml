@@ -1,7 +1,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageRechercheVin">
+
+    <!-- écran d'une recherche (par nom ou par critère) -->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,6 +25,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="15dp" />
 
+        <!-- texte pour avoir le nom -->
         <EditText
             android:id="@+id/nom"
             android:layout_width="wrap_content"
@@ -29,6 +33,7 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/textView7" />
 
+        <!-- bouton pour faire la recherche avec le nom du dessus -->
         <Button
             android:id="@+id/rechercheParNom"
             style="?android:attr/buttonStyleSmall"
@@ -39,6 +44,7 @@
             android:layout_below="@+id/nom"
             android:text="Recherche" />
 
+        <!-- bouton pour faire une recherche par critère (avancée) -->
         <Button
             android:id="@+id/faireRechercheAvancee"
             style="?android:attr/buttonStyleSmall"

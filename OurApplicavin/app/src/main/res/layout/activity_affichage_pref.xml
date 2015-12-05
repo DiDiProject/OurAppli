@@ -1,72 +1,80 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichagePref">
 
+    <!-- écran qui affiche la liste de souhait -->
+
+    <!-- tableau pour afficher les noms des différentes colonnes de la liste de vin -->
     <GridView
         android:id="@+id/tabNomColPref"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ajouterCaveViaPref"
         android:background="#ffcea9"
         android:columnWidth="100dp"
         android:gravity="center"
         android:numColumns="auto_fit"
-        android:stretchMode="columnWidth"
-        android:layout_below="@+id/ajouterCaveViaPref"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:stretchMode="columnWidth" />
 
+    <!-- tableau qui affiche la liste des vins de la cave -->
     <GridView
         android:id="@+id/tabResultatVinPref"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/tabNomColPref"
+        android:layout_marginTop="60dp"
         android:columnWidth="100dp"
         android:gravity="center"
         android:numColumns="auto_fit"
-        android:stretchMode="columnWidth"
-        android:layout_alignTop="@+id/tabNomColPref"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="60dp" />
+        android:stretchMode="columnWidth" />
 
+    <!-- bouton pour ajouter le vin dans la cave -->
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ajout cave ?"
-        android:background="#b9cefd"
         android:id="@+id/ajouterCaveViaPref"
-        android:layout_alignParentTop="true"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp" />
+        android:layout_marginStart="25dp"
+        android:background="#b9cefd"
+        android:text="Ajout cave ?" />
 
+    <!-- bouton pour supprimer le vin de la liste de souhait -->
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Supprimer ?"
-        android:background="#fdb5b0"
         android:id="@+id/supprVinPref"
-        android:layout_above="@+id/tabResultatVinPref"
-        android:layout_toRightOf="@+id/ajouterCaveViaPref"
-        android:layout_toEndOf="@+id/ajouterCaveViaPref"
-        android:layout_marginLeft="26dp"
-        android:layout_marginStart="26dp" />
-
-    <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Annuler"
-        android:id="@+id/annulerPref"
-        android:background="#9dfd9a"
         android:layout_above="@+id/tabResultatVinPref"
-        android:layout_toRightOf="@+id/supprVinPref"
-        android:layout_toEndOf="@+id/supprVinPref"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_toEndOf="@+id/ajouterCaveViaPref"
+        android:layout_toRightOf="@+id/ajouterCaveViaPref"
+        android:background="#fdb5b0"
+        android:text="Supprimer ?" />
+
+    <!-- bouton pour annuler le vin sélectionné -->
+    <Button
+        android:id="@+id/annulerPref"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tabResultatVinPref"
         android:layout_marginLeft="31dp"
-        android:layout_marginStart="31dp" />
+        android:layout_marginStart="31dp"
+        android:layout_toEndOf="@+id/supprVinPref"
+        android:layout_toRightOf="@+id/supprVinPref"
+        android:background="#9dfd9a"
+        android:text="Annuler" />
 
 
 </RelativeLayout>

@@ -4,91 +4,102 @@
     android:layout_height="match_parent"
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageCave">
 
-        <GridView
-            android:id="@+id/tabNomColCave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/augmenter"
-            android:background="#b9cefd"
-            android:columnWidth="100dp"
-            android:gravity="center"
-            android:numColumns="auto_fit"
-            android:stretchMode="columnWidth" />
+    <!-- écran de la cave virtuelle -->
 
-        <GridView
-            android:id="@+id/tabResultatVinCave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/augmenter"
-            android:layout_marginTop="65dp"
-            android:columnWidth="100dp"
-            android:gravity="center"
-            android:numColumns="auto_fit"
-            android:stretchMode="columnWidth" />
+    <!-- tableau pour afficher les noms des différentes colonnes de la liste de vin -->
+    <GridView
+        android:id="@+id/tabNomColCave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/augmenter"
+        android:background="#b9cefd"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth" />
 
-        <Button
-            android:id="@+id/augmenter"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#81bcfd"
-            android:text="+"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-        <!--android:visibility="invisible"-->
+    <!-- tableau qui affiche la liste des vins de la cave -->
+    <GridView
+        android:id="@+id/tabResultatVinCave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/augmenter"
+        android:layout_marginTop="65dp"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth" />
 
-        <Button
-            android:id="@+id/diminuer"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#fdb5b0"
-            android:text="-"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/augmenter"
-            android:layout_toEndOf="@+id/augmenter"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp" />
+    <!-- bouton pour augmenter le nb de bouteille d'un vin -->
+    <Button
+        android:id="@+id/augmenter"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#81bcfd"
+        android:text="+" />
+    <!-- mettre le bouton invisible dans la classe java : setViibility(View.INVISIBLE) -->
+    <!--android:visibility="invisible"-->
 
-        <EditText
-            android:id="@+id/nbBouteille"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="0"
-            android:layout_above="@+id/tabNomColCave"
-            android:layout_toRightOf="@+id/diminuer"
-            android:layout_toEndOf="@+id/diminuer"
-            android:layout_marginLeft="29dp"
-            android:layout_marginStart="29dp" />
+    <!-- bouton pour diminuer le nb de bouteille d'un vin -->
+    <Button
+        android:id="@+id/diminuer"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_toEndOf="@+id/augmenter"
+        android:layout_toRightOf="@+id/augmenter"
+        android:background="#fdb5b0"
+        android:text="-" />
 
-        <Button
-            android:id="@+id/ok"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#9dfd9a"
-            android:text="OK"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_alignBottom="@+id/nbBouteille"
-            android:layout_toRightOf="@+id/textView3"
-            android:layout_toEndOf="@+id/textView3" />
+    <!-- pour afficher le nb de bouteilledu vin sélectionné
+    (et l'utilisateur peut aussi changer directement ce nombre) -->
+    <EditText
+        android:id="@+id/nbBouteille"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tabNomColCave"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp"
+        android:layout_toEndOf="@+id/diminuer"
+        android:layout_toRightOf="@+id/diminuer"
+        android:inputType="number"
+        android:text="0" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/tabNomColCave"
-            android:layout_toEndOf="@+id/nbBouteille"
-            android:layout_toRightOf="@+id/nbBouteille"
-            android:text="bouteille(s)"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="20dp" />
+    <!-- bouton pour enregistrer le nouveau nb de bouteille -->
+    <Button
+        android:id="@+id/ok"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/nbBouteille"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_toEndOf="@+id/textView3"
+        android:layout_toRightOf="@+id/textView3"
+        android:background="#9dfd9a"
+        android:text="OK" />
+
+    <!-- texte qui affiche "bouteille" -->
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tabNomColCave"
+        android:layout_toEndOf="@+id/nbBouteille"
+        android:layout_toRightOf="@+id/nbBouteille"
+        android:text="bouteille(s)"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="20dp" />
 
 </RelativeLayout>

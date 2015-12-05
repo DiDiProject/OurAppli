@@ -1,10 +1,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageDetailVin">
+
+    <!-- écran de la description + remarques personnelles d'un vin -->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,12 +18,12 @@
         android:layout_alignParentTop="true">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical"
             android:weightSum="1">
 
 
@@ -29,34 +33,35 @@
                 android:layout_weight="1.30">
 
                 <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Détail du vin :   "
-                    android:textSize="25dp"
-                    android:textStyle="bold"
                     android:textColor="#96961796"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView5" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bordeaux"
                     android:textSize="25dp"
-                    android:textStyle="bold"
-                    android:textColor="#8e2588"
-                    android:id="@+id/nomVin"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/textView5"
-                    android:layout_toEndOf="@+id/textView5" />
+                    android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/nomVin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Détail du vin \n-type de vin \n-cépage ... \n-Ffndojhd dfndhif fvndzvh kndk"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/textView5"
+                    android:layout_toRightOf="@+id/textView5"
+                    android:text="Bordeaux"
+                    android:textColor="#8e2588"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
+
+                <!-- texte qui affiche le détail du vin -->
+                <TextView
                     android:id="@+id/detailVin"
-                    android:layout_below="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textView5"
+                    android:text="Détail du vin \n-type de vin \n-cépage ... \n-Ffndojhd dfndhif fvndzvh kndk" />
 
             </RelativeLayout>
 
@@ -65,38 +70,40 @@
                 android:layout_height="192dp">
 
                 <TextView
+                    android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vos remarques sur ce vin"
-                    android:id="@+id/textView6"
-                    android:textSize="25dp"
-                    android:textStyle="bold"
-                    android:textColor="#96961796"
-                    android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Vos remarques sur ce vin"
+                    android:textColor="#96961796"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
 
+                <!-- bouton pour enregistrer les remarques -->
                 <Button
+                    android:id="@+id/enregistrer"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Enregistrer"
-                    android:id="@+id/enregistrer"
-                    android:layout_below="@+id/textView6"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Vos commentaires sur ce vin \nDate des bouteilles \n-accords avec plats ..."
-                    android:layout_below="@+id/enregistrer"
-                    android:textSize="14dp"
-                    android:id="@+id/remarquesVin"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textView6"
+                    android:text="Enregistrer" />
+
+                <!-- texte qui affiche les remarques du vin -->
+                <EditText
+                    android:id="@+id/remarquesVin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/enregistrer"
+                    android:text="Vos commentaires sur ce vin \nDate des bouteilles \n-accords avec plats ..."
+                    android:textSize="14dp" />
 
             </RelativeLayout>
         </LinearLayout>

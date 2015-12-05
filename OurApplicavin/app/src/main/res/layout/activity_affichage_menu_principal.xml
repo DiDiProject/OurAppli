@@ -1,8 +1,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageMenuPrincipal">
 
+    <!-- menu principal -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,52 +33,62 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="65dp"
+            android:layout_marginTop="75dp"
             android:gravity="center"
             android:text="    CAV'IN    "
             android:textColor="#fd1207"
             android:textSize="35dp"
             android:textStyle="bold" />
 
+        <!-- bouton pour accéder à sa cave -->
         <Button
             android:id="@+id/voirCave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="175dp"
-            android:text="Voir sa cave à vin" />
+            android:layout_marginTop="180dp"
+            android:background="#b9cefd"
+            android:text="  Voir sa cave à vin  " />
 
+        <!-- bouton pour accéder à sa liste de souhait -->
         <Button
             android:id="@+id/voirPref"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="225dp"
-            android:text="Voir sa liste de souhait" />
+            android:layout_marginTop="240dp"
+            android:background="#ffcea9"
+            android:text="  Voir sa liste de souhait  " />
 
+        <!-- bouton pour accéder à la bdd -->
         <Button
             android:id="@+id/voirBdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="275dp"
-            android:text="Voir la base de données" />
+            android:layout_marginTop="300dp"
+            android:background="#9dfd9a"
+            android:text="  Voir la base de données  " />
 
+        <!-- bouton pour faire une recherche dans la bdd -->
         <Button
-            android:id="@+id/voidRecherche"
+            android:id="@+id/faireRechercheBdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="325dp"
+            android:layout_marginTop="360dp"
+            android:background="#fdbec3"
             android:text="Rechercher des vins dans la base de données" />
 
+        <!-- bouton pour ajouter un vin dans la bdd -->
         <Button
             android:id="@+id/ajoutVinbdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="385dp"
-            android:text="Ajouter un vin à la base de données" />
+            android:layout_marginTop="420dp"
+            android:background="#f6fd80"
+            android:text="  Ajouter un vin dans la base de données  " />
 
     </RelativeLayout>
 </ScrollView>

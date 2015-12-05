@@ -3,5 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageCave">
     <item android:id="@+id/retourMenu" android:title="Retour au menu principal"></item>
-    <item android:id="@+id/rechercheCave" android:title="Recherche un ou des vins dans la cave"/>
+    <item android:id="@+id/rechercheCave" android:title="Rechercher des vins"/>
 </menu>

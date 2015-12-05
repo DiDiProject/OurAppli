@@ -1,76 +1,83 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageResultatRecherche">
 
+    <!-- écran de la cave virtuelle -->
+
+    <!-- tableau pour afficher les noms des différentes colonnes de la liste de vin -->
     <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/tabNomColResultatRecherche"
-        android:numColumns="auto_fit"
-        android:gravity="center"
-        android:columnWidth="100dp"
-        android:stretchMode="columnWidth"
-        android:background="#fdbec3"
-        android:layout_below="@+id/ajoutCaveResultat"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tabResultatVin"
-        android:numColumns="auto_fit"
-        android:gravity="center"
-        android:columnWidth="100dp"
-        android:stretchMode="columnWidth"
-        android:layout_marginTop="65dp"
-        android:layout_below="@+id/ajoutCaveResultat"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/ajoutCaveResultat"
+        android:background="#fdbec3"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth" />
 
+    <!-- tableau qui affiche la liste des vins de la cave -->
+    <GridView
+        android:id="@+id/tabResultatVin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ajoutCaveResultat"
+        android:layout_marginTop="65dp"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth" />
+
+    <!-- bouton pour ajouter le vin dans la cave -->
     <Button
         android:id="@+id/ajoutCaveResultat"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#b9cefd"
-        android:text="cave"
         android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textView8"
         android:layout_toRightOf="@+id/textView8"
-        android:layout_toEndOf="@+id/textView8" />
+        android:background="#b9cefd"
+        android:text="cave" />
 
+    <!-- bouton pour ajouter le vin dans la liste de souhait -->
     <Button
         android:id="@+id/ajoutSouhaitResultat"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#ffcea9"
-        android:text="souhait ?"
         android:layout_above="@+id/tabNomColResultatRecherche"
+        android:layout_toEndOf="@+id/textOuResultat"
         android:layout_toRightOf="@+id/textOuResultat"
-        android:layout_toEndOf="@+id/textOuResultat" />
+        android:background="#ffcea9"
+        android:text="souhait ?" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:text="Ajouter ce vin dans "
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="15dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textSize="15dp" />
 
     <TextView
+        android:id="@+id/textOuResultat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text=" ou "
-        android:id="@+id/textOuResultat"
         android:layout_alignBaseline="@+id/textView8"
         android:layout_alignBottom="@+id/textView8"
+        android:layout_toEndOf="@+id/ajoutCaveResultat"
         android:layout_toRightOf="@+id/ajoutCaveResultat"
-        android:layout_toEndOf="@+id/ajoutCaveResultat" />
+        android:text=" ou "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

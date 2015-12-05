@@ -4,5 +4,6 @@
     tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichageResultatRecherche">
     <item android:id="@+id/retourMenu" android:title="Retour au menu principal"></item>
     <item android:id="@+id/retourCave" android:title="Retour dans votre cave"/>
+    <item android:id="@+id/retourBdd" android:title="Retour dans la base de données"/>
     <item android:id="@+id/retourRecherche" android:title="Retour à l'écran recherche"></item>
 </menu>
