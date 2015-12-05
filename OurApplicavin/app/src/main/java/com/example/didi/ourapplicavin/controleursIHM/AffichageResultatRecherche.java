@@ -231,15 +231,15 @@ public class AffichageResultatRecherche extends AppCompatActivity {
 
     //Méthode qui surligne la ligne (vin sélectionné)
     private void changeCouleurLigneVin(int position) {
-        for(int i = 0 ; i<nbColParLigne; i++){
-            tabResultatVin.getChildAt(position+i).setBackgroundColor(Color.rgb(253, 220, 216)); //rouge/rose clair
+        for (int i = 0; i < nbColParLigne; i++) {
+            tabResultatVin.getChildAt(position + i).setBackgroundColor(Color.rgb(253, 220, 216)); //rouge/rose clair
         }
     }
 
     //Méthode qui désurligne la ligne
     private void rechangeCouleurLigneVin(int position) {
-        for(int i = 0 ; i<nbColParLigne; i++){
-            tabResultatVin.getChildAt(position+i).setBackgroundColor(Color.TRANSPARENT);
+        for (int i = 0; i < nbColParLigne; i++) {
+            tabResultatVin.getChildAt(position + i).setBackgroundColor(Color.TRANSPARENT);
         }
     }
 }

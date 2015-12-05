@@ -47,21 +47,21 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
         }
         // si on clique sur le sous menu (aller dans la cave)
         // on va dans l'activité AffichageCave
-        else if( id == R.id.allerCave){
+        else if (id == R.id.allerCave) {
             Intent n = new Intent(AffichageAjoutVinBdd.this, AffichageCave.class);
             startActivity(n);
             return true;
         }
         // si on clique sur le sous menu (aller dans la liste de souhait)
         // on va dans l'activité AffichagePref
-        else if( id == R.id.allerPref){
+        else if (id == R.id.allerPref) {
             Intent n = new Intent(AffichageAjoutVinBdd.this, AffichagePref.class);
             startActivity(n);
             return true;
         }
         // si on clique sur le sous menu (aller à la bdd)
         // on va dans l'activité AffichageBdd
-        else if( id == R.id.allerBdd){
+        else if (id == R.id.allerBdd) {
             Intent n = new Intent(AffichageAjoutVinBdd.this, AffichageBdd.class);
             startActivity(n);
             return true;

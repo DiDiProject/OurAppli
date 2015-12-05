@@ -16,7 +16,7 @@ import com.example.didi.ourapplicavin.R;
 // (de la cave, de la liste de pref, de la bdd ou d'une recherche)
 public class AffichageDetailVin extends AppCompatActivity {
     //Attributs associé au layout
-    private TextView nomVin  = null; //pour afficher le nom du vin
+    private TextView nomVin = null; //pour afficher le nom du vin
     private TextView detailVin = null; //pour afficher le détail du vin
     private EditText remarquesVin = null; //pour afficher les remarques sur ce vin
     private Button enregistrer = null; //pour enregistrer les remarques
@@ -24,7 +24,7 @@ public class AffichageDetailVin extends AppCompatActivity {
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private String string_nomVin = ""; //pour avoir le nom du vin en string
     private String string_detailVin = ""; //pour avoir le détail du vin en string
-    private  String string_remarquesVin = ""; //pour avoir les remarques du vin en string
+    private String string_remarquesVin = ""; //pour avoir les remarques du vin en string
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -33,10 +33,10 @@ public class AffichageDetailVin extends AppCompatActivity {
         setContentView(R.layout.activity_affichage_detail_vin); //on affiche le layout associé
 
         //on va cherche tous les élements qui nous interresse dans le layout
-        nomVin = (TextView)findViewById(R.id.nomVin);
-        detailVin = (TextView)findViewById(R.id.detailVin);
-        remarquesVin = (EditText)findViewById(R.id.remarquesVin);
-        enregistrer = (Button)findViewById(R.id.enregistrer);
+        nomVin = (TextView) findViewById(R.id.nomVin);
+        detailVin = (TextView) findViewById(R.id.detailVin);
+        remarquesVin = (EditText) findViewById(R.id.remarquesVin);
+        enregistrer = (Button) findViewById(R.id.enregistrer);
 
         //On récupère le nom du vin passé en paramètre lors de la transition (depuis autre activité)
         Intent intent = getIntent();
@@ -61,10 +61,10 @@ public class AffichageDetailVin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO
-                String nvRemarques  = remarquesVin.getText().toString(); //on récupère les nouvelles remarques
+                String nvRemarques = remarquesVin.getText().toString(); //on récupère les nouvelles remarques
                 // il faut maintenant les enregistrer
             }
-    });
+        });
 
     }
 
@@ -90,15 +90,15 @@ public class AffichageDetailVin extends AppCompatActivity {
             Intent n = new Intent(AffichageDetailVin.this, AffichageMenuPrincipal.class);
             startActivity(n);
             return true;
-        } else if( id == R.id.allerCave){
+        } else if (id == R.id.allerCave) {
             Intent n = new Intent(AffichageDetailVin.this, AffichageCave.class);
             startActivity(n);
             return true;
-        } else if( id == R.id.allerPref){
+        } else if (id == R.id.allerPref) {
             Intent n = new Intent(AffichageDetailVin.this, AffichagePref.class);
             startActivity(n);
             return true;
-        } else if( id == R.id.allerBdd){
+        } else if (id == R.id.allerBdd) {
             Intent n = new Intent(AffichageDetailVin.this, AffichageBdd.class);
             startActivity(n);
             return true;

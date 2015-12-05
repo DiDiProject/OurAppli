@@ -161,7 +161,7 @@ public class AffichageCave extends AppCompatActivity {
                     boite = new AlertDialog.Builder(AffichageCave.this);
                     boite.setTitle("Suppresion ?");
                     boite.setIcon(R.drawable.photovin); //image
-                    boite.setMessage("Voulez-vous supprimer le "+ nomVinSel+ " ou le conserver dans votre cave avec 0 bouteille ?");
+                    boite.setMessage("Voulez-vous supprimer le " + nomVinSel + " ou le conserver dans votre cave avec 0 bouteille ?");
                     boite.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     //on remet les boutons invisibles et remet le tab actif
@@ -289,16 +289,16 @@ public class AffichageCave extends AppCompatActivity {
     //Méthode pour surligner la ligne (vin sélectionné)
     //position doit être celui du nom
     private void changeCouleurLigneVin(int position) {
-        for(int i = 0 ; i<nbColParLigne; i++){
-            tab.getChildAt(position+i).setBackgroundColor(Color.rgb(176, 222, 253)); //bleu clair
+        for (int i = 0; i < nbColParLigne; i++) {
+            tab.getChildAt(position + i).setBackgroundColor(Color.rgb(176, 222, 253)); //bleu clair
         }
     }
 
     //Méthode qui désurligne la ligne
     //position doit être celui du nom
     private void rechangeCouleurLigneVin(int position) {
-        for(int i = 0 ; i<nbColParLigne; i++){
-            tab.getChildAt(position+i).setBackgroundColor(Color.TRANSPARENT);
+        for (int i = 0; i < nbColParLigne; i++) {
+            tab.getChildAt(position + i).setBackgroundColor(Color.TRANSPARENT);
         }
     }
 }
