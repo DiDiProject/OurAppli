@@ -122,15 +122,19 @@ public class AffichageCave extends AppCompatActivity {
                 if (position % nbColParLigne == 0) {
                     nbBouteilleavant = (String) ((TextView) tab.getChildAt(position + 2)).getText();
                     positionTabNb = position + 2;
+                    nomVinSel = (String) ((TextView) tab.getChildAt(position)).getText();
                 } else if (position % nbColParLigne == 1) {
                     nbBouteilleavant = (String) ((TextView) tab.getChildAt(position + 1)).getText();
                     positionTabNb = position + 1;
+                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 1)).getText();
                 } else if (position % nbColParLigne == 2) {
                     nbBouteilleavant = (String) ((TextView) tab.getChildAt(position)).getText();
                     positionTabNb = position;
+                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 2)).getText();
                 } else {
                     nbBouteilleavant = (String) ((TextView) tab.getChildAt(position - 1)).getText();
                     positionTabNb = position - 1;
+                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 3)).getText();
                 }
 
                 nb.setText(nbBouteilleavant); //met le nombre de bouteille du vin
@@ -154,14 +158,14 @@ public class AffichageCave extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int nbavant = Integer.parseInt(nb.getText().toString());
-                if (nbavant == 1) {
+                if (nbavant <= 1) {
                     //affiche une boite de dialogue pour confirmation suppression vin ou conserver ce vin
                     AlertDialog.Builder boite;
                     boite = new AlertDialog.Builder(AffichageCave.this);
-                    boite.setTitle("Suppresion de ce vin de la cave ?");
+                    boite.setTitle("Suppresion ?");
                     boite.setIcon(R.drawable.photovin);
-                    boite.setMessage("Voulez-vous supprimer ce vin ou conserver ce vin dans votre cave avec 0 bouteille ?");
-                    boite.setPositiveButton("Supprimer ce vin", new DialogInterface.OnClickListener() {
+                    boite.setMessage("Voulez-vous supprimer le "+ nomVinSel+ " ou le conserver dans votre cave avec 0 bouteille ?");
+                    boite.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     //on remet les boutons invisibles
                                     boutonsInvisible();
@@ -174,7 +178,7 @@ public class AffichageCave extends AppCompatActivity {
                                 }
                             }
                     );
-                    boite.setNegativeButton("Conserver ce vin", new DialogInterface.OnClickListener() {
+                    boite.setNegativeButton("Conserver", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // on revient dans l'état précédent
                                     nb.setText("0");

@@ -35,11 +35,11 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:background="#81bcfd"
-            android:text="+" />
+            android:text="+"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
         <!--android:visibility="invisible"-->
 
         <Button
@@ -47,31 +47,38 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tabResultatVinPref"
-            android:layout_toRightOf="@+id/augmenter"
             android:background="#fdb5b0"
-            android:text="-" />
+            android:text="-"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/augmenter"
+            android:layout_toEndOf="@+id/augmenter"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp" />
 
         <EditText
             android:id="@+id/nbBouteille"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tabNomColCave"
-            android:layout_toEndOf="@+id/diminuer"
-            android:layout_toRightOf="@+id/diminuer"
             android:inputType="number"
-            android:text="0" />
+            android:text="0"
+            android:layout_above="@+id/tabNomColCave"
+            android:layout_toRightOf="@+id/diminuer"
+            android:layout_toEndOf="@+id/diminuer"
+            android:layout_marginLeft="29dp"
+            android:layout_marginStart="29dp" />
 
         <Button
             android:id="@+id/ok"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/tabNomColCave"
-            android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/tabNomColCave"
             android:background="#9dfd9a"
-            android:text="OK" />
+            android:text="OK"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_alignBottom="@+id/nbBouteille"
+            android:layout_toRightOf="@+id/textView3"
+            android:layout_toEndOf="@+id/textView3" />
 
         <TextView
             android:id="@+id/textView3"

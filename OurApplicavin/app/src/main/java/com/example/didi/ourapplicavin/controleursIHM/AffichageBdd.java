@@ -23,6 +23,7 @@ public class AffichageBdd extends AppCompatActivity {
     private String[] listeVins;
     private Button ajoutCave = null;
     private Button ajoutPref = null;
+    private Button annuler = null;
     private TextView texte = null;
     private TextView texteOu = null;
     private String nomVinSel = "";
@@ -44,6 +45,7 @@ public class AffichageBdd extends AppCompatActivity {
         tab = (GridView)findViewById(R.id.tabResultatVinBdd);
         ajoutCave = (Button)findViewById(R.id.ajouterCave);
         ajoutPref = (Button)findViewById(R.id.ajouterPref);
+        annuler = (Button)findViewById(R.id.annulerBdd);
         texte = (TextView)findViewById(R.id.textView4);
         texteOu = (TextView)findViewById(R.id.textOu);
 
@@ -138,6 +140,15 @@ public class AffichageBdd extends AppCompatActivity {
             }
         });
 
+        // on annule ce que l'utilisateur vient de faire (cad enlever la sélection du vin)
+        annuler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boutonsInvisible();
+                rechangeCouleurLigneVin(posi);
+            }
+        });
+
     }
 
     //Méthode qui perme de mettre un menu à l'écran
@@ -191,6 +202,7 @@ public class AffichageBdd extends AppCompatActivity {
     private void boutonsInvisible(){
         ajoutCave.setVisibility(View.INVISIBLE);
         ajoutPref.setVisibility(View.INVISIBLE);
+        annuler.setVisibility(View.INVISIBLE);
         texte.setVisibility(View.INVISIBLE);
         texteOu.setVisibility(View.INVISIBLE);
         tab.setEnabled(true);
@@ -199,6 +211,7 @@ public class AffichageBdd extends AppCompatActivity {
     private void boutonsVisible(){
         ajoutCave.setVisibility(View.VISIBLE);
         ajoutPref.setVisibility(View.VISIBLE);
+        annuler.setVisibility(View.VISIBLE);
         texte.setVisibility(View.VISIBLE);
         texteOu.setVisibility(View.VISIBLE);
         tab.setEnabled(false);

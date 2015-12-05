@@ -55,7 +55,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ajouter ce vin dans "
+        android:text="Ajout dans la "
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="15dp"
         android:layout_alignParentTop="true"
@@ -66,11 +66,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text=" ou "
+        android:text="  ou  "
         android:id="@+id/textOu"
         android:layout_alignBaseline="@+id/textView4"
         android:layout_alignBottom="@+id/textView4"
         android:layout_toRightOf="@+id/ajouterCave"
         android:layout_toEndOf="@+id/ajouterCave" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Annuler"
+        android:id="@+id/annulerBdd"
+        android:background="#9dfd9a"
+        android:layout_above="@+id/tabNomColBdd"
+        android:layout_toRightOf="@+id/ajouterPref"
+        android:layout_toEndOf="@+id/ajouterPref"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp" />
 
 </RelativeLayout>
