@@ -65,7 +65,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="Ajouter ce vin dans "
+        android:text="Ajouter dans la "
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="15dp" />
 
@@ -79,5 +79,19 @@
         android:layout_toRightOf="@+id/ajoutCaveResultat"
         android:text=" ou "
         android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <!-- bouton pour annuler le vin sélecionné -->
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Annuler"
+        android:id="@+id/annulerRecherche"
+        android:background="#9dfd9a"
+        android:layout_above="@+id/tabNomColResultatRecherche"
+        android:layout_toRightOf="@+id/ajoutSouhaitResultat"
+        android:layout_toEndOf="@+id/ajoutSouhaitResultat"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp" />
 
 </RelativeLayout>

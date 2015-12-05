@@ -1,10 +1,11 @@
 package com.example.didi.ourapplicavin.controleursIHM;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,36 +15,56 @@ import com.example.didi.ourapplicavin.R;
 //Classe qui affiche la description d'un vin
 // (de la cave, de la liste de pref, de la bdd ou d'une recherche)
 public class AffichageDetailVin extends AppCompatActivity {
-    private TextView nomVin  = null;
-    private String string_nomVin = "";
-    private TextView detailVin = null;
-    private String string_detailVin = "";
-    private EditText remarquesVin = null;
-    private  String string_remarquesVin = "";
-    private Button enregistrer = null;
-
-    final String NOM_VIN = "nom du vin";
+    //Attributs associé au layout
+    private TextView nomVin  = null; //pour afficher le nom du vin
+    private TextView detailVin = null; //pour afficher le détail du vin
+    private EditText remarquesVin = null; //pour afficher les remarques sur ce vin
+    private Button enregistrer = null; //pour enregistrer les remarques
+    //Attributs associé à cette classe
+    final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    private String string_nomVin = ""; //pour avoir le nom du vin en string
+    private String string_detailVin = ""; //pour avoir le détail du vin en string
+    private  String string_remarquesVin = ""; //pour avoir les remarques du vin en string
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affichage_detail_vin);
+        setContentView(R.layout.activity_affichage_detail_vin); //on affiche le layout associé
+
+        //on va cherche tous les élements qui nous interresse dans le layout
         nomVin = (TextView)findViewById(R.id.nomVin);
         detailVin = (TextView)findViewById(R.id.detailVin);
         remarquesVin = (EditText)findViewById(R.id.remarquesVin);
         enregistrer = (Button)findViewById(R.id.enregistrer);
 
+        //On récupère le nom du vin passé en paramètre lors de la transition (depuis autre activité)
         Intent intent = getIntent();
-
         if (intent != null) {
-            nomVin.setText(intent.getStringExtra(NOM_VIN));
+            string_nomVin = intent.getStringExtra(NOM_VIN);
+            nomVin.setText(string_nomVin); //on affiche le nom du vin
         }
 
         // TODO
         // récupérer la desccription du vin en question
-        // récuperer les remarques personnelles
-        // enregistrer les remarques personnelles
+        string_detailVin = "Détail du vin -type de vin \n-cépage ... \n-Ffndojhd dfndhif fvndzvh kndk";
+        //on affiche le détail
+        detailVin.setText(string_detailVin);
+
+        // récupérer les remarques
+        string_remarquesVin = "Vos commentaires sur ce vin \nDate des bouteilles \n-accords avec plats ...";
+        //on affiche les remarques
+        remarquesVin.setText(string_remarquesVin);
+
+        // on enregistre les remarques personnelles
+        enregistrer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+                String nvRemarques  = remarquesVin.getText().toString(); //on récupère les nouvelles remarques
+                // il faut maintenant les enregistrer
+            }
+    });
 
     }
 

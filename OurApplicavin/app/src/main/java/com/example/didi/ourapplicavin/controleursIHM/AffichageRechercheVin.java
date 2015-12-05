@@ -14,10 +14,10 @@ import com.example.didi.ourapplicavin.R;
 
 //classe pour faire une recherche (par nom ou par critère) soit dans la cave ou dans la bdd
 public class AffichageRechercheVin extends AppCompatActivity {
-    //Attributs
+    //Attributs associés au layout
     private EditText nom = null;
-    private Button rechercheNom = null;
-    private Button faireRechercheAvancee = null;
+    private Button rechercheNom = null; //bouton pour faire le recherche par le nom
+    private Button faireRechercheAvancee = null; //pour accéder aux différents critères
     private TextView texteRobe = null;
     private TextView texteCepage = null;
     private TextView texteRegion = null;
@@ -28,17 +28,18 @@ public class AffichageRechercheVin extends AppCompatActivity {
     private EditText region = null;
     private EditText mellisesime = null;
     private EditText terroir = null;
-    private Button rechercheAvancee = null;
-    private boolean avanceeOuPas = false;
-
-    final String NOM_VIN = "nom du vin";
+    private Button rechercheAvancee = null; //bouton pour faire la recherche par critère
+    //Attributs pour cette classe
+    private boolean avanceeOuPas = false; //si on ait dans recherche par critère ou pas (non de base)
+    final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affichage_recherche_vin);
+        setContentView(R.layout.activity_affichage_recherche_vin); //on affiche le layout associé
 
+        //on va cherche tous les élements qui nous interresse dans le layout
         nom = (EditText) findViewById(R.id.nom);
         rechercheNom = (Button) findViewById(R.id.rechercheParNom);
         faireRechercheAvancee = (Button) findViewById(R.id.faireRechercheAvancee);
@@ -53,19 +54,21 @@ public class AffichageRechercheVin extends AppCompatActivity {
         region = (EditText) findViewById(R.id.region);
         mellisesime = (EditText) findViewById(R.id.millesime);
         terroir = (EditText) findViewById(R.id.terroir);
-
+        // on rend les différents champs (sauf nom) invisible car de base recherche par nom et pas par critère
         this.invisibleRechercheAvancee();
 
+        //recherche par le nom
         rechercheNom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO
                 Intent n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
-                n.putExtra(NOM_VIN, nom.getText().toString());
+                n.putExtra(NOM_VIN, nom.getText().toString()); //on passe le nom à chercher à l'activé résultat
                 startActivity(n);
             }
         });
 
+        //pour avoir les différents champs de critères (rechercher avancée)
         faireRechercheAvancee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,17 +79,19 @@ public class AffichageRechercheVin extends AppCompatActivity {
             }
         });
 
+        //recherche par critères
         rechercheAvancee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO
                 Intent n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
+                //mettre en para les différents champs
                 startActivity(n);
             }
         });
     }
 
-    //Méthode qui perme de mettre un menu à l'écran
+    //Méthode qui permet de mettre un menu à l'écran
     // ce menu est définit dans menu_affichage_rechercher_vin
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,16 +108,20 @@ public class AffichageRechercheVin extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        // si on clique sur le sous menu (aller dans la cave)
+        // on va dans l'activité AffichageCave
         if (id == R.id.retourMenu) {
             Intent n = new Intent(AffichageRechercheVin.this, AffichageMenuPrincipal.class);
             startActivity(n);
             return true;
-        } else if (id == R.id.retourCave) {
+        }
+        //aller à la cave
+        else if (id == R.id.retourCave) {
             Intent n = new Intent(AffichageRechercheVin.this, AffichageCave.class);
             startActivity(n);
             return true;
         }
+        //aller à la bdd
         else if (id == R.id.retourBdd) {
             Intent n = new Intent(AffichageRechercheVin.this, AffichageBdd.class);
             startActivity(n);
@@ -121,6 +130,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Méthode qui rend visible des boutons (recherche par critère)
     private void visibleRechercheAvancee() {
         texteRobe.setVisibility(View.VISIBLE);
         texteCepage.setVisibility(View.VISIBLE);
@@ -135,6 +145,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
         rechercheAvancee.setVisibility(View.VISIBLE);
     }
 
+    //Méthode qui rend invisible des boutons (recherche par critère)
     private void invisibleRechercheAvancee() {
         texteRobe.setVisibility(View.INVISIBLE);
         texteCepage.setVisibility(View.INVISIBLE);

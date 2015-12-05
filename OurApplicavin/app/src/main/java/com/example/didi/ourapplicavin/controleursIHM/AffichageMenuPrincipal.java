@@ -13,19 +13,18 @@ import com.example.didi.ourapplicavin.R;
 //pour ensuite accéder à la cave, liste de preférence, la bdd, faire une recherche ds la bdd
 //et ajouter un vin ds la bdd
 public class AffichageMenuPrincipal extends Activity {
-    //Attributs
-    private Button cave = null;
-    private Button pref = null;
-    private Button bdd = null;
-    private Button recherche = null;
-    private Button ajoutVinbdd = null;
-
-    public final static String bddd = "bdd";
+    //Attributs associé au layout
+    private Button cave = null; //bouton pour accéder à sa cave
+    private Button pref = null; //bouton pour accéder à sa liste de souhait
+    private Button bdd = null; //bouton pour accéder à la bdd
+    private Button recherche = null; //bouton pour faire une recherche dans la bdd
+    private Button ajoutVinbdd = null; //bouton pour ajouter un vin dans la bdd
+    //Attributs associé à cette classe
+    public final static String bddd = "bdd"; // TODO pour dire qu'on ait dans la bdd pr recherche
 
     //méthode qui se lance lors de cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_menu_principal); //on affiche le menu principal
 
@@ -36,12 +35,14 @@ public class AffichageMenuPrincipal extends Activity {
         recherche = (Button) findViewById(R.id.faireRechercheBdd);
         ajoutVinbdd = (Button) findViewById(R.id.ajoutVinbdd);
 
+        //clique sur bouton voir sa cave à vin
         cave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Réagir au clic
                 // Le premier paramètre est le nom de l'activité actuelle
                 // Le second est le nom de l'activité de destination
+                //Affchage court
                 Toast.makeText(AffichageMenuPrincipal.this, "Le contenu de votre cave à vin virtuelle va s'afficher !",
                         Toast.LENGTH_SHORT).show();
                 Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichageCave.class);
@@ -50,6 +51,7 @@ public class AffichageMenuPrincipal extends Activity {
             }
         });
 
+        //clique sur bouton voir sa liste de souhait
         pref.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +62,7 @@ public class AffichageMenuPrincipal extends Activity {
             }
         });
 
+        //clique sur bouton voir la bdd
         bdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,16 +73,20 @@ public class AffichageMenuPrincipal extends Activity {
             }
         });
 
+        //clique sur bouton recherche dans bdd
         recherche.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(AffichageMenuPrincipal.this, "Vous aller effectuer une recherche dans la base de données !",
                         Toast.LENGTH_SHORT).show();
                 Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichageRechercheVin.class);
+                // TODO
+                //dire qu'on ait dans la bdd pour la recherche
                 startActivity(secondeActivite);
             }
         });
 
+        //clique sur bouton ajout vin dans la bdd
         ajoutVinbdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,4 +99,5 @@ public class AffichageMenuPrincipal extends Activity {
 
     }
 
+    //pas besoin de mettre un menu pour cette écran
 }

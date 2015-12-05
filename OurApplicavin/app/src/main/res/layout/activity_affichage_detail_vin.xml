@@ -61,7 +61,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/textView5"
-                    android:text="Détail du vin \n-type de vin \n-cépage ... \n-Ffndojhd dfndhif fvndzvh kndk" />
+                    android:text="" />
 
             </RelativeLayout>
 
@@ -102,7 +102,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/enregistrer"
-                    android:text="Vos commentaires sur ce vin \nDate des bouteilles \n-accords avec plats ..."
+                    android:text=""
                     android:textSize="14dp" />
 
             </RelativeLayout>

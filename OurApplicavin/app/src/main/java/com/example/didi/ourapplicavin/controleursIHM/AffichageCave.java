@@ -22,33 +22,31 @@ import com.example.didi.ourapplicavin.R;
 //Classe qui affiche la liste des vins de la cave "virtuelle" de l'utilisateur
 //elle est appelée via le menu principal
 public class AffichageCave extends AppCompatActivity {
-    //Attributs (boutons pour + ou - nbBouteille,
-    // les tableaux (pour nom des col et la liste de vins ...)
-    private Button augmenter = null;
-    private Button diminuer = null;
-    private EditText nb = null;
-    private TextView texte = null;
-    private Button ok = null;
-    private GridView tab = null;
-    private GridView tabNom = null;
-    private int nbBouteilles;
-    private String[] listeVins;
-    private int nbBouteilleActualiser;
-    private int positionTabNb = 0;
-    private String nomVinSel = "";
-
-    public final static String cave = "cave";
-    final String NOM_VIN = "nom du vin";
-    private int nbColParLigne = 4; //définit le nb de col par ligne pour la liste
+    //Attributs associés au layout
+    private Button augmenter = null; //bouton pour augmenter le nb de bouteille
+    private Button diminuer = null; //bouton pour diminuer le nb de bouteille
+    private EditText nb = null; //pour afficher le nb de bouteille en temps réel
+    private TextView texte = null; //texte pour dire qu'on parle de bouteille
+    private Button ok = null; //pour enregistrer ce nouveau nb de bouteille
+    private GridView tab = null; //tab pour afficher la liste des vins de la cave
+    private GridView tabNom = null; //tab pour afficher le nom des colonnes
+    //Attributs pour cette classe
+    private int nbBouteilles; //pour avoir le nb de bouteille (en entier)
+    private String[] listeVins; // TODO liste des vins de la cave à récupérer
+    private int nbBouteilleActualiser; //pour aovir le nb de bouteille actualisé
+    private int positionTabNb = 0; //pour avoir la position dans le tab (liste vins) du nb de bouteille
+    private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
+    public final static String cave = "cave"; // TODO pour dire qu'on ait dans la cave pr recherche
+    final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affichage_cave);
+        setContentView(R.layout.activity_affichage_cave); //on affiche le layout associé
 
-        //on va cherche le bouton retour et les deux tableaux qu'on a créer sur le layout
-        //retour = (Button)findViewById(R.id.retourButton);
+        //on va cherche tous les élements qui nous interresse dans le layout
         tabNom = (GridView) findViewById(R.id.tabNomColCave);
         tab = (GridView) findViewById(R.id.tabResultatVinCave);
         augmenter = (Button) findViewById(R.id.augmenter);
@@ -56,20 +54,18 @@ public class AffichageCave extends AppCompatActivity {
         nb = (EditText) findViewById(R.id.nbBouteille);
         texte = (TextView) findViewById(R.id.textView3);
         ok = (Button) findViewById(R.id.ok);
-
-        //on met les boutons + et - invisible car pas besoin maintenant
+        //on rend les boutons inutiles au départ invisible ainsi que le tab actif
         boutonsInvisible();
+        tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
 
         // TODO
         // il faudra définir les noms des colonnes
-        String[] title = new String[]{
-                "Nom du vin", "Type", "Nb de bouteilles", "Région"};
+        String[] title = new String[]{"Nom du vin", "Type", "Nb de bouteilles", "Région"};
+        // on va mettre ce tab des noms des colonnes dans le tab associé
         ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, title);
         tabNom.setAdapter(adapterTitle);
-        //on veut qu'il y ait que nbColParLigne colonnes sur une ligne
-        tabNom.setNumColumns(nbColParLigne);
-        //tabNom.setBackgroundColor(Color.CYAN);
+        tabNom.setNumColumns(nbColParLigne);  //définit le nombre de colonne par ligne
 
         // TODO
         // il faudra mettre la liste des vins provenant de la cave à vin de l'utilisateur
@@ -80,6 +76,7 @@ public class AffichageCave extends AppCompatActivity {
                 "Whispering Angel", "rosé", "3", "rr4",
                 "MonBazillac", "blanc", "10", "rr5"
         };
+        // on va mettre ce tab de la liste des vins dans le tab associé
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, listeVins);
         tab.setAdapter(adapter);
@@ -90,7 +87,7 @@ public class AffichageCave extends AppCompatActivity {
         tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
-                //[nomVinSel = (String) ((TextView) v).getText();]
+                //[nomVinSel = (String) ((TextView) v).getText(); //directement mais que pour le vin cliqué]
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
                         nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
@@ -107,18 +104,17 @@ public class AffichageCave extends AppCompatActivity {
             }
         });
 
-        //clique long => +/- nb bouteille
+        // quand on fait un clic long sur un des vins,
+        // on veut augmenter ou diminuer son nb de bouteille
         tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //pour que l'utilisateur augmente ou diminu le nb de bouteille de ce vin, on rend visible les deux boutons
-                //et on désactive aussi la liste des vins
-                boutonVisible();
-
-                //on va chercher la position nomVin
+                //on rend visible les boutons +, - et ok et rend le tab inactif
+                boutonsVisible();
+                //on va chercher la position nomVin ainsi que son nom et le nb bouteille
                 String nbBouteilleavant = "0"; //si on arrive pas à récupérer le nb bouteille
-                positionTabNb = 2;
+                positionTabNb = 2; //si on arrive pas à récupérer le nb bouteille
                 // TODO
-                // à changer si plus de 3 col
+                // à changer si plus de 4 col
                 if (position % nbColParLigne == 0) {
                     nbBouteilleavant = (String) ((TextView) tab.getChildAt(position + 2)).getText();
                     positionTabNb = position + 2;
@@ -136,40 +132,41 @@ public class AffichageCave extends AppCompatActivity {
                     positionTabNb = position - 1;
                     nomVinSel = (String) ((TextView) tab.getChildAt(position - 3)).getText();
                 }
-
-                nb.setText(nbBouteilleavant); //met le nombre de bouteille du vin
-                //on surligne la ligne du vin
+                nb.setText(nbBouteilleavant); //met le nombre de bouteille du vin en affichage
+                //on surligne la ligne du vin sélectionné
                 changeCouleurLigneVin(positionTabNb - 2);
                 return true;
             }
         });
 
-        //pour augmenter le nombre de bouteille (juste un clique)
+        //pour augmenter le nombre de bouteille (juste un clique sur +)
         augmenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int nbavant = Integer.parseInt(nb.getText().toString());
+                int nbavant = Integer.parseInt(nb.getText().toString()); //on récupère le nb de bouteille
                 nbBouteilleActualiser = nbavant + 1; //on rajouter une bouteille
-                nb.setText(Integer.toString(nbBouteilleActualiser));
+                nb.setText(Integer.toString(nbBouteilleActualiser)); //affichage du nouveau nb
             }
         });
 
+        //pour diminuer le nombre de bouteille (juste un clique sur -)
         diminuer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int nbavant = Integer.parseInt(nb.getText().toString());
+                int nbavant = Integer.parseInt(nb.getText().toString()); //on récupère le nb de bouteille
+                //si on arrive à 1 bouteille ou à 0
                 if (nbavant <= 1) {
                     //affiche une boite de dialogue pour confirmation suppression vin ou conserver ce vin
                     AlertDialog.Builder boite;
                     boite = new AlertDialog.Builder(AffichageCave.this);
                     boite.setTitle("Suppresion ?");
-                    boite.setIcon(R.drawable.photovin);
+                    boite.setIcon(R.drawable.photovin); //image
                     boite.setMessage("Voulez-vous supprimer le "+ nomVinSel+ " ou le conserver dans votre cave avec 0 bouteille ?");
                     boite.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //on remet les boutons invisibles
+                                    //on remet les boutons invisibles et remet le tab actif
                                     boutonsInvisible();
-                                    rechangeCouleurLigneVin(positionTabNb - 2);
+                                    rechangeCouleurLigneVin(positionTabNb - 2); //on enlève la couleur du vin sélectionné
                                     // TODO
                                     //réactualiser la liste des vins (recharger la liste mais avant supp le vin)
                                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
@@ -181,9 +178,9 @@ public class AffichageCave extends AppCompatActivity {
                     boite.setNegativeButton("Conserver", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // on revient dans l'état précédent
-                                    nb.setText("0");
-                                    boutonsInvisible();
-                                    rechangeCouleurLigneVin(positionTabNb - 2);
+                                    nb.setText("0"); //on met à 0 le nb de bouteille
+                                    boutonsInvisible(); //boutons invisible  + tab actif
+                                    rechangeCouleurLigneVin(positionTabNb - 2); //enlève couleur du vin sélectionné
                                     // TODO
                                     // reactuliser dans la cave
                                     // faire plutot : modifier le nb bouteille dans la liste des vins de la cave
@@ -199,20 +196,20 @@ public class AffichageCave extends AppCompatActivity {
                     boite.show();
                     return;
                 }
-                nbBouteilleActualiser = nbavant - 1; //on enlève une bouteille
-                nb.setText(Integer.toString(nbBouteilleActualiser));
+                nbBouteilleActualiser = nbavant - 1; //on enlève une bouteille (si nbBouteilleAvant>1
+                nb.setText(Integer.toString(nbBouteilleActualiser)); //affichage du nouveau nombre
             }
         });
 
+        //quand l'utilisateur à fini de changer le nb de bouteille, on enregistre ce nouveau nb
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //on récupère le nombre de bouteilles actualisé
                 nbBouteilles = Integer.parseInt(nb.getText().toString());
-
-                //on remet les boutons invisibles
+                //on remet les boutons invisibles et le tab actif
                 boutonsInvisible();
-                rechangeCouleurLigneVin(positionTabNb - 2);
+                rechangeCouleurLigneVin(positionTabNb - 2); //enlève couleur vin sélectionné
                 // TODO
                 // remettre à jour la liste de vin (nb bouteille à changer)
                 // faire plutot : modifier le nb bouteille dans la liste des vins de la cave
@@ -227,7 +224,7 @@ public class AffichageCave extends AppCompatActivity {
 
     }
 
-    //Méthode qui perme de mettre un menu à l'écran
+    //Méthode qui permet de mettre un menu à l'écran
     // ce menu est définit dans menu_affichage_cave
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -251,10 +248,15 @@ public class AffichageCave extends AppCompatActivity {
             Intent n = new Intent(AffichageCave.this, AffichageMenuPrincipal.class);
             startActivity(n);
             return true;
-        } else if (id == R.id.rechercheCave) {
+        }
+        // si on clique sur le sous menu (rechercher des vins)
+        // on va dans l'activité recherche vin
+        else if (id == R.id.rechercheCave) {
             Toast.makeText(AffichageCave.this, "Vous aller effectuer une recherche dans votre cave !",
                     Toast.LENGTH_SHORT).show();
             Intent n = new Intent(AffichageCave.this, AffichageRechercheVin.class);
+            // TODO
+            //dire qu'on ait dans la cave pour la recherche
             startActivity(n);
             return true;
         }
@@ -275,7 +277,7 @@ public class AffichageCave extends AppCompatActivity {
     //Méthode qui rend visble les boutons + et - pour que l'utilisateur augmente ou diminue le nb de
     //bouteilles d'un vin et le tableau de la liste de vins devient inactif
     // (pour pas que l'utilisateur puisse cliquer sur un autre vns)
-    private void boutonVisible() {
+    private void boutonsVisible() {
         augmenter.setVisibility(View.VISIBLE);
         diminuer.setVisibility(View.VISIBLE);
         nb.setVisibility(View.VISIBLE);
@@ -284,15 +286,15 @@ public class AffichageCave extends AppCompatActivity {
         tab.setEnabled(false);
     }
 
-    //on surligne la ligne (vin sélectionné)
+    //Méthode pour surligner la ligne (vin sélectionné)
     //position doit être celui du nom
     private void changeCouleurLigneVin(int position) {
         for(int i = 0 ; i<nbColParLigne; i++){
-            tab.getChildAt(position+i).setBackgroundColor(Color.rgb(176, 222, 253));
+            tab.getChildAt(position+i).setBackgroundColor(Color.rgb(176, 222, 253)); //bleu clair
         }
     }
 
-    //on désurligne la ligne
+    //Méthode qui désurligne la ligne
     //position doit être celui du nom
     private void rechangeCouleurLigneVin(int position) {
         for(int i = 0 ; i<nbColParLigne; i++){

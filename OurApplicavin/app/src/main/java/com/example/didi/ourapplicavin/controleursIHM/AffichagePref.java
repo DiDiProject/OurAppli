@@ -20,45 +20,44 @@ import com.example.didi.ourapplicavin.R;
 
 //Classe qui permet d'afficher la liste de préférence de l'utilisateur
 public class AffichagePref extends AppCompatActivity {
-    private GridView tab = null;
-    private GridView tabNom = null;
-    private Button ajoutCave = null;
-    private Button supprVin = null;
-    private Button annuler = null;
-    private String[] listeVins;
-    private String nomVinSel = "";
-
-    public final static String cave = "pref";
-    final String NOM_VIN = "nom du vin";
-    private int nbColParLigne = 4; //définit le nb de col par ligne pour la liste
-    private int posiNom = 0;
+    //Attributs associés au layout
+    private GridView tab = null; //tab pour afficher la liste des vins de la bdd
+    private GridView tabNom = null; //tab pour afficher le nom des colonnes
+    private Button ajoutCave = null; //bouton pour ajout un vin dans la cave
+    private Button supprVin = null; //bouton pour supprimer un vin de la liste de souhait
+    private Button annuler = null; //annuler le vin sélectionné
+    //Attributs pour cette classe
+    public final static String cave = "pref"; // TODO pour dire qu'on ait dans liste de souhait
+    final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
+    private int posiNom = 0; //pour avoir la position dans le tab du vin sélectionné
+    private String[] listeVins; // TODO liste des vin de la vin à récupérer
+    private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affichage_pref);
+        setContentView(R.layout.activity_affichage_pref); //on affiche le layout associé
 
-        //on va cherche le bouton retour et les deux tableaux qu'on a créer sur le layout
-        //retour = (Button)findViewById(R.id.retourButton);
+        //on va cherche tous les élements qui nous interresse dans le layout
         tabNom = (GridView) findViewById(R.id.tabNomColPref);
         tab = (GridView) findViewById(R.id.tabResultatVinPref);
         ajoutCave = (Button) findViewById(R.id.ajouterCaveViaPref);
         supprVin = (Button) findViewById(R.id.supprVinPref);
         annuler = (Button) findViewById(R.id.annulerPref);
-
-        boutonInvisible();
+        // on rend les boutons inutiles au départ invisible ainsi que le tab actif
+        boutonsInvisible();
+        tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
 
         // TODO
         // il faudra définir les noms des colonnes
-        String[] title = new String[]{
-                "Nom du vin", "Type", "Nb de bouteilles", "Région"};
+        String[] title = new String[]{"Nom du vin", "Type", "Nb de bouteilles", "Région"};
+        // on va mettre ce tab des noms des colonnes dans le tab associé
         ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, title);
         tabNom.setAdapter(adapterTitle);
-        //on veut qu'il y ait que 3 colonnes sur une ligne
-        tabNom.setNumColumns(nbColParLigne);
-        //tabNom.setBackgroundColor(Color.CYAN);
+        tabNom.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne
 
         // TODO
         // il faudra mettre la liste des vins provenant de la cave à vin de l'utilisateur
@@ -69,6 +68,7 @@ public class AffichagePref extends AppCompatActivity {
                 "Whispering Angel", "rosé", "3", "rr1",
                 "MonBazillac", "blanc", "10", "rr1",
         };
+        // on va mettre ce tab de la liste des vins dans le tab associé
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, listeVins);
         tab.setAdapter(adapter);
@@ -84,6 +84,7 @@ public class AffichagePref extends AppCompatActivity {
                         nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
                     }
                 }
+                //affichage court
                 Toast.makeText(getApplicationContext(), "La description de " + nomVinSel + " va s'afficher !",
                         Toast.LENGTH_SHORT).show();
                 //on va à l'activité détailVin
@@ -94,18 +95,21 @@ public class AffichagePref extends AppCompatActivity {
             }
         });
 
-        //clique long => suppresion vin => boite de dialogue pour confirmation
+        //quand on fait un clic long sur un des vins, on veut supprimer ce vin ou  l'ajouter à la cave
         tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                boutonVisible();
+                //on rend visible les boutons ajout dans cave, supprimer et annuler
+                //et on rend le tab inactif
+                boutonsVisible();
                 //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
+                //ainsi que sa position dans le tab
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
                         nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
                         posiNom = position - i;
                     }
                 }
-                changeCouleurLigneVin(posiNom);
+                changeCouleurLigneVin(posiNom); //on surligne le vin sélectionné
                 return true;
             }
         });
@@ -118,8 +122,8 @@ public class AffichagePref extends AppCompatActivity {
                 //ajouter le vin dans la cave
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
                         Toast.LENGTH_SHORT).show();
-                boutonInvisible();
-                rechangeCouleurLigneVin(posiNom);
+                boutonsInvisible(); // on remet invisible les boutons
+                rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
             }
         });
 
@@ -128,6 +132,7 @@ public class AffichagePref extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO
+                //on affiche une boite de dialogue pour confirmation de la suppression
                 AlertDialog.Builder boite;
                 boite = new AlertDialog.Builder(AffichagePref.this);
                 boite.setTitle("Suppresion ?");
@@ -143,14 +148,14 @@ public class AffichagePref extends AppCompatActivity {
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichagePref.this,
                                         android.R.layout.simple_list_item_1, listeVins);
                                 tab.setAdapter(adapter);
-                                //rechangeCouleurLigneVin(posiNom);
-                                boutonInvisible();
+                                //rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
+                                boutonsInvisible(); // on remet invisible les boutons
                             }
                         }
                 );
                 boite.setNegativeButton("Conserver", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // on fait rien
+                                // on fait rien, revient état précédent avec les boutons
                             }
                         }
                 );
@@ -162,13 +167,13 @@ public class AffichagePref extends AppCompatActivity {
         annuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boutonInvisible();
-                rechangeCouleurLigneVin(posiNom);
+                boutonsInvisible(); // on remet invisible les boutons
+                rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
             }
         });
     }
 
-    //Méthode qui perme de mettre un menu à l'écran
+    //Méthode qui permet de mettre un menu à l'écran
     // ce menu est définit dans menu_affichage_pref
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -205,7 +210,7 @@ public class AffichagePref extends AppCompatActivity {
     }
 
     //Méthode qui rend visble les boutons ajout dans cave, supprmier et annuler
-    private void boutonVisible() {
+    private void boutonsVisible() {
         ajoutCave.setVisibility(View.VISIBLE);
         supprVin.setVisibility(View.VISIBLE);
         annuler.setVisibility(View.VISIBLE);
@@ -213,21 +218,21 @@ public class AffichagePref extends AppCompatActivity {
     }
 
     //Méthode qui rend invisble les boutons ajout dans cave, supprmier et annuler
-    private void boutonInvisible() {
+    private void boutonsInvisible() {
         ajoutCave.setVisibility(View.INVISIBLE);
         supprVin.setVisibility(View.INVISIBLE);
         annuler.setVisibility(View.INVISIBLE);
         tab.setEnabled(true);
     }
 
-    //on surligne la ligne (vin sélectionné)
+    //Méthode pour surligner la ligne (vin sélectionné)
     private void changeCouleurLigneVin(int position) {
         for (int i = 0; i < nbColParLigne; i++) {
-            tab.getChildAt(position + i).setBackgroundColor(Color.rgb(255, 228, 196));
+            tab.getChildAt(position + i).setBackgroundColor(Color.rgb(255, 228, 196)); //orange clair
         }
     }
 
-    //on désurligne la ligne
+    //Méthode pour désurligner la ligne
     private void rechangeCouleurLigneVin(int position) {
         for (int i = 0; i < nbColParLigne; i++) {
             tab.getChildAt(position + i).setBackgroundColor(Color.TRANSPARENT);

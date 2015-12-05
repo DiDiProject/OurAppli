@@ -18,58 +18,59 @@ import com.example.didi.ourapplicavin.R;
 
 //Classe qui affiche la base de données des vins
 public class AffichageBdd extends AppCompatActivity {
-    private GridView tab = null;
-    private GridView tabNom = null;
-    private String[] listeVins;
-    private Button ajoutCave = null;
-    private Button ajoutPref = null;
-    private Button annuler = null;
-    private TextView texte = null;
-    private TextView texteOu = null;
-    private String nomVinSel = "";
-    private int posi;
-
-    public final static String cave = "bdd";
-    final String NOM_VIN = "nom du vin";
-    private int nbColParLigne = 4; //définit le nb de col par ligne pour la liste
+    //Attributs associés au layout
+    private GridView tab = null; //tab pour afficher la liste des vins de la bdd
+    private GridView tabNom = null; //tab pour afficher le nom des colonnes
+    private Button ajoutCave = null; //bouton pour ajout un vin dans la cave
+    private Button ajoutPref = null; //dans la liste de souhait
+    private Button annuler = null; //annuler le vin sélectionné
+    private TextView texte = null; //texte ajout
+    private TextView texteOu = null; //texte entre les deux boutons
+    //Attributs pour cette classe
+    private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
+    private int posi; //pour avoir la position dans le tab du vin sélectionné
+    public final static String cave = "bdd"; // TODO pour dire qu'on ait dans la bdd pr recherche
+    final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
+    private String[] listeVins; // TODO liste des vin de la bdd à récupérer
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affichage_bdd);
+        setContentView(R.layout.activity_affichage_bdd); //on affiche le layout associé
 
-        //on va cherche le bouton retour et les deux tableaux qu'on a créer sur le layout
-        //retour = (Button)findViewById(R.id.retourButton);
-        tabNom = (GridView)findViewById(R.id.tabNomColBdd);
-        tab = (GridView)findViewById(R.id.tabResultatVinBdd);
-        ajoutCave = (Button)findViewById(R.id.ajouterCave);
-        ajoutPref = (Button)findViewById(R.id.ajouterPref);
-        annuler = (Button)findViewById(R.id.annulerBdd);
-        texte = (TextView)findViewById(R.id.textView4);
-        texteOu = (TextView)findViewById(R.id.textOu);
-
+        //on va cherche tous les élements qui nous interresse dans le layout
+        tabNom = (GridView) findViewById(R.id.tabNomColBdd);
+        tab = (GridView) findViewById(R.id.tabResultatVinBdd);
+        ajoutCave = (Button) findViewById(R.id.ajouterCave);
+        ajoutPref = (Button) findViewById(R.id.ajouterPref);
+        annuler = (Button) findViewById(R.id.annulerBdd);
+        texte = (TextView) findViewById(R.id.textView4);
+        texteOu = (TextView) findViewById(R.id.textOu);
+        // on rend les boutons inutiles au départ invisible ainsi que le tab actif
         boutonsInvisible();
+        tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
 
         // TODO
         // il faudra définir les noms des colonnes
-        String[] title = new String[] {
-                "Nom du vin", "Type", "Nb de bouteilles", "Région"};
+        String[] nomsCol = new String[]{"Nom du vin", "Type", "Nb de bouteilles", "Région"};
+        // on va mettre ce tab des noms des colonnes dans le tab associé
         ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, title);
+                android.R.layout.simple_list_item_1, nomsCol);
         tabNom.setAdapter(adapterTitle);
-        //on veut qu'il y ait que 3 colonnes sur une ligne
-        tabNom.setNumColumns(nbColParLigne);
-        //tabNom.setBackgroundColor(Color.CYAN);
+        tabNom.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne
+        //tabNom.setBackgroundColor(Color.CYAN); //change la couleur du tab
 
         // TODO
         // il faudra mettre la liste des vins provenant de la cave à vin de l'utilisateur
-        listeVins = new String[] {
+        listeVins = new String[]{
                 "Bordeaux", "rouge", "8", "rr1",
                 "Cadillac", "blanc", "0", "rr1",
                 "Riesling", "blanc", "5", "rr1",
                 "Whispering Angel", "rosé", "3", "rr1",
                 "MonBazillac", "blanc", "10", "rr1"};
+        // on va mettre ce tab de la liste des vins dans le tab associé
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, listeVins);
         tab.setAdapter(adapter);
@@ -85,6 +86,7 @@ public class AffichageBdd extends AppCompatActivity {
                         nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
                     }
                 }
+                //Affichage court
                 Toast.makeText(getApplicationContext(), "La description de " + nomVinSel + " va s'afficher !",
                         Toast.LENGTH_SHORT).show();
                 //on va à l'activité détailVin
@@ -95,12 +97,14 @@ public class AffichageBdd extends AppCompatActivity {
             }
         });
 
-        //
+        // quand on fait un clic long sur un des vins, on veut soit l'ajouter
+        // dans la cave ou dans la liste de souhait
         tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //on rend visible les boutons ajout dans cave ou pref
+                //on rend visible les boutons ajout dans cave, pref et annuler
+                //et on rend le tab inactif
                 boutonsVisible();
-                //on va chercher la position nomVin
+                //on va chercher la position nomVin ainsi que le nom du vin
                 posi = position;
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
@@ -108,8 +112,7 @@ public class AffichageBdd extends AppCompatActivity {
                         posi = position - i;
                     }
                 }
-                //on surligne la ligne du vin
-                changeCouleurLigneVin(posi);
+                changeCouleurLigneVin(posi); //on surligne la ligne du vin sélectionné
                 return true;
             }
         });
@@ -120,10 +123,11 @@ public class AffichageBdd extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO
 
+                //Affichage court
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
                         Toast.LENGTH_SHORT).show();
-                boutonsInvisible();
-                rechangeCouleurLigneVin(posi);
+                boutonsInvisible(); // on remet invisible les boutons
+                rechangeCouleurLigneVin(posi); // on enlève la couleur du vin sélectionné
             }
         });
 
@@ -133,10 +137,11 @@ public class AffichageBdd extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO
 
+                //Affichage court
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la liste de souhait !",
                         Toast.LENGTH_SHORT).show();
-                boutonsInvisible();
-                rechangeCouleurLigneVin(posi);
+                boutonsInvisible(); // on remet invisible les boutons
+                rechangeCouleurLigneVin(posi); // on enlève la couleur du vin sélectionné
             }
         });
 
@@ -144,14 +149,14 @@ public class AffichageBdd extends AppCompatActivity {
         annuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boutonsInvisible();
-                rechangeCouleurLigneVin(posi);
+                boutonsInvisible(); // on remet invisible les boutons
+                rechangeCouleurLigneVin(posi); // on enlève la couleur du vin sélectionné
             }
         });
 
     }
 
-    //Méthode qui perme de mettre un menu à l'écran
+    //Méthode qui permet de mettre un menu à l'écran
     // ce menu est définit dans menu_affichage_bdd
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -176,18 +181,22 @@ public class AffichageBdd extends AppCompatActivity {
         }
         // si on clique sur le sous menu (aller dans la cave)
         // on va dans l'activité AffichageCave
-        else if (id == R.id.allerCave){
+        else if (id == R.id.allerCave) {
             Intent n = new Intent(AffichageBdd.this, AffichageCave.class);
             startActivity(n);
             return true;
         }
+        //faire une recherche dans la bdd
         else if (id == R.id.rechercheBdd) {
             Toast.makeText(AffichageBdd.this, "Vous aller effectuer une recherche dans la base de données !",
                     Toast.LENGTH_SHORT).show();
             Intent n = new Intent(AffichageBdd.this, AffichageRechercheVin.class);
+            // TODO
+            //dire qu'on ait dans la base de données pour la recherche
             startActivity(n);
             return true;
         }
+        //ajouter un vin dans la bdd
         else if (id == R.id.ajoutVinBdd) {
             Toast.makeText(AffichageBdd.this, "Vous aller effectuer un ajout de vin dans la base de données",
                     Toast.LENGTH_SHORT).show();
@@ -199,7 +208,8 @@ public class AffichageBdd extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void boutonsInvisible(){
+    //Méthode qui rend invisible des boutons (ajout)
+    private void boutonsInvisible() {
         ajoutCave.setVisibility(View.INVISIBLE);
         ajoutPref.setVisibility(View.INVISIBLE);
         annuler.setVisibility(View.INVISIBLE);
@@ -208,7 +218,8 @@ public class AffichageBdd extends AppCompatActivity {
         tab.setEnabled(true);
     }
 
-    private void boutonsVisible(){
+    //Méthode qui rend visible des boutons (pour effectuer l'ajout)
+    private void boutonsVisible() {
         ajoutCave.setVisibility(View.VISIBLE);
         ajoutPref.setVisibility(View.VISIBLE);
         annuler.setVisibility(View.VISIBLE);
@@ -217,17 +228,17 @@ public class AffichageBdd extends AppCompatActivity {
         tab.setEnabled(false);
     }
 
-    //on surligne la ligne (vin sélectionné)
-    private void changeCouleurLigneVin(int position){
-        for(int i = 0 ; i<nbColParLigne; i++){
-            tab.getChildAt(position+i).setBackgroundColor(Color.rgb(190, 253, 185));
+    //Méthode qui surligne la ligne (vin sélectionné)
+    private void changeCouleurLigneVin(int position) {
+        for (int i = 0; i < nbColParLigne; i++) {
+            tab.getChildAt(position + i).setBackgroundColor(Color.rgb(190, 253, 185)); //vert clair
         }
     }
 
-    //on désurligne la ligne
-    private void rechangeCouleurLigneVin(int position){
-        for(int i = 0 ; i<nbColParLigne; i++){
-            tab.getChildAt(position+i).setBackgroundColor(Color.TRANSPARENT);
+    //Méthode qui désurligne la ligne
+    private void rechangeCouleurLigneVin(int position) {
+        for (int i = 0; i < nbColParLigne; i++) {
+            tab.getChildAt(position + i).setBackgroundColor(Color.TRANSPARENT);
         }
     }
 }

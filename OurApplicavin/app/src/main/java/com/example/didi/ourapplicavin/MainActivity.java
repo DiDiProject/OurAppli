@@ -12,14 +12,13 @@ import com.example.didi.ourapplicavin.controleursIHM.AffichageMenuPrincipal;
 //classe principale, celle qui va se lancer lors de l'ouverture de l'application
 //juste un écran d'accueil avec un bouton pour ensuite accéder au menu principal
 public class MainActivity extends Activity {
-    //attribut
+    //attribut du layout
     private Button menuPrincipal = null;
 
-    //méthode qui se fait en premier quand on lanc l'application
+    //méthode qui se fait en premier quand on lance l'application
     //car nous sommes dans la classe principale
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); //on affiche l'écran d'accueil
 
@@ -38,4 +37,6 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+    //pas besoin de mettre un menu pour cette écran
 }
