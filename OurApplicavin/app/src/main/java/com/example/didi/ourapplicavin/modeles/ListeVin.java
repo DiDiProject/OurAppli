@@ -12,13 +12,13 @@ public class ListeVin {
     private int nombreVins; //nombre de vin dans la liste
 
     //Constructeur d'initialisation d'une liste de vins (vide)
-    public void ListeVin (){
+    public ListeVin (){
         this.listeVins = new ArrayList<>();
         this.nombreVins = 0;
     }
 
     //Constructeur d'initialisation d'une liste de vins en ayant déjà une liste
-    public void ListeVin(ArrayList<Vin> listeVin){
+    public ListeVin(ArrayList<Vin> listeVin){
         this.listeVins = listeVin;
         this.nombreVins = listeVin.size();
     }

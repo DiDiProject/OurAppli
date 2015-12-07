@@ -85,6 +85,8 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
         // on va dans l'activité AffichageMenuPrincipal
         if (id == R.id.retourMenu) {
             Intent n = new Intent(AffichageAjoutVinBdd.this, AffichageMenuPrincipal.class);
+            n.addCategory( Intent.CATEGORY_HOME );
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }

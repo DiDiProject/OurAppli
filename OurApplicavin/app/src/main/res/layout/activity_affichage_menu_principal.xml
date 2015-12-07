@@ -90,5 +90,15 @@
             android:background="#f6fd80"
             android:text="  Ajouter un vin dans la base de données  " />
 
+        <!-- bouton pour retourner à la page d'accueil -->
+        <Button
+            android:id="@+id/quitterAppliPrincipal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="480dp"
+            android:background="#fddec4"
+            android:text="  Retour à la page d'accueil  " />
+
     </RelativeLayout>
 </ScrollView>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.didi.ourapplicavin.MainActivity;
 import com.example.didi.ourapplicavin.R;
 
 //Classe du menu principal
@@ -19,6 +20,7 @@ public class AffichageMenuPrincipal extends Activity {
     private Button bdd = null; //bouton pour accéder à la bdd
     private Button recherche = null; //bouton pour faire une recherche dans la bdd
     private Button ajoutVinbdd = null; //bouton pour ajouter un vin dans la bdd
+    private  Button quitter = null;
     //Attributs associé à cette classe
     public final static String bddd = "bdd"; // TODO pour dire qu'on ait dans la bdd pr recherche
 
@@ -34,6 +36,7 @@ public class AffichageMenuPrincipal extends Activity {
         bdd = (Button) findViewById(R.id.voirBdd);
         recherche = (Button) findViewById(R.id.faireRechercheBdd);
         ajoutVinbdd = (Button) findViewById(R.id.ajoutVinbdd);
+        quitter = (Button)findViewById(R.id.quitterAppliPrincipal);
 
         //clique sur bouton voir sa cave à vin
         cave.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +100,22 @@ public class AffichageMenuPrincipal extends Activity {
             }
         });
 
+        //pour quitter l'application
+        quitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // on retourne à la page d'accueil
+                Intent n = new Intent(AffichageMenuPrincipal.this, MainActivity.class);
+                // on enlève l'activité précédente
+                n.addCategory(Intent.CATEGORY_HOME);
+                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(n);
+            }
+        });
+
     }
+
+    public static final String FINISH_ALL_ACTIVITIES_ACTIVITY_ACTION = "com.hrupin.FINISH_ALL_ACTIVITIES_ACTIVITY_ACTION";
 
     //pas besoin de mettre un menu pour cette écran
 }

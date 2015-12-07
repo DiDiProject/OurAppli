@@ -195,6 +195,8 @@ public class AffichagePref extends AppCompatActivity {
         // on va dans l'activité menu principal
         if (id == R.id.retourMenu) {
             Intent n = new Intent(AffichagePref.this, AffichageMenuPrincipal.class);
+            n.addCategory( Intent.CATEGORY_HOME );
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }

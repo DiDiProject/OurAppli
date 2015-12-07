@@ -12,12 +12,16 @@ public class Vin {
     private String region; //région du vin
 
     //Constructeur d'inialisation vin (vide)
-    public void Vin(){
+    public Vin(){
         // TODO
+        nom = "";
+        couleur ="";
+        cepage = "";
+        region ="";
     }
 
     //Constructeur d'inialisation vin (avec le nom)
-    public void Vin(String nom) {
+    public Vin(String nom) {
         this.nom = nom;
     }
 

@@ -246,6 +246,9 @@ public class AffichageCave extends AppCompatActivity {
         // on va dans l'activité menu principal
         if (id == R.id.retourMenu) {
             Intent n = new Intent(AffichageCave.this, AffichageMenuPrincipal.class);
+            // on enlève l'activité précédente (celle de voir sa cave)
+            n.addCategory( Intent.CATEGORY_HOME );
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }

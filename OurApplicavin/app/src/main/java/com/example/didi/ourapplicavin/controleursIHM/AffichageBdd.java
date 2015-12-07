@@ -176,6 +176,8 @@ public class AffichageBdd extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.retourMenu) {
             Intent n = new Intent(AffichageBdd.this, AffichageMenuPrincipal.class);
+            n.addCategory( Intent.CATEGORY_HOME );
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
