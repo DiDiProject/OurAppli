@@ -20,7 +20,7 @@ public class Cave extends ListeVin{
     }
 
     //Méthode pour ajouter un vin dans la cave
-    public void ajoutVin(Vin vin, int nb){
+    public void ajoutVinCave(Vin vin, int nb){
         maCave.ajoutVin(vin); //on ajoute le vin dans la liste
         nbBouteille.add(nb); //à ce vin on lui associe un nb de bouteille
         // TODO
@@ -30,7 +30,7 @@ public class Cave extends ListeVin{
     }
 
     //Méthode pour supprimer un vin de la cave
-    public int supprVin(Vin vin){
+    public int supprVinCave(Vin vin){
         int posi = maCave.supprVin(vin); //on supprime ce vin de la liste
         if(posi >= 0){
             nbBouteille.remove(posi); //on enlève le nb de bouteille

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
+import com.example.didi.ourapplicavin.modeles.Bdd;
 import com.example.didi.ourapplicavin.modeles.ListeVin;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
@@ -35,7 +36,7 @@ public class AffichageBdd extends AppCompatActivity {
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
     private String[] listeVins; // TODO liste des vin de la bdd à récupérer
-    public ListeVin bdd;
+    public Bdd bdd = new Bdd();
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -250,22 +251,26 @@ public class AffichageBdd extends AppCompatActivity {
     }
 
     public void init(){
-        bdd = new ListeVin();
         bdd.ajoutVin(new Vin("Bordeaux", "rouge", "Merlot", "Gironde"));
         bdd.ajoutVin(new Vin("Cadillac", "blanc", "Botrytis", "Gironde"));
         bdd.ajoutVin(new Vin("Riesling", "blanc", "cepage1", "Gironde"));
+        affichage();
 
-        listeVins = new String[bdd.getNombreVins()*4];
-        for(int i=0; i<bdd.getNombreVins(); i++){
-            listeVins[0+i*4] = bdd.getListeVins().get(i).getNom();
-            listeVins[1+i*4] = bdd.getListeVins().get(i).getCouleur();
-            listeVins[2+i*4] = bdd.getListeVins().get(i).getCepage();
-            listeVins[3+i*4] = bdd.getListeVins().get(i).getRegion();
+    }
+
+    public void affichage(){
+        listeVins = new String[bdd.getBdd().getNombreVins()*4];
+        for(int i=0; i<bdd.getBdd().getNombreVins(); i++){
+            Vin vin = bdd.getBdd().getListeVins().get(i);
+            listeVins[0+i*4] = vin.getNom();
+            listeVins[1+i*4] = vin.getCouleur();
+            listeVins[2+i*4] = vin.getCepage();
+            listeVins[3+i*4] = vin.getRegion();
         }
     }
 
     public ListeVin getBdd() {
-        return bdd;
+        return bdd.getBdd();
     }
 
     public void setBdd(Vin vin){

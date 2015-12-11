@@ -15,6 +15,7 @@ public class MainActivity extends Activity {
     //attribut du layout
     private Button menuPrincipal = null;
     private  Button quitter = null;
+    private Button test = null;
 
     //méthode qui se fait en premier quand on lance l'application
     //car nous sommes dans la classe principale
@@ -27,6 +28,7 @@ public class MainActivity extends Activity {
         //pour accéder ensuite au menu principal
         menuPrincipal = (Button)findViewById(R.id.allerMenuPrincipal);
         quitter = (Button)findViewById(R.id.quitterAppliAccueil);
+        test = (Button)findViewById(R.id.testBouton);
         //ainsi lorsqu'on appuie sur ce bouton il va dans une autre activité (le menu principale de l'application))
         menuPrincipal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +50,13 @@ public class MainActivity extends Activity {
             }
         });
 
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent n = new Intent(MainActivity.this, TestModele.class);
+                startActivity(n); //on commence une nouvelle activité
+            }
+        });
     }
 
     //pas besoin de mettre un menu pour cette écran

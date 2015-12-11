@@ -1,0 +1,192 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.didi.ourapplicavin.TestModele">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nb bouoteille : "
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="175dp"
+        android:id="@+id/textenbAjoutTest" />
+
+    <!-- texte pour avoir le nom -->
+    <EditText
+        android:id="@+id/nbAjoutTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="265dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nom : "
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/texteNomAjoutTest" />
+
+        <!-- texte pour avoir le nom -->
+        <EditText
+            android:id="@+id/nomAjoutTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="70dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Couleur : "
+            android:id="@+id/texteRobeAjoutTest"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <!-- texte pour avoir la robe -->
+        <EditText
+            android:id="@+id/robeAjoutTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="70dp" />
+
+        <TextView
+            android:id="@+id/textCepageAjoutTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cépage :"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:id="@+id/cepageAjoutTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="70dp" />
+
+        <TextView
+            android:id="@+id/textRegionAjoutTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="140dp"
+            android:layout_marginLeft="5dp"
+            android:text="Région :" />
+
+        <EditText
+            android:id="@+id/regionAjoutTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:layout_marginLeft="70dp" />
+
+        <Button
+            android:id="@+id/ajoutVinTest"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#9dfd9a"
+            android:text="  Ajouter ce vin dans la base de données  "
+            android:layout_marginTop="170dp"
+            android:layout_centerHorizontal="true"/>
+
+        <!-- tableau pour afficher les noms des différentes colonnes de la liste de vin -->
+        <GridView
+            android:id="@+id/tabNomColCaveTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#b9cefd"
+            android:columnWidth="100dp"
+            android:gravity="center"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:layout_below="@+id/augmenterTest"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <!-- tableau qui affiche la liste des vins de la cave -->
+        <GridView
+            android:id="@+id/tabResultatVinCaveTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnWidth="100dp"
+            android:gravity="center"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:layout_below="@+id/tabNomColCaveTest"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <!-- bouton pour augmenter le nb de bouteille d'un vin -->
+        <Button
+            android:id="@+id/augmenterTest"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#81bcfd"
+            android:text="+"
+            android:layout_alignTop="@+id/diminuerTest"
+            android:layout_alignRight="@+id/texteNomAjoutTest"
+            android:layout_alignEnd="@+id/texteNomAjoutTest" />
+        <!-- mettre le bouton invisible dans la classe java : setViibility(View.INVISIBLE) -->
+        <!--android:visibility="invisible"-->
+
+        <!-- bouton pour diminuer le nb de bouteille d'un vin -->
+        <Button
+            android:id="@+id/diminuerTest"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#fdb5b0"
+            android:text="-"
+            android:layout_alignTop="@+id/nbBouteilleTest"
+            android:layout_alignLeft="@+id/regionAjoutTest"
+            android:layout_alignStart="@+id/regionAjoutTest" />
+
+        <!-- pour afficher le nb de bouteilledu vin sélectionné
+        (et l'utilisateur peut aussi changer directement ce nombre) -->
+        <EditText
+            android:id="@+id/nbBouteilleTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="0"
+            android:layout_alignBottom="@+id/textView3Test"
+            android:layout_toRightOf="@+id/diminuerTest"
+            android:layout_toEndOf="@+id/diminuerTest" />
+
+        <!-- bouton pour enregistrer le nouveau nb de bouteille -->
+        <Button
+            android:id="@+id/okTest"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#9dfd9a"
+            android:text="OK"
+            android:layout_below="@+id/ajoutVinTest"
+            android:layout_alignRight="@+id/ajoutVinTest"
+            android:layout_alignEnd="@+id/ajoutVinTest" />
+
+        <!-- texte qui affiche "bouteille" -->
+        <TextView
+            android:id="@+id/textView3Test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bouteille(s)"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="20dp"
+            android:layout_alignBottom="@+id/okTest"
+            android:layout_toRightOf="@+id/nbBouteilleTest"
+            android:layout_toEndOf="@+id/nbBouteilleTest" />
+
+
+</RelativeLayout>

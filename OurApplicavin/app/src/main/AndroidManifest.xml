@@ -48,6 +48,10 @@
             android:name=".controleurs.AffichageAjoutVinBdd"
             android:label="@string/title_activity_affichage_ajout_vin_bdd" >
         </activity>
+        <activity
+            android:name=".TestModele"
+            android:label="@string/title_activity_test_modele" >
+        </activity>
     </application>
 
 </manifest>

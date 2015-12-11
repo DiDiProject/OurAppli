@@ -10,6 +10,7 @@ public class Vin {
     private String couleur; //couleur du vin
     private String cepage; //cépage du vin
     private String region; //région du vin
+    private FicheVin detail;
 
     //Constructeur d'inialisation vin (vide)
     public Vin(){
@@ -18,6 +19,7 @@ public class Vin {
         couleur ="";
         cepage = "";
         region ="";
+        detail = new FicheVin(this, "");
     }
 
     //Constructeur d'inialisation vin (avec le nom)
@@ -31,6 +33,7 @@ public class Vin {
         this.couleur = couleur;
         this.cepage = cepage;
         this.region = region;
+        this.detail = new FicheVin(this, "");
     }
 
     //Méthode pour avoir le nom du vin
@@ -51,5 +54,9 @@ public class Vin {
     //Méthode pour avoir la région du vin
     public String getRegion() {
         return region;
+    }
+
+    public FicheVin getDetail() {
+        return detail;
     }
 }

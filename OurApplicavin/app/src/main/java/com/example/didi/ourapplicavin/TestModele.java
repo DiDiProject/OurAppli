@@ -1,13 +1,11 @@
-package com.example.didi.ourapplicavin.controleurs;
+package com.example.didi.ourapplicavin;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,14 +15,11 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.didi.ourapplicavin.R;
+import com.example.didi.ourapplicavin.controleurs.AffichageDetailVin;
 import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
-//Classe qui affiche la liste des vins de la cave "virtuelle" de l'utilisateur
-//elle est appelée via le menu principal
-public class AffichageCave extends AppCompatActivity {
-    //Attributs associés au layout
+public class TestModele extends Activity {
     private Button augmenter = null; //bouton pour augmenter le nb de bouteille
     private Button diminuer = null; //bouton pour diminuer le nb de bouteille
     private EditText nb = null; //pour afficher le nb de bouteille en temps réel
@@ -32,6 +27,15 @@ public class AffichageCave extends AppCompatActivity {
     private Button ok = null; //pour enregistrer ce nouveau nb de bouteille
     private GridView tab = null; //tab pour afficher la liste des vins de la cave
     private GridView tabNom = null; //tab pour afficher le nom des colonnes
+
+    // Attributs associé au layout
+    private EditText nom = null; //pour récupérer le nom
+    private EditText robe = null; //pour récupérer la couleur
+    private EditText cepage = null; //pour récupérer le cépage
+    private EditText region = null; //pour récupérer la région
+    private EditText nbBouteilleAjout = null;
+    private Button ajoutVin = null; //bouton pour ajouter ce vin dans la bdd
+
     //Attributs pour cette classe
     private int nbBouteilles; //pour avoir le nb de bouteille (en entier)
     private String[] listeVins; // TODO liste des vins de la cave à récupérer
@@ -42,39 +46,36 @@ public class AffichageCave extends AppCompatActivity {
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
     private boolean ajoutOuPas = false;
-    private Cave maCave = new Cave();
 
-    //Méthode qui se lance quand on est dans cette activité
+    //Attributs assicié à cette classe
+    private String stringNom = ""; //pour avoir le nom en string
+    private String stringRobe = ""; //la couleur en string
+    private String stringCepage = ""; //le cépage en string
+    private String stringRegion = ""; //et la région en string
+    public Cave bdd = new Cave();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affichage_cave); //on affiche le layout associé
+        setContentView(R.layout.activity_test_modele);
 
-        //on va cherche tous les élements qui nous interresse dans le layout
-        tabNom = (GridView) findViewById(R.id.tabNomColCave);
-        tab = (GridView) findViewById(R.id.tabResultatVinCave);
-        augmenter = (Button) findViewById(R.id.augmenter);
-        diminuer = (Button) findViewById(R.id.diminuer);
-        nb = (EditText) findViewById(R.id.nbBouteille);
-        texte = (TextView) findViewById(R.id.textView3);
-        ok = (Button) findViewById(R.id.ok);
-        //on rend les boutons inutiles au départ invisible ainsi que le tab actif
+        tabNom = (GridView) findViewById(R.id.tabNomColCaveTest);
+        tab = (GridView) findViewById(R.id.tabResultatVinCaveTest);
+        augmenter = (Button) findViewById(R.id.augmenterTest);
+        diminuer = (Button) findViewById(R.id.diminuerTest);
+        nb = (EditText) findViewById(R.id.nbBouteilleTest);
+        texte = (TextView) findViewById(R.id.textView3Test);
+        ok = (Button) findViewById(R.id.okTest);
 
-        if (savedInstanceState != null) {
-            // Restore value of members from saved state
-            if(ajoutOuPas){
-                boutonsVisible();
-                tabNom.setEnabled(true);
-            } else {
-                boutonsInvisible();
-                tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
-            }
+        nom = (EditText) findViewById(R.id.nomAjoutTest);
+        robe = (EditText) findViewById(R.id.robeAjoutTest);
+        cepage = (EditText) findViewById(R.id.cepageAjoutTest);
+        region = (EditText) findViewById(R.id.regionAjoutTest);
+        nbBouteilleAjout = (EditText)findViewById(R.id.nbAjoutTest);
+        ajoutVin = (Button)findViewById(R.id.ajoutVinTest);
 
-        } else {
-            boutonsInvisible();
-            tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
-
-        }
+        boutonsInvisible();
+        tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
 
         // TODO
         // il faudra définir les noms des colonnes
@@ -85,15 +86,17 @@ public class AffichageCave extends AppCompatActivity {
         tabNom.setAdapter(adapterTitle);
         tabNom.setNumColumns(nbColParLigne);  //définit le nombre de colonne par ligne
 
+        init();
         // TODO
         // il faudra mettre la liste des vins provenant de la cave à vin de l'utilisateur
-        listeVins = new String[]{
+        /*listeVins = new String[]{
                 "Bordeaux", "rouge", "7", "rr1",
                 "Cadillac", "blanc", "0", "rr2",
                 "Riesling", "blanc", "5", "rr3",
                 "Whispering Angel", "rosé", "3", "rr4",
-                "MonBazillac", "blanc", "10", "rr5"
-        };
+                "MonBazillac", "blanc", "10", "rr5",
+                "MonBazillac2", "blanc", "10", "rr5"
+        };*/
         // on va mettre ce tab de la liste des vins dans le tab associé
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, listeVins);
@@ -115,7 +118,7 @@ public class AffichageCave extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "La description de " + nomVinSel + " va s'afficher !",
                         Toast.LENGTH_SHORT).show();
                 //on va à l'activité détailVin
-                Intent n = new Intent(AffichageCave.this, AffichageDetailVin.class);
+                Intent n = new Intent(TestModele.this, AffichageDetailVin.class);
                 //en passant des données (nom du vin ici)
                 n.putExtra(NOM_VIN, nomVinSel);
                 startActivity(n); // on l'activité détailVin
@@ -177,7 +180,7 @@ public class AffichageCave extends AppCompatActivity {
                 if (nbavant <= 1) {
                     //affiche une boite de dialogue pour confirmation suppression vin ou conserver ce vin
                     AlertDialog.Builder boite;
-                    boite = new AlertDialog.Builder(AffichageCave.this);
+                    boite = new AlertDialog.Builder(TestModele.this);
                     boite.setTitle("Suppresion ?");
                     boite.setIcon(R.drawable.photovin); //image
                     boite.setMessage("Voulez-vous supprimer le " + nomVinSel + " ou le conserver dans votre cave avec 0 bouteille ?");
@@ -189,11 +192,11 @@ public class AffichageCave extends AppCompatActivity {
                                     // TODO
                                     //réactualiser la liste des vins (recharger la liste mais avant supp le vin)
 
-                                    Vin vin = maCave.rechercheVinParNom(nomVinSel);
-                                    maCave.supprVinCave(vin);
+                                    Vin vin = bdd.rechercheVinParNom(nomVinSel);
+                                    bdd.supprVinCave(vin);
                                     affichage();
 
-                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
+                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(TestModele.this,
                                             android.R.layout.simple_list_item_1, listeVins);
                                     tab.setAdapter(adapter);
                                 }
@@ -211,7 +214,7 @@ public class AffichageCave extends AppCompatActivity {
                                     // puis recharger la liste
                                     //mettre méthode supprVin
                                     listeVins[positionTabNb] = "0"; // à supprimer quand mofif liste des vins
-                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
+                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(TestModele.this,
                                             android.R.layout.simple_list_item_1, listeVins);
                                     tab.setAdapter(adapter);
                                 }
@@ -239,59 +242,47 @@ public class AffichageCave extends AppCompatActivity {
                 // remettre à jour la liste de vin (nb bouteille à changer)
                 // faire plutot : modifier le nb bouteille dans la liste des vins de la cave
                 // puis recharger la liste
-                Vin vin = maCave.rechercheVinParNom(nomVinSel);
-                maCave.setNbBouteilleVin(vin, nbBouteilles);
+                // faire une méthode pour ça supprVin
+                Vin vin = bdd.rechercheVinParNom(nomVinSel);
+                bdd.setNbBouteilleVin(vin, nbBouteilles);
                 affichage();
-
-                //listeVins[positionTabNb] = Integer.toString(nbBouteilles); // à supp quand on a mofif la liste
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(TestModele.this,
                         android.R.layout.simple_list_item_1, listeVins);
                 tab.setAdapter(adapter);
             }
         });
 
-    }
+        //pour ajouter le vin avec les info de l'utilisateur dans la bdd
+        ajoutVin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // on récupère les informations que l'utilisateur a rempli
+                stringNom = nom.getText().toString();
+                stringRobe = robe.getText().toString();
+                stringCepage = cepage.getText().toString();
+                stringRegion = region.getText().toString();
 
-    //Méthode qui permet de mettre un menu à l'écran
-    // ce menu est définit dans menu_affichage_cave
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_affichage_cave, menu); //on affiche le menu de la cave
-        return true;
-    }
+                int nbBB;
+                nbBB = Integer.valueOf(nbBouteilleAjout.getText().toString());
 
-    //Méthode qui permet d'éxécuter une action quand on clique sur un sous menu
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+                // TODO
 
-        //noinspection SimplifiableIfStatement
-        // si on clique sur le sous menu (retour au menu principal)
-        // on va dans l'activité menu principal
-        if (id == R.id.retourMenu) {
-            Intent n = new Intent(AffichageCave.this, AffichageMenuPrincipal.class);
-            // on enlève l'activité précédente (celle de voir sa cave)
-            n.addCategory(Intent.CATEGORY_HOME);
-            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(n);
-            return true;
-        }
-        // si on clique sur le sous menu (rechercher des vins)
-        // on va dans l'activité recherche vin
-        else if (id == R.id.rechercheCave) {
-            Toast.makeText(AffichageCave.this, "Vous aller effectuer une recherche dans votre cave !",
-                    Toast.LENGTH_SHORT).show();
-            Intent n = new Intent(AffichageCave.this, AffichageRechercheVin.class);
-            // TODO
-            //dire qu'on ait dans la cave pour la recherche
-            startActivity(n);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+                bdd.ajoutVinCave(new Vin(stringNom, stringRobe, stringCepage, stringRegion), nbBB);
+                affichage();
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(TestModele.this,
+                        android.R.layout.simple_list_item_1, listeVins);
+                tab.setAdapter(adapter);
+                // on initialise les champs pour un nouveau ajout
+                nom.setText("");
+                robe.setText("");
+                cepage.setText("");
+                region.setText("");
+
+            }
+        });
+
+
     }
 
     //Méthode qui rend invisble les boutons + et -
@@ -334,21 +325,25 @@ public class AffichageCave extends AppCompatActivity {
     }
 
     public void init(){
-        maCave.ajoutVinCave(new Vin("Bordeaux", "rouge", "Merlot", "Gironde"), 12);
-        maCave.ajoutVinCave(new Vin("Bordeaux2", "rouge", "Merlot", "Gironde"), 3);
-        maCave.ajoutVinCave(new Vin("Cadillac", "blanc", "rr", "Gironde"), 10);
-        maCave.ajoutVinCave(new Vin("Riesling", "blanc", "fgg", "Gironde"), 1);
+        bdd.ajoutVinCave(new Vin("Bordeaux", "rouge", "Merlot", "Gironde"), 3);
+        bdd.ajoutVinCave(new Vin("Cadillac", "blanc", "rr", "Gironde"), 10);
+        bdd.ajoutVinCave(new Vin("Riesling", "blanc", "fgg", "Gironde"), 1);
+
         affichage();
     }
 
     public void affichage(){
-        listeVins = new String[maCave.getVinsCave().getNombreVins()*4];
-        for(int i=0; i<maCave.getVinsCave().getNombreVins(); i++){
-            Vin vin = maCave.getVinsCave().getListeVins().get(i);
+        listeVins = new String[bdd.getVinsCave().getNombreVins()*4];
+        for(int i=0; i<bdd.getVinsCave().getNombreVins(); i++){
+            Vin vin = bdd.getVinsCave().getListeVins().get(i);
             listeVins[0+i*4] = vin.getNom();
             listeVins[1+i*4] = vin.getCouleur();
-            listeVins[2+i*4] = ""+maCave.getNbBouteilleVin(vin);
+            listeVins[2+i*4] = ""+bdd.getNbBouteilleVin(vin);
             listeVins[3+i*4] = vin.getRegion();
         }
     }
+    public Cave getBdd() {
+        return bdd;
+    }
+
 }
