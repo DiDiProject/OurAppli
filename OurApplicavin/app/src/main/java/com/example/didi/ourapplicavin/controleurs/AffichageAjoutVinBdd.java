@@ -1,4 +1,4 @@
-package com.example.didi.ourapplicavin.controleursIHM;
+package com.example.didi.ourapplicavin.controleurs;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.didi.ourapplicavin.R;
+import com.example.didi.ourapplicavin.modeles.ListeVin;
+import com.example.didi.ourapplicavin.modeles.Vin;
 
 //Classe qui permet à l'utilisateur d'ajouter un vin dans la bdd
 public class AffichageAjoutVinBdd extends AppCompatActivity {
@@ -23,7 +25,9 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
     private String stringNom = ""; //pour avoir le nom en string
     private String stringRobe = ""; //la couleur en string
     private String stringCepage = ""; //le cépage en string
-    private String stringRegion = ""; //et la région en strinf
+    private String stringRegion = ""; //et la région en string
+    private AffichageBdd basededonnees = new AffichageBdd();
+    public ListeVin bdd = null;
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -48,6 +52,9 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
                 stringRegion = region.getText().toString();
                 // TODO
                 // ajouter le vin dans la bdd
+
+                basededonnees.init();
+                basededonnees.setBdd(new Vin(stringNom, stringRobe, stringCepage, stringRegion));
 
                 // on initialise les champs pour un nouveau ajout
                 nom.setText("");

@@ -1,4 +1,4 @@
-package com.example.didi.ourapplicavin.controleursIHM;
+package com.example.didi.ourapplicavin.controleurs;
 
 import android.app.Activity;
 import android.content.Intent;

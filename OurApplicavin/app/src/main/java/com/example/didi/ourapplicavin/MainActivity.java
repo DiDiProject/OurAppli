@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.didi.ourapplicavin.controleursIHM.AffichageMenuPrincipal;
+import com.example.didi.ourapplicavin.controleurs.AffichageMenuPrincipal;
 
 //classe principale, celle qui va se lancer lors de l'ouverture de l'application
 //juste un écran d'accueil avec un bouton pour ensuite accéder au menu principal

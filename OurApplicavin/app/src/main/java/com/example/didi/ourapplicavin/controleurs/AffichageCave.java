@@ -1,4 +1,4 @@
-package com.example.didi.ourapplicavin.controleursIHM;
+package com.example.didi.ourapplicavin.controleurs;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -39,6 +39,7 @@ public class AffichageCave extends AppCompatActivity {
     public final static String cave = "cave"; // TODO pour dire qu'on ait dans la cave pr recherche
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
+    private boolean ajoutOuPas = false;
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -55,8 +56,22 @@ public class AffichageCave extends AppCompatActivity {
         texte = (TextView) findViewById(R.id.textView3);
         ok = (Button) findViewById(R.id.ok);
         //on rend les boutons inutiles au départ invisible ainsi que le tab actif
-        boutonsInvisible();
-        tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
+
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            if(ajoutOuPas){
+                boutonsVisible();
+                tabNom.setEnabled(true);
+            } else {
+                boutonsInvisible();
+                tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
+            }
+
+        } else {
+            boutonsInvisible();
+            tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
+
+        }
 
         // TODO
         // il faudra définir les noms des colonnes
@@ -110,6 +125,7 @@ public class AffichageCave extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //on rend visible les boutons +, - et ok et rend le tab inactif
                 boutonsVisible();
+                ajoutOuPas = true;
                 //on va chercher la position nomVin ainsi que son nom et le nb bouteille
                 String nbBouteilleavant = "0"; //si on arrive pas à récupérer le nb bouteille
                 positionTabNb = 2; //si on arrive pas à récupérer le nb bouteille
@@ -209,6 +225,7 @@ public class AffichageCave extends AppCompatActivity {
                 nbBouteilles = Integer.parseInt(nb.getText().toString());
                 //on remet les boutons invisibles et le tab actif
                 boutonsInvisible();
+                ajoutOuPas = false;
                 rechangeCouleurLigneVin(positionTabNb - 2); //enlève couleur vin sélectionné
                 // TODO
                 // remettre à jour la liste de vin (nb bouteille à changer)
@@ -247,7 +264,7 @@ public class AffichageCave extends AppCompatActivity {
         if (id == R.id.retourMenu) {
             Intent n = new Intent(AffichageCave.this, AffichageMenuPrincipal.class);
             // on enlève l'activité précédente (celle de voir sa cave)
-            n.addCategory( Intent.CATEGORY_HOME );
+            n.addCategory(Intent.CATEGORY_HOME);
             n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.didi.ourapplicavin.controleursIHM.AffichagePref">
+    tools:context="com.example.didi.ourapplicavin.controleurs.AffichagePref">
 
     <!-- écran qui affiche la liste de souhait -->
 

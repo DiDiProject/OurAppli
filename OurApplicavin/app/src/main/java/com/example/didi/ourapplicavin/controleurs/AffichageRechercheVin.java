@@ -1,4 +1,4 @@
-package com.example.didi.ourapplicavin.controleursIHM;
+package com.example.didi.ourapplicavin.controleurs;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -55,8 +55,16 @@ public class AffichageRechercheVin extends AppCompatActivity {
         //mellisesime = (EditText) findViewById(R.id.millesime);
         //terroir = (EditText) findViewById(R.id.terroir);
         // on rend les différents champs (sauf nom) invisible car de base recherche par nom et pas par critère
-        this.invisibleRechercheAvancee();
-
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            if (avanceeOuPas) {
+                visibleRechercheAvancee();
+            } else {
+                this.invisibleRechercheAvancee();
+            }
+        } else {
+            this.invisibleRechercheAvancee();
+        }
         //recherche par le nom
         rechercheNom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +97,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
                 startActivity(n);
             }
         });
+
     }
 
     //Méthode qui permet de mettre un menu à l'écran
@@ -129,6 +138,17 @@ public class AffichageRechercheVin extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /*@Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        if(avanceeOuPas){
+            visibleRechercheAvancee();
+        }
+        savedInstanceState.putInt(NOM_VIN, 0);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }*/
 
     //Méthode qui rend visible des boutons (recherche par critère)
     private void visibleRechercheAvancee() {
