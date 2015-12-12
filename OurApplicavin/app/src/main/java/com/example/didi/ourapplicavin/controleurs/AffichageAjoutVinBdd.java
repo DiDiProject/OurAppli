@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.didi.ourapplicavin.R;
+import com.example.didi.ourapplicavin.modeles.Bdd;
+import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.ListeVin;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
@@ -26,7 +28,6 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
     private String stringRobe = ""; //la couleur en string
     private String stringCepage = ""; //le cépage en string
     private String stringRegion = ""; //et la région en string
-    private AffichageBdd basededonnees = new AffichageBdd();
     public ListeVin bdd = null;
 
     //Méthode qui se lance quand on est dans cette activité
@@ -53,8 +54,10 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
                 // TODO
                 // ajouter le vin dans la bdd
 
-                basededonnees.init();
-                basededonnees.setBdd(new Vin(stringNom, stringRobe, stringCepage, stringRegion));
+                Vin vin = new Vin (stringNom, stringRobe, stringCepage, stringRegion);
+                Bdd bdd = GestionSauvegarde.getBdd();
+                bdd.ajoutVin(vin);
+                GestionSauvegarde.enregistrementBdd(bdd);
 
                 // on initialise les champs pour un nouveau ajout
                 nom.setText("");

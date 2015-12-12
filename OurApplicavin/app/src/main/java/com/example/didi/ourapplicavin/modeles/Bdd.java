@@ -1,10 +1,12 @@
 package com.example.didi.ourapplicavin.modeles;
 
+import java.io.Serializable;
+
 /**
  * Classe pour avoir la liste des vins de la base de données (du serveur externe)
  * Created by didi on 05/12/2015.
  */
-public class Bdd extends ListeVin{
+public class Bdd extends ListeVin implements Serializable {
     //Attributs
     private ListeVin bdd;
 

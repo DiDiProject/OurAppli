@@ -1,12 +1,13 @@
 package com.example.didi.ourapplicavin.modeles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Classe d'une liste de vins
  * Created by didi on 05/12/2015.
  */
-public class ListeVin {
+public class ListeVin implements Serializable {
     //Attributs
     private ArrayList<Vin> listeVins; //liste de vins
     private int nombreVins; //nombre de vin dans la liste

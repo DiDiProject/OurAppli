@@ -8,6 +8,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.controleurs.AffichageMenuPrincipal;
+import com.example.didi.ourapplicavin.modeles.Cave;
+import com.example.didi.ourapplicavin.modeles.ListeVin;
+import com.example.didi.ourapplicavin.modeles.Vin;
+
+import java.util.ArrayList;
 
 //classe principale, celle qui va se lancer lors de l'ouverture de l'application
 //juste un écran d'accueil avec un bouton pour ensuite accéder au menu principal
@@ -16,6 +21,7 @@ public class MainActivity extends Activity {
     private Button menuPrincipal = null;
     private  Button quitter = null;
     private Button test = null;
+    private Cave maCave = new Cave(new ListeVin(), new ArrayList<Integer>(), new ArrayList<String>());
 
     //méthode qui se fait en premier quand on lance l'application
     //car nous sommes dans la classe principale
@@ -50,13 +56,24 @@ public class MainActivity extends Activity {
             }
         });
 
+        //init();
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent n = new Intent(MainActivity.this, TestModele.class);
+                //n.putExtra("cave", maCave);
                 startActivity(n); //on commence une nouvelle activité
             }
         });
+    }
+
+    public void init() {
+        maCave.ajoutVin(new Vin("Bordeaux", "rouge", "Merlot", "Gironde"), 3);
+        maCave.ajoutVin(new Vin("Cadillac", "blanc", "rr", "Gironde"), 10);
+        maCave.ajoutVin(new Vin("Riesling", "blanc", "fgg", "Gironde"), 1);
+        maCave.ajoutVin(new Vin("Riesling2", "blanc", "fgg", "Gironde"), 2);
+        maCave.ajoutVin(new Vin("Riesling3", "blanc", "fgg", "Gironde"), 4);
+        // TODO
     }
 
     //pas besoin de mettre un menu pour cette écran

@@ -1,8 +1,11 @@
 package com.example.didi.ourapplicavin.controleurs;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -10,17 +13,19 @@ import android.widget.Toast;
 import com.example.didi.ourapplicavin.MainActivity;
 import com.example.didi.ourapplicavin.R;
 
+import java.io.File;
+
 //Classe du menu principal
 //pour ensuite accéder à la cave, liste de preférence, la bdd, faire une recherche ds la bdd
 //et ajouter un vin ds la bdd
-public class AffichageMenuPrincipal extends Activity {
+public class AffichageMenuPrincipal extends AppCompatActivity {
     //Attributs associé au layout
     private Button cave = null; //bouton pour accéder à sa cave
     private Button pref = null; //bouton pour accéder à sa liste de souhait
     private Button bdd = null; //bouton pour accéder à la bdd
     private Button recherche = null; //bouton pour faire une recherche dans la bdd
     private Button ajoutVinbdd = null; //bouton pour ajouter un vin dans la bdd
-    private  Button quitter = null;
+    private Button quitter = null;
     //Attributs associé à cette classe
     public final static String bddd = "bdd"; // TODO pour dire qu'on ait dans la bdd pr recherche
 
@@ -36,7 +41,7 @@ public class AffichageMenuPrincipal extends Activity {
         bdd = (Button) findViewById(R.id.voirBdd);
         recherche = (Button) findViewById(R.id.faireRechercheBdd);
         ajoutVinbdd = (Button) findViewById(R.id.ajoutVinbdd);
-        quitter = (Button)findViewById(R.id.quitterAppliPrincipal);
+        quitter = (Button) findViewById(R.id.quitterAppliPrincipal);
 
         //clique sur bouton voir sa cave à vin
         cave.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +120,34 @@ public class AffichageMenuPrincipal extends Activity {
 
     }
 
-    public static final String FINISH_ALL_ACTIVITIES_ACTIVITY_ACTION = "com.hrupin.FINISH_ALL_ACTIVITIES_ACTIVITY_ACTION";
+    //Méthode qui permet de mettre un menu à l'écran
+    // ce menu est définit dans menu_affichage_cave
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_affichage_menu_principal, menu); //on affiche le menu de la cave
+        return true;
+    }
 
-    //pas besoin de mettre un menu pour cette écran
+    //Méthode qui permet d'éxécuter une action quand on clique sur un sous menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        // si on clique sur le sous menu (retour au menu principal)
+        // on va dans l'activité menu principal
+        if (id == R.id.renitialiser) {
+            // TODO
+            final File fichier = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/maCave.ser");
+            fichier.delete();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

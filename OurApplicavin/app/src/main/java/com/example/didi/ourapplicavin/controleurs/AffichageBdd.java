@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +17,8 @@ import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
 import com.example.didi.ourapplicavin.modeles.Bdd;
-import com.example.didi.ourapplicavin.modeles.ListeVin;
+import com.example.didi.ourapplicavin.modeles.Cave;
+import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
 //Classe qui affiche la base de données des vins
@@ -36,7 +38,8 @@ public class AffichageBdd extends AppCompatActivity {
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
     private String[] listeVins; // TODO liste des vin de la bdd à récupérer
-    public Bdd bdd = new Bdd();
+    private Bdd bdd = new Bdd();
+
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -55,8 +58,6 @@ public class AffichageBdd extends AppCompatActivity {
         // on rend les boutons inutiles au départ invisible ainsi que le tab actif
         boutonsInvisible();
         tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
-
-        init();
 
         // TODO
         // il faudra définir les noms des colonnes
@@ -77,6 +78,13 @@ public class AffichageBdd extends AppCompatActivity {
                 "Whispering Angel", "rosé", "3", "rr1",
                 "MonBazillac", "blanc", "10", "rr1"};*/
         // on va mettre ce tab de la liste des vins dans le tab associé
+
+        bdd = GestionSauvegarde.getBdd();
+        if (bdd == null) {
+            init();
+        }
+        affichage();
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, listeVins);
         tab.setAdapter(adapter);
@@ -128,6 +136,11 @@ public class AffichageBdd extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO
+
+                Cave maCave = GestionSauvegarde.getCave();
+                Vin vin = bdd.rechercheVinParNom(nomVinSel);
+                maCave.ajoutVin(vin, 1);
+                GestionSauvegarde.enregistrementCave(maCave);
 
                 //Affichage court
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
@@ -182,7 +195,7 @@ public class AffichageBdd extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.retourMenu) {
             Intent n = new Intent(AffichageBdd.this, AffichageMenuPrincipal.class);
-            n.addCategory( Intent.CATEGORY_HOME );
+            n.addCategory(Intent.CATEGORY_HOME);
             n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
@@ -250,30 +263,32 @@ public class AffichageBdd extends AppCompatActivity {
         }
     }
 
-    public void init(){
-        bdd.ajoutVin(new Vin("Bordeaux", "rouge", "Merlot", "Gironde"));
-        bdd.ajoutVin(new Vin("Cadillac", "blanc", "Botrytis", "Gironde"));
-        bdd.ajoutVin(new Vin("Riesling", "blanc", "cepage1", "Gironde"));
+    public void init() {
+        bdd = new Bdd();
+        bdd.ajoutVin(new Vin("Bordeaux", "rouge", "Merlot", "Aquitaine"));
+        bdd.ajoutVin(new Vin("Bordeaux", "blanc", "Saivignon", "Aquitaine"));
+        bdd.ajoutVin(new Vin("Cadillac", "blanc", "Muscadelle", "Aquitaine"));
+        bdd.ajoutVin(new Vin("Riesling", "blanc", "Semillon", "Alsace"));
+        bdd.ajoutVin(new Vin("Whispering Angel", "rosé", "Grenache", "Provence"));
+        Log.i("AffichageBdd", "on a initialiser la liste de vin de la bdd et on va enegistrer cette liste dans un fichier .ser");
         affichage();
+        GestionSauvegarde.enregistrementBdd(bdd);
 
     }
 
-    public void affichage(){
-        listeVins = new String[bdd.getBdd().getNombreVins()*4];
-        for(int i=0; i<bdd.getBdd().getNombreVins(); i++){
+    public void affichage() {
+        listeVins = new String[bdd.getBdd().getNombreVins() * 4];
+        for (int i = 0; i < bdd.getBdd().getNombreVins(); i++) {
             Vin vin = bdd.getBdd().getListeVins().get(i);
-            listeVins[0+i*4] = vin.getNom();
-            listeVins[1+i*4] = vin.getCouleur();
-            listeVins[2+i*4] = vin.getCepage();
-            listeVins[3+i*4] = vin.getRegion();
+            listeVins[0 + i * 4] = vin.getNom();
+            listeVins[1 + i * 4] = vin.getCouleur();
+            listeVins[2 + i * 4] = vin.getCepage();
+            listeVins[3 + i * 4] = vin.getRegion();
         }
     }
 
-    public ListeVin getBdd() {
-        return bdd.getBdd();
-    }
 
-    public void setBdd(Vin vin){
+    public void setBdd(Vin vin) {
         bdd.ajoutVin(vin);
     }
 }

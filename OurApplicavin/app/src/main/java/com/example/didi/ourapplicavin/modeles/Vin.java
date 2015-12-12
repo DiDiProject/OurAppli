@@ -1,10 +1,13 @@
 package com.example.didi.ourapplicavin.modeles;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 /**
  * //Classe Object vin
  * Created by didi on 05/12/2015.
  */
-public class Vin {
+public class Vin implements Serializable {
     //Attributs
     private String nom; //nom du vin
     private String couleur; //couleur du vin
@@ -58,5 +61,10 @@ public class Vin {
 
     public FicheVin getDetail() {
         return detail;
+    }
+
+    public boolean compareVin(Objects v){
+        // TODO
+        return true;
     }
 }

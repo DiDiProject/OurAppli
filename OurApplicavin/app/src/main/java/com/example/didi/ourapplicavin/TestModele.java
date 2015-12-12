@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +21,14 @@ import com.example.didi.ourapplicavin.controleurs.AffichageDetailVin;
 import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+// activité test pour tester mes classes modèles (avec leur méthode; ajout, supp, recherche ..)
+// et pour tester la serialization ("enregistrement d'u object" ici la cave
 public class TestModele extends Activity {
     private Button augmenter = null; //bouton pour augmenter le nb de bouteille
     private Button diminuer = null; //bouton pour diminuer le nb de bouteille
@@ -52,7 +62,7 @@ public class TestModele extends Activity {
     private String stringRobe = ""; //la couleur en string
     private String stringCepage = ""; //le cépage en string
     private String stringRegion = ""; //et la région en string
-    public Cave bdd = new Cave();
+    private Cave caveTest = new Cave();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,22 +81,32 @@ public class TestModele extends Activity {
         robe = (EditText) findViewById(R.id.robeAjoutTest);
         cepage = (EditText) findViewById(R.id.cepageAjoutTest);
         region = (EditText) findViewById(R.id.regionAjoutTest);
-        nbBouteilleAjout = (EditText)findViewById(R.id.nbAjoutTest);
-        ajoutVin = (Button)findViewById(R.id.ajoutVinTest);
+        nbBouteilleAjout = (EditText) findViewById(R.id.nbAjoutTest);
+        ajoutVin = (Button) findViewById(R.id.ajoutVinTest);
 
         boutonsInvisible();
         tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
 
         // TODO
         // il faudra définir les noms des colonnes
-        String[] title = new String[]{"Nom du vin", "Type", "Nb de bouteilles", "Région"};
+        String[] title = new String[]{"Nom", "Couleur", "Nb de bouteilles", "Région"};
         // on va mettre ce tab des noms des colonnes dans le tab associé
         ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, title);
         tabNom.setAdapter(adapterTitle);
         tabNom.setNumColumns(nbColParLigne);  //définit le nombre de colonne par ligne
 
-        init();
+        Log.i("i", "init1");
+        caveTest = getCaveTest();
+        if (caveTest == null){
+            init();
+        }
+        //Intent n = getIntent();
+        //caveTest = (Cave) n.getSerializableExtra("cave");
+        affichage();
+        Log.i("ii", "fin init par putExtra");
+
+        //caveTest = getCaveTest();
         // TODO
         // il faudra mettre la liste des vins provenant de la cave à vin de l'utilisateur
         /*listeVins = new String[]{
@@ -192,9 +212,11 @@ public class TestModele extends Activity {
                                     // TODO
                                     //réactualiser la liste des vins (recharger la liste mais avant supp le vin)
 
-                                    Vin vin = bdd.rechercheVinParNom(nomVinSel);
-                                    bdd.supprVinCave(vin);
+                                    Log.i( "ss", "suup Vin : "+nomVinSel);
+                                    Vin vin = caveTest.rechercheVinParNom(nomVinSel);
+                                    caveTest.supprVin(vin);
                                     affichage();
+                                    enregistrementCave();
 
                                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(TestModele.this,
                                             android.R.layout.simple_list_item_1, listeVins);
@@ -243,9 +265,11 @@ public class TestModele extends Activity {
                 // faire plutot : modifier le nb bouteille dans la liste des vins de la cave
                 // puis recharger la liste
                 // faire une méthode pour ça supprVin
-                Vin vin = bdd.rechercheVinParNom(nomVinSel);
-                bdd.setNbBouteilleVin(vin, nbBouteilles);
+                Log.i( "dd", "actualise le nb de bouteille de "+nomVinSel);
+                Vin vin = caveTest.rechercheVinParNom(nomVinSel);
+                caveTest.setNbBouteilleVin(vin, nbBouteilles);
                 affichage();
+                enregistrementCave();
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(TestModele.this,
                         android.R.layout.simple_list_item_1, listeVins);
                 tab.setAdapter(adapter);
@@ -267,8 +291,9 @@ public class TestModele extends Activity {
 
                 // TODO
 
-                bdd.ajoutVinCave(new Vin(stringNom, stringRobe, stringCepage, stringRegion), nbBB);
+                caveTest.ajoutVin(new Vin(stringNom, stringRobe, stringCepage, stringRegion), nbBB);
                 affichage();
+                enregistrementCave();
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(TestModele.this,
                         android.R.layout.simple_list_item_1, listeVins);
@@ -324,26 +349,78 @@ public class TestModele extends Activity {
         }
     }
 
-    public void init(){
-        bdd.ajoutVinCave(new Vin("Bordeaux", "rouge", "Merlot", "Gironde"), 3);
-        bdd.ajoutVinCave(new Vin("Cadillac", "blanc", "rr", "Gironde"), 10);
-        bdd.ajoutVinCave(new Vin("Riesling", "blanc", "fgg", "Gironde"), 1);
-
+    public void init() {
+        caveTest = new Cave();
+        caveTest.ajoutVin(new Vin("Bordeaux", "rouge", "Merlot", "Gironde"), 3);
+        caveTest.ajoutVin(new Vin("Cadillac", "blanc", "rr", "Gironde"), 10);
+        caveTest.ajoutVin(new Vin("Riesling", "blanc", "fgg", "Gironde"), 1);
         affichage();
+        // TODO
+        // enregistrer la bdd
+        Log.i("e", "va ds enregistrement caveTest");
+        enregistrementCave();
     }
 
-    public void affichage(){
-        listeVins = new String[bdd.getVinsCave().getNombreVins()*4];
-        for(int i=0; i<bdd.getVinsCave().getNombreVins(); i++){
-            Vin vin = bdd.getVinsCave().getListeVins().get(i);
-            listeVins[0+i*4] = vin.getNom();
-            listeVins[1+i*4] = vin.getCouleur();
-            listeVins[2+i*4] = ""+bdd.getNbBouteilleVin(vin);
-            listeVins[3+i*4] = vin.getRegion();
+    public void affichage() {
+        listeVins = new String[caveTest.getVinsCave().getNombreVins() * 4];
+        for (int i = 0; i < caveTest.getVinsCave().getNombreVins(); i++) {
+            Vin vin = caveTest.getVinsCave().getListeVins().get(i);
+            listeVins[0 + i * 4] = vin.getNom();
+            listeVins[1 + i * 4] = vin.getCouleur();
+            listeVins[2 + i * 4] = "" + caveTest.getNbBouteilleVin(vin);
+            listeVins[3 + i * 4] = vin.getRegion();
         }
     }
-    public Cave getBdd() {
-        return bdd;
+
+    public void enregistrementCave() {
+        ObjectOutputStream oos = null;
+        try {
+            final FileOutputStream fichier = new FileOutputStream(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOCUMENTS) + "/caveTest.ser");
+            oos = new ObjectOutputStream(fichier);
+            oos.writeObject(caveTest);
+            Log.i("ee", "enregistrement caveTest");
+            oos.flush();
+        } catch (final java.io.IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (oos != null) {
+                    oos.flush();
+                    oos.close();
+                }
+            } catch (final IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
+    // pour ravoir la cave (qu'on a enregistrer avant)
+    public Cave getCaveTest() {
+
+        Cave cave = null;
+        ObjectInputStream ois = null;
+        try {
+            final FileInputStream fichier = new FileInputStream(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOCUMENTS) +"/caveTest.ser");
+            ois = new ObjectInputStream(fichier);
+            final Cave cave2 = (Cave) ois.readObject();
+            Log.i( "gg", "getCaveTest");
+            cave = cave2;
+        } catch (final java.io.IOException e) {
+            e.printStackTrace();
+        } catch (final ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (final IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return cave;
+    }
 }

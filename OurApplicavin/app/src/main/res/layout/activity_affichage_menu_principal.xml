@@ -21,9 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/photocave"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/ajoutVinbdd"
-            android:layout_alignStart="@+id/ajoutVinbdd"
+            android:layout_alignLeft="@+id/faireRechercheBdd"
+            android:layout_alignStart="@+id/faireRechercheBdd"
             android:layout_toLeftOf="@+id/textView2"
             android:layout_toStartOf="@+id/textView2" />
 
@@ -95,10 +94,11 @@
             android:id="@+id/quitterAppliPrincipal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="480dp"
             android:background="#fddec4"
-            android:text="  Retour à la page d'accueil  " />
+            android:text="  Retour à la page d'accueil  "
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/voirCave"
+            android:layout_toRightOf="@+id/voirCave" />
 
     </RelativeLayout>
 </ScrollView>

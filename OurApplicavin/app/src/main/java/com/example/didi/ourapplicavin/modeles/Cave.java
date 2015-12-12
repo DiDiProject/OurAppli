@@ -1,12 +1,13 @@
 package com.example.didi.ourapplicavin.modeles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Classe pour avoir la liste des vins de la cave de l'utilisateur
  * Created by didi on 05/12/2015.
  */
-public class Cave extends ListeVin{
+public class Cave extends ListeVin implements Serializable {
     //Attributs
     private ListeVin maCave; //la liste de vins
     private ArrayList<Integer> nbBouteille; //on associe à chaque vin un nb de bouteille
@@ -19,8 +20,14 @@ public class Cave extends ListeVin{
         remarques = new ArrayList<String>();
     }
 
+    public Cave(ListeVin liste, ArrayList<Integer> nb, ArrayList<String> rq){
+        maCave = new ListeVin();
+        nbBouteille = new ArrayList<Integer>();
+        remarques = new ArrayList<String>();
+    }
+
     //Méthode pour ajouter un vin dans la cave
-    public void ajoutVinCave(Vin vin, int nb){
+    public void ajoutVin(Vin vin, int nb){
         maCave.ajoutVin(vin); //on ajoute le vin dans la liste
         nbBouteille.add(nb); //à ce vin on lui associe un nb de bouteille
         // TODO
@@ -30,7 +37,7 @@ public class Cave extends ListeVin{
     }
 
     //Méthode pour supprimer un vin de la cave
-    public int supprVinCave(Vin vin){
+    public int supprVin(Vin vin){
         int posi = maCave.supprVin(vin); //on supprime ce vin de la liste
         if(posi >= 0){
             nbBouteille.remove(posi); //on enlève le nb de bouteille
@@ -90,7 +97,7 @@ public class Cave extends ListeVin{
     }
 
     //Méthode pour changer le nombre de bouteille d'un vin de la cave
-    public void setNbBouteilleVin(Vin vin, int nb) {
+    public void setNbBouteilleVin(final Vin vin, final int nb) {
         for(int i=0; i<maCave.getNombreVins(); i++){
             //si le vin est le même que celui à supprimer on l'enlève dans la liste
             if(vin == maCave.getListeVins().get(i)){
@@ -103,7 +110,7 @@ public class Cave extends ListeVin{
     }
 
     //Méthode pour changer le remarques d'un vin de la cave
-    public void setRemarquesVin(Vin vin, String rq) {
+    public void setRemarquesVin(final Vin vin, final String rq) {
         for(int i=0; i<maCave.getNombreVins(); i++){
             //si le vin est le même que celui à supprimer on l'enlève dans la liste
             if(vin == maCave.getListeVins().get(i)){

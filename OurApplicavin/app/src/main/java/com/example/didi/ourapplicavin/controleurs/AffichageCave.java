@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
 import com.example.didi.ourapplicavin.modeles.Cave;
+import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
 //Classe qui affiche la liste des vins de la cave "virtuelle" de l'utilisateur
@@ -38,7 +40,7 @@ public class AffichageCave extends AppCompatActivity {
     private int nbBouteilleActualiser; //pour aovir le nb de bouteille actualisé
     private int positionTabNb = 0; //pour avoir la position dans le tab (liste vins) du nb de bouteille
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
-    public final static String cave = "cave"; // TODO pour dire qu'on ait dans la cave pr recherche
+    public final static String nomCave = "cave"; // TODO pour dire qu'on ait dans la cave pr recherche
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
     private boolean ajoutOuPas = false;
@@ -87,14 +89,24 @@ public class AffichageCave extends AppCompatActivity {
 
         // TODO
         // il faudra mettre la liste des vins provenant de la cave à vin de l'utilisateur
-        listeVins = new String[]{
+
+        maCave = GestionSauvegarde.getCave();
+        if (maCave == null){
+            init();
+        }
+
+        /*listeVins = new String[]{
                 "Bordeaux", "rouge", "7", "rr1",
                 "Cadillac", "blanc", "0", "rr2",
                 "Riesling", "blanc", "5", "rr3",
                 "Whispering Angel", "rosé", "3", "rr4",
                 "MonBazillac", "blanc", "10", "rr5"
-        };
+        };*/
         // on va mettre ce tab de la liste des vins dans le tab associé
+
+        affichage();
+        Log.i("AffichageCave", "on récupère la liste de vin pour l'affichage");
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, listeVins);
         tab.setAdapter(adapter);
@@ -189,9 +201,11 @@ public class AffichageCave extends AppCompatActivity {
                                     // TODO
                                     //réactualiser la liste des vins (recharger la liste mais avant supp le vin)
 
+                                    Log.i( "AfichageCave", "suppression Vin : "+nomVinSel);
                                     Vin vin = maCave.rechercheVinParNom(nomVinSel);
-                                    maCave.supprVinCave(vin);
+                                    maCave.supprVin(vin);
                                     affichage();
+                                    GestionSauvegarde.enregistrementCave(maCave);
 
                                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
                                             android.R.layout.simple_list_item_1, listeVins);
@@ -210,7 +224,13 @@ public class AffichageCave extends AppCompatActivity {
                                     // faire plutot : modifier le nb bouteille dans la liste des vins de la cave
                                     // puis recharger la liste
                                     //mettre méthode supprVin
-                                    listeVins[positionTabNb] = "0"; // à supprimer quand mofif liste des vins
+
+                                    Vin vin = maCave.rechercheVinParNom(nomVinSel);
+                                    maCave.setNbBouteilleVin(vin, 0);
+                                    affichage();
+                                    GestionSauvegarde.enregistrementCave(maCave);
+
+                                    //listeVins[positionTabNb] = "0"; // à supprimer quand mofif liste des vins
                                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
                                             android.R.layout.simple_list_item_1, listeVins);
                                     tab.setAdapter(adapter);
@@ -239,9 +259,11 @@ public class AffichageCave extends AppCompatActivity {
                 // remettre à jour la liste de vin (nb bouteille à changer)
                 // faire plutot : modifier le nb bouteille dans la liste des vins de la cave
                 // puis recharger la liste
+                Log.i( "AffichageCave", "actualise le nb de bouteille de "+nomVinSel);
                 Vin vin = maCave.rechercheVinParNom(nomVinSel);
                 maCave.setNbBouteilleVin(vin, nbBouteilles);
                 affichage();
+                GestionSauvegarde.enregistrementCave(maCave); //on enrgistre la nouvelle liste de vin dans la cave (fichier .ser)
 
                 //listeVins[positionTabNb] = Integer.toString(nbBouteilles); // à supp quand on a mofif la liste
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichageCave.this,
@@ -334,11 +356,10 @@ public class AffichageCave extends AppCompatActivity {
     }
 
     public void init(){
-        maCave.ajoutVinCave(new Vin("Bordeaux", "rouge", "Merlot", "Gironde"), 12);
-        maCave.ajoutVinCave(new Vin("Bordeaux2", "rouge", "Merlot", "Gironde"), 3);
-        maCave.ajoutVinCave(new Vin("Cadillac", "blanc", "rr", "Gironde"), 10);
-        maCave.ajoutVinCave(new Vin("Riesling", "blanc", "fgg", "Gironde"), 1);
+        maCave = new Cave();
         affichage();
+        Log.i("AffichageCave", "on a initialiser la liste de vin de la cave et on va enegistrer cette liste dans un fichier .ser");
+        GestionSauvegarde.enregistrementCave(maCave);
     }
 
     public void affichage(){
@@ -351,4 +372,54 @@ public class AffichageCave extends AppCompatActivity {
             listeVins[3+i*4] = vin.getRegion();
         }
     }
+
+    /*public void enregistrementCave() {
+        ObjectOutputStream oos = null;
+        try {
+            final FileOutputStream fichier = new FileOutputStream(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/maCave.ser");
+            oos = new ObjectOutputStream(fichier);
+            oos.writeObject(maCave);
+            Log.i("AffichageCave", "enregistrement de la cave; serialization");
+            oos.flush();
+        } catch (final java.io.IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (oos != null) {
+                    oos.flush();
+                    oos.close();
+                }
+            } catch (final IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    // Méthode pour ravoir la cave (qu'on a enregistrer avant dans un fichier binaire .ser)
+    public Cave getCave() {
+        Cave cave = null;
+        ObjectInputStream ois = null;
+        try {
+            final FileInputStream fichier = new FileInputStream(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOCUMENTS) +"/AppliCavin/maCave.ser");
+            ois = new ObjectInputStream(fichier);
+            final Cave cave2 = (Cave) ois.readObject();
+            Log.i("AffichageCave", "récupération de la cave avec getCave; deserialization");
+            cave = cave2;
+        } catch (final java.io.IOException e) {
+            e.printStackTrace();
+        } catch (final ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (final IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return cave;
+    }*/
 }
