@@ -51,8 +51,6 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
                 stringRobe = robe.getText().toString();
                 stringCepage = cepage.getText().toString();
                 stringRegion = region.getText().toString();
-                // TODO
-                // ajouter le vin dans la bdd
 
                 Vin vin = new Vin (stringNom, stringRobe, stringCepage, stringRegion);
                 Bdd bdd = GestionSauvegarde.getBdd();

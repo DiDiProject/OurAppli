@@ -36,7 +36,7 @@ public class AffichagePref extends AppCompatActivity {
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
     private int posiNom = 0; //pour avoir la position dans le tab du vin sélectionné
-    private String[] listeVins; // TODO liste des vin de la vin à récupérer
+    private String[] listeVins;
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
     private ListePref pref = new ListePref();
 
@@ -64,16 +64,6 @@ public class AffichagePref extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, title);
         tabNom.setAdapter(adapterTitle);
         tabNom.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne
-
-        // TODO
-        // il faudra mettre la liste des vins provenant de la cave à vin de l'utilisateur
-        /*listeVins = new String[]{
-                "Bordeaux", "rouge", "8", "rr1",
-                "Cadillac", "blanc", "5", "rr1",
-                "Riesling", "blanc", "5", "rr1",
-                "Whispering Angel", "rosé", "3", "rr1",
-                "MonBazillac", "blanc", "10", "rr1",
-        };*/
 
         pref = GestionSauvegarde.getPref();
         if (pref == null){
@@ -132,7 +122,6 @@ public class AffichagePref extends AppCompatActivity {
         ajoutCave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
                 //ajouter le vin dans la cave
                 Cave maCave = GestionSauvegarde.getCave();
                 Vin vin = pref.rechercheVinParNom(nomVinSel);
@@ -150,7 +139,6 @@ public class AffichagePref extends AppCompatActivity {
         supprVin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
                 //on affiche une boite de dialogue pour confirmation de la suppression
                 AlertDialog.Builder boite;
                 boite = new AlertDialog.Builder(AffichagePref.this);
@@ -161,7 +149,6 @@ public class AffichagePref extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(), "Ce vin va être supprimer !!!",
                                         Toast.LENGTH_SHORT).show();
-                                // TODO
                                 // réactualiser la liste des vins (recharger la liste mais avant supp le vin)
                                 // faire une méthode
                                 Log.i( "AfichagePref", "suppression Vin : "+nomVinSel);

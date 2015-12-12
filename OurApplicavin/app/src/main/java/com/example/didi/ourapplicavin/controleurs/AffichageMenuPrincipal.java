@@ -141,7 +141,6 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         // si on clique sur le sous menu (retour au menu principal)
         // on va dans l'activité menu principal
         if (id == R.id.renitialiser) {
-            // TODO
             final File fichier = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/maCave.ser");
             fichier.delete();

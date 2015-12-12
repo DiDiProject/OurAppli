@@ -38,9 +38,8 @@ public class AffichageBdd extends AppCompatActivity {
     public final static String cave = "bdd"; // TODO pour dire qu'on ait dans la bdd pr recherche
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
-    private String[] listeVins; // TODO liste des vin de la bdd à récupérer
+    private String[] listeVins;
     private Bdd bdd = new Bdd();
-
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -70,21 +69,12 @@ public class AffichageBdd extends AppCompatActivity {
         tabNom.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne
         //tabNom.setBackgroundColor(Color.CYAN); //change la couleur du tab
 
-        // TODO
-        // il faudra mettre la liste des vins provenant de la cave à vin de l'utilisateur
-        /*listeVins = new String[]{
-                "Bordeaux", "rouge", "8", "rr1",
-                "Cadillac", "blanc", "0", "rr1",
-                "Riesling", "blanc", "5", "rr1",
-                "Whispering Angel", "rosé", "3", "rr1",
-                "MonBazillac", "blanc", "10", "rr1"};*/
-        // on va mettre ce tab de la liste des vins dans le tab associé
-
         bdd = GestionSauvegarde.getBdd();
         if (bdd == null) {
             init();
         }
         affichage();
+        Log.i("AffichageBdd", "on récupère la liste de vin pour l'affichage");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, listeVins);
@@ -136,8 +126,6 @@ public class AffichageBdd extends AppCompatActivity {
         ajoutCave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
-
                 Cave maCave = GestionSauvegarde.getCave();
                 Vin vin = bdd.rechercheVinParNom(nomVinSel);
                 maCave.ajoutVin(vin, 1);
@@ -155,7 +143,6 @@ public class AffichageBdd extends AppCompatActivity {
         ajoutPref.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
                 ListePref pref = GestionSauvegarde.getPref();
                 Vin vin = bdd.rechercheVinParNom(nomVinSel);
                 pref.ajoutVin(vin);
