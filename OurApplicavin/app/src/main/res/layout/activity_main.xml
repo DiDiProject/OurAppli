@@ -60,15 +60,5 @@
             android:background="#fddec4"
             android:layout_centerHorizontal="true" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/testBouton"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
     </RelativeLayout>
 </ScrollView>
