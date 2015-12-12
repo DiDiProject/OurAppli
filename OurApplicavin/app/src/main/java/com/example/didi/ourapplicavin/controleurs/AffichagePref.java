@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
+import com.example.didi.ourapplicavin.modeles.Cave;
+import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
+import com.example.didi.ourapplicavin.modeles.ListePref;
+import com.example.didi.ourapplicavin.modeles.Vin;
 
 //Classe qui permet d'afficher la liste de préférence de l'utilisateur
 public class AffichagePref extends AppCompatActivity {
@@ -33,6 +38,7 @@ public class AffichagePref extends AppCompatActivity {
     private int posiNom = 0; //pour avoir la position dans le tab du vin sélectionné
     private String[] listeVins; // TODO liste des vin de la vin à récupérer
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
+    private ListePref pref = new ListePref();
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -61,13 +67,21 @@ public class AffichagePref extends AppCompatActivity {
 
         // TODO
         // il faudra mettre la liste des vins provenant de la cave à vin de l'utilisateur
-        listeVins = new String[]{
+        /*listeVins = new String[]{
                 "Bordeaux", "rouge", "8", "rr1",
                 "Cadillac", "blanc", "5", "rr1",
                 "Riesling", "blanc", "5", "rr1",
                 "Whispering Angel", "rosé", "3", "rr1",
                 "MonBazillac", "blanc", "10", "rr1",
-        };
+        };*/
+
+        pref = GestionSauvegarde.getPref();
+        if (pref == null){
+            init();
+        }
+        affichage();
+        Log.i("AffichagePref", "on récupère la liste de vin pour l'affichage");
+
         // on va mettre ce tab de la liste des vins dans le tab associé
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, listeVins);
@@ -120,6 +134,11 @@ public class AffichagePref extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO
                 //ajouter le vin dans la cave
+                Cave maCave = GestionSauvegarde.getCave();
+                Vin vin = pref.rechercheVinParNom(nomVinSel);
+                maCave.ajoutVin(vin, 1);
+                GestionSauvegarde.enregistrementCave(maCave);
+
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
                         Toast.LENGTH_SHORT).show();
                 boutonsInvisible(); // on remet invisible les boutons
@@ -145,6 +164,12 @@ public class AffichagePref extends AppCompatActivity {
                                 // TODO
                                 // réactualiser la liste des vins (recharger la liste mais avant supp le vin)
                                 // faire une méthode
+                                Log.i( "AfichagePref", "suppression Vin : "+nomVinSel);
+                                Vin vin = pref.rechercheVinParNom(nomVinSel);
+                                pref.supprVin(vin);
+                                affichage();
+                                GestionSauvegarde.enregistrementPref(pref);
+
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichagePref.this,
                                         android.R.layout.simple_list_item_1, listeVins);
                                 tab.setAdapter(adapter);
@@ -240,4 +265,23 @@ public class AffichagePref extends AppCompatActivity {
             tab.getChildAt(position + i).setBackgroundColor(Color.TRANSPARENT);
         }
     }
+
+    public void init(){
+        pref = new ListePref();
+        affichage();
+        Log.i("AffichagePref", "on a initialiser la liste de vin de la pref et on va enegistrer cette liste dans un fichier .ser");
+        GestionSauvegarde.enregistrementPref(pref);
+    }
+
+    public void affichage(){
+        listeVins = new String[pref.getPref().getNombreVins()*4];
+        for(int i=0; i<pref.getPref().getNombreVins(); i++){
+            Vin vin = pref.getPref().getListeVins().get(i);
+            listeVins[0+i*4] = vin.getNom();
+            listeVins[1+i*4] = vin.getCouleur();
+            listeVins[2+i*4] = vin.getCepage();
+            listeVins[3+i*4] = vin.getRegion();
+        }
+    }
+
 }

@@ -112,4 +112,53 @@ public class GestionSauvegarde {
         return bdd;
     }
 
+    public static void enregistrementPref(ListePref pref) {
+        ObjectOutputStream oos = null;
+        try {
+            final FileOutputStream fichier = new FileOutputStream(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/pref.ser");
+            oos = new ObjectOutputStream(fichier);
+            oos.writeObject(pref);
+            Log.i("GestionSauvegarde", "enregistrement de la bdd; serialization");
+            oos.flush();
+        } catch (final java.io.IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (oos != null) {
+                    oos.flush();
+                    oos.close();
+                }
+            } catch (final IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static ListePref getPref() {
+        ListePref pref = null;
+        ObjectInputStream ois = null;
+        try {
+            final FileInputStream fichier = new FileInputStream(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOCUMENTS) +"/AppliCavin/pref.ser");
+            ois = new ObjectInputStream(fichier);
+            final ListePref pref2 = (ListePref) ois.readObject();
+            Log.i("GestionSauvegarde", "récupération de la bdd; deserialization");
+            pref = pref2;
+        } catch (final java.io.IOException e) {
+            e.printStackTrace();
+        } catch (final ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ois != null) {
+                    ois.close();
+                }
+            } catch (final IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return pref;
+    }
+
 }

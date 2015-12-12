@@ -145,6 +145,9 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
             final File fichier = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/maCave.ser");
             fichier.delete();
+            final File fichier2 = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/pref.ser");
+            fichier2.delete();
             return true;
         }
         return super.onOptionsItemSelected(item);

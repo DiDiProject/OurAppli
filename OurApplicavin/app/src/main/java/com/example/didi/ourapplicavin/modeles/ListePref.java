@@ -1,9 +1,11 @@
 package com.example.didi.ourapplicavin.modeles;
 
+import java.io.Serializable;
+
 /**
  * Created by didi on 05/12/2015.
  */
-public class ListePref extends ListeVin{
+public class ListePref extends ListeVin implements Serializable {
     private ListeVin pref;
 
     public ListePref(){

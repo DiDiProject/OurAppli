@@ -19,6 +19,7 @@ import com.example.didi.ourapplicavin.R;
 import com.example.didi.ourapplicavin.modeles.Bdd;
 import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
+import com.example.didi.ourapplicavin.modeles.ListePref;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
 //Classe qui affiche la base de données des vins
@@ -155,7 +156,10 @@ public class AffichageBdd extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO
-
+                ListePref pref = GestionSauvegarde.getPref();
+                Vin vin = bdd.rechercheVinParNom(nomVinSel);
+                pref.ajoutVin(vin);
+                GestionSauvegarde.enregistrementPref(pref);
                 //Affichage court
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la liste de souhait !",
                         Toast.LENGTH_SHORT).show();
