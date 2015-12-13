@@ -118,6 +118,13 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
             }
         });
 
+        //création du dossier AppliCavin sur le téléphone pour enregistrer la cave et la liste de souhait (et pour l'instant la bdd)
+        File dir = new File (Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS) +"/AppliCavin");
+        if(!dir.exists()) {
+            dir.mkdirs();
+        }
+
     }
 
     //Méthode qui permet de mettre un menu à l'écran
