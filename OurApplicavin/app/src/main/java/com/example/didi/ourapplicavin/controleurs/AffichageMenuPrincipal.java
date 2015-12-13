@@ -19,14 +19,7 @@ import java.io.File;
 //pour ensuite accéder à la cave, liste de preférence, la bdd, faire une recherche ds la bdd
 //et ajouter un vin ds la bdd
 public class AffichageMenuPrincipal extends AppCompatActivity {
-    //Attributs associé au layout
-    private Button cave = null; //bouton pour accéder à sa cave
-    private Button pref = null; //bouton pour accéder à sa liste de souhait
-    private Button bdd = null; //bouton pour accéder à la bdd
-    private Button recherche = null; //bouton pour faire une recherche dans la bdd
-    private Button ajoutVinbdd = null; //bouton pour ajouter un vin dans la bdd
-    private Button quitter = null;
-    //Attributs associé à cette classe
+    //Attributs
     public final static String bddd = "bdd"; // TODO pour dire qu'on ait dans la bdd pr recherche
 
     //méthode qui se lance lors de cette activité
@@ -36,12 +29,12 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         setContentView(R.layout.activity_affichage_menu_principal); //on affiche le menu principal
 
         //on va chercher tous les boutons afin de leur assigner une action (ici changement d'activité)
-        cave = (Button) findViewById(R.id.voirCave);
-        pref = (Button) findViewById(R.id.voirPref);
-        bdd = (Button) findViewById(R.id.voirBdd);
-        recherche = (Button) findViewById(R.id.faireRechercheBdd);
-        ajoutVinbdd = (Button) findViewById(R.id.ajoutVinbdd);
-        quitter = (Button) findViewById(R.id.quitterAppliPrincipal);
+        Button cave = (Button) findViewById(R.id.voirCave); //bouton pour accéder à la cave
+        Button pref = (Button) findViewById(R.id.voirPref); //bouton pour accéder à sa liste de souhait
+        Button bdd = (Button) findViewById(R.id.voirBdd); //bouton pour accéder à la bdd
+        Button recherche = (Button) findViewById(R.id.faireRechercheBdd); //bouton pour faire une recherche dans la bdd
+        Button ajoutVinbdd = (Button) findViewById(R.id.ajoutVinbdd); //bouton pour ajouter un vin dans la bdd
+        Button quitter = (Button) findViewById(R.id.quitterAppliPrincipal); //bouton pour quitter le menu principal
 
         //clique sur bouton voir sa cave à vin
         cave.setOnClickListener(new View.OnClickListener() {
@@ -122,9 +115,8 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         File dir = new File (Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOCUMENTS) +"/AppliCavin");
         if(!dir.exists()) {
-            dir.mkdirs();
+            dir.mkdirs(); //s'il n'exite pas on le créer
         }
-
     }
 
     //Méthode qui permet de mettre un menu à l'écran
@@ -148,6 +140,8 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         // si on clique sur le sous menu (retour au menu principal)
         // on va dans l'activité menu principal
         if (id == R.id.renitialiser) {
+            // on supprime le fichier associé la cave et à la pref
+            // (on va le récréer après si l'utilisateur va dans sa cave ou ds pref)
             final File fichier = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/maCave.ser");
             fichier.delete();

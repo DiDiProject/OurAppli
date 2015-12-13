@@ -37,17 +37,16 @@ public class AffichageBdd extends AppCompatActivity {
     private int posi; //pour avoir la position dans le tab du vin sélectionné
     public final static String cave = "bdd"; // TODO pour dire qu'on ait dans la bdd pr recherche
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
-    private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
-    private String[] listeVins;
-    private Bdd bdd = new Bdd();
+    private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste (pas oublier de modif affichage)
+    private String[] listeVins; //bdd dans un tab
+    private Bdd bdd = new Bdd(); //bdd qu'on va chercher ds fichier .ser
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_bdd); //on affiche le layout associé
-
-        //on va cherche tous les élements qui nous interresse dans le layout
+        //on va cherche tous les élements qui nous interressent dans le layout
         tabNom = (GridView) findViewById(R.id.tabNomColBdd);
         tab = (GridView) findViewById(R.id.tabResultatVinBdd);
         ajoutCave = (Button) findViewById(R.id.ajouterCave);
@@ -69,35 +68,37 @@ public class AffichageBdd extends AppCompatActivity {
         tabNom.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne
         //tabNom.setBackgroundColor(Color.CYAN); //change la couleur du tab
 
+        //on va récupérer la bdd enregistrer sur le tel/tablette (.ser)
         bdd = GestionSauvegarde.getBdd();
-        if (bdd == null) {
-            init();
+        if (bdd == null) { //si nous n'avons pas de bdd préexistante
+            init(); //il faut la créer
         }
-        affichage();
-        Log.i("AffichageBdd", "on récupère la liste de vin pour l'affichage");
+        affichage(); //on prépare l'affichage de cette bdd à l'écran
+        Log.i("AffichageBdd", "on a récupèré la liste de vin pour l'affichage.");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        //on affiche la bdd à l'écran
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, listeVins);
         tab.setAdapter(adapter);
         tab.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne comme tabNom
+        Log.i("AffichageBdd", "on affiche la bdd !");
 
         //quand on fait un clic court sur un des vins (n'importe quelle colonne)
         //on va afficher le détail de ce vin
         tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Log.i("AffichageBdd", "on veut le détail d'un vin !");
                 //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
                         nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
                     }
                 }
-                //Affichage court
-                Toast.makeText(getApplicationContext(), "La description de " + nomVinSel + " va s'afficher !",
-                        Toast.LENGTH_SHORT).show();
                 //on va à l'activité détailVin
                 Intent n = new Intent(AffichageBdd.this, AffichageDetailVin.class);
-                n.putExtra(NOM_VIN, nomVinSel);
-                //en passant des données (nom du vin ici)
+                n.putExtra(NOM_VIN, nomVinSel); //en passant des données (nom du vin ici)
+                // TODO
+                // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                 startActivity(n);
             }
         });
@@ -106,6 +107,7 @@ public class AffichageBdd extends AppCompatActivity {
         // dans la cave ou dans la liste de souhait
         tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("AffichageBdd", "on veut ajouter un vin à la cave ou la liste de souhait !");
                 //on rend visible les boutons ajout dans cave, pref et annuler
                 //et on rend le tab inactif
                 boutonsVisible();
@@ -126,10 +128,14 @@ public class AffichageBdd extends AppCompatActivity {
         ajoutCave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("AffichageBdd", "on veut ajouter le vin à la cave !");
+                // on récupère la cave
                 Cave maCave = GestionSauvegarde.getCave();
+                // on va chercher le vin
+                // TODO faire la recherche avec tous les critères pas juste le nom
                 Vin vin = bdd.rechercheVinParNom(nomVinSel);
-                maCave.ajoutVin(vin, 1);
-                GestionSauvegarde.enregistrementCave(maCave);
+                maCave.ajoutVin(vin, 1); // on ajoute ce vin à la cave
+                GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel
 
                 //Affichage court
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
@@ -143,10 +149,14 @@ public class AffichageBdd extends AppCompatActivity {
         ajoutPref.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("AffichageBdd", "on veut ajouter le vin à la liste de souhait !");
+                // on récupère la liste de souhait
                 ListePref pref = GestionSauvegarde.getPref();
+                // on va chercher le vin
+                // TODO faire la recherche avec tous les critères pas juste le nom
                 Vin vin = bdd.rechercheVinParNom(nomVinSel);
-                pref.ajoutVin(vin);
-                GestionSauvegarde.enregistrementPref(pref);
+                pref.ajoutVin(vin); // on ajoute le vin à la pref
+                GestionSauvegarde.enregistrementPref(pref); // on sauvegarde la liste de souhait sur  le tél
                 //Affichage court
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la liste de souhait !",
                         Toast.LENGTH_SHORT).show();
@@ -254,32 +264,33 @@ public class AffichageBdd extends AppCompatActivity {
         }
     }
 
+    //Méthode pour initialiser la bdd (quand on ouvre pour la première fois l'application)
+    //bdd non exhautive
     public void init() {
-        bdd = new Bdd();
+        bdd = new Bdd(); //initialisa la bdd
+        //puis on ajoute quelques vins
         bdd.ajoutVin(new Vin("Bordeaux", "rouge", "Merlot", "Aquitaine"));
         bdd.ajoutVin(new Vin("Bordeaux", "blanc", "Saivignon", "Aquitaine"));
         bdd.ajoutVin(new Vin("Cadillac", "blanc", "Muscadelle", "Aquitaine"));
         bdd.ajoutVin(new Vin("Riesling", "blanc", "Semillon", "Alsace"));
         bdd.ajoutVin(new Vin("Whispering Angel", "rosé", "Grenache", "Provence"));
-        Log.i("AffichageBdd", "on a initialiser la liste de vin de la bdd et on va enegistrer cette liste dans un fichier .ser");
-        affichage();
-        GestionSauvegarde.enregistrementBdd(bdd);
-
+        affichage(); //préparation pour l'affichage
+        GestionSauvegarde.enregistrementBdd(bdd); //sauvegarde de la bdd sur le tél
+        Log.i("AffichageBdd", "on a initialisé la bdd et on va enegistrer cette liste dans un fichier .ser");
     }
 
+    //Méthode pour enregistrer la bdd dans un tableau pour après l'afficher
     public void affichage() {
-        listeVins = new String[bdd.getBdd().getNombreVins() * 4];
+        //on initialise le tableau avec le nb de case approprié (nb de vins * nb de col)
+        listeVins = new String[bdd.getBdd().getNombreVins() * nbColParLigne];
         for (int i = 0; i < bdd.getBdd().getNombreVins(); i++) {
+            //pour chaque vin, on affiche le nom (sur la 1ère col), la couleur (la 2ème col),
+            //le cépage (la 3ème col) et la région (sur la 4ème)
             Vin vin = bdd.getBdd().getListeVins().get(i);
-            listeVins[0 + i * 4] = vin.getNom();
-            listeVins[1 + i * 4] = vin.getCouleur();
-            listeVins[2 + i * 4] = vin.getCepage();
-            listeVins[3 + i * 4] = vin.getRegion();
+            listeVins[0 + i * nbColParLigne] = vin.getNom();
+            listeVins[1 + i * nbColParLigne] = vin.getCouleur();
+            listeVins[2 + i * nbColParLigne] = vin.getCepage();
+            listeVins[3 + i * nbColParLigne] = vin.getRegion();
         }
-    }
-
-
-    public void setBdd(Vin vin) {
-        bdd.ajoutVin(vin);
     }
 }

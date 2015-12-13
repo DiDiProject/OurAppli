@@ -36,17 +36,16 @@ public class AffichagePref extends AppCompatActivity {
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
     private int posiNom = 0; //pour avoir la position dans le tab du vin sélectionné
-    private String[] listeVins;
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
-    private ListePref pref = new ListePref();
+    private String[] listeVins; //liste de souhait ds un tab
+    private ListePref pref = new ListePref(); // liste de souhait
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_pref); //on affiche le layout associé
-
-        //on va cherche tous les élements qui nous interresse dans le layout
+        //on va cherche tous les élements qui nous interressent dans le layout
         tabNom = (GridView) findViewById(R.id.tabNomColPref);
         tab = (GridView) findViewById(R.id.tabResultatVinPref);
         ajoutCave = (Button) findViewById(R.id.ajouterCaveViaPref);
@@ -58,43 +57,45 @@ public class AffichagePref extends AppCompatActivity {
 
         // TODO
         // il faudra définir les noms des colonnes
-        String[] title = new String[]{"Nom du vin", "Type", "Nb de bouteilles", "Région"};
+        String[] title = new String[]{"Nom du vin", "Type", "Cépage", "Région"};
         // on va mettre ce tab des noms des colonnes dans le tab associé
-        ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapterTitle = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, title);
         tabNom.setAdapter(adapterTitle);
         tabNom.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne
 
+        //on récupère la liste de souhait enregistrer
         pref = GestionSauvegarde.getPref();
         if (pref == null){
-            init();
+            init(); //si pas de liste de souhait on la créait
         }
-        affichage();
+        affichage(); //on préparer l'affichage de la cave à l'écran
         Log.i("AffichagePref", "on récupère la liste de vin pour l'affichage");
 
         // on va mettre ce tab de la liste des vins dans le tab associé
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, listeVins);
         tab.setAdapter(adapter);
         tab.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne comme tabNom
+        Log.i("AffichagePref", "on affiche la liste de souhait de l'utilisateur !");
 
         //quand on fait un clic court sur un des vins (n'importe quelle colonne)
         //on va afficher le détail de ce vin
         tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Log.i("AffichagePref", "on veut le détail d'un vin !");
                 //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
                         nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
                     }
                 }
-                //affichage court
-                Toast.makeText(getApplicationContext(), "La description de " + nomVinSel + " va s'afficher !",
-                        Toast.LENGTH_SHORT).show();
                 //on va à l'activité détailVin
                 Intent n = new Intent(AffichagePref.this, AffichageDetailVin.class);
                 n.putExtra(NOM_VIN, nomVinSel);
                 //en passant des données (nom du vin ici)
+                // TODO
+                // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                 startActivity(n);
             }
         });
@@ -102,6 +103,7 @@ public class AffichagePref extends AppCompatActivity {
         //quand on fait un clic long sur un des vins, on veut supprimer ce vin ou  l'ajouter à la cave
         tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("AffichagePref", "on veut ajouter un vin à la cave ou supprimer ce vin !");
                 //on rend visible les boutons ajout dans cave, supprimer et annuler
                 //et on rend le tab inactif
                 boutonsVisible();
@@ -123,15 +125,20 @@ public class AffichagePref extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //ajouter le vin dans la cave
+                // on récupère la cave
                 Cave maCave = GestionSauvegarde.getCave();
+                // TODO
+                // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
+                // on récupère le vin à ajouter
                 Vin vin = pref.rechercheVinParNom(nomVinSel);
-                maCave.ajoutVin(vin, 1);
-                GestionSauvegarde.enregistrementCave(maCave);
+                maCave.ajoutVin(vin, 1); //on ajoute ce vin à la cave (par défaut 1 bouteille)
+                GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave
 
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
                         Toast.LENGTH_SHORT).show();
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
+                Log.i("AffichagePref", "on ajoute le vin : " + nomVinSel + " : à la cave !");
             }
         });
 
@@ -147,21 +154,24 @@ public class AffichagePref extends AppCompatActivity {
                 boite.setMessage("Voulez-vous supprimer le " + nomVinSel + " de la liste de souhait ?");
                 boite.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "Ce vin va être supprimer !!!",
-                                        Toast.LENGTH_SHORT).show();
-                                // réactualiser la liste des vins (recharger la liste mais avant supp le vin)
-                                // faire une méthode
-                                Log.i( "AfichagePref", "suppression Vin : "+nomVinSel);
+                                // on va chercher la liste de souhait
+                                pref = GestionSauvegarde.getPref();
+                                // TODO
+                                // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
+                                // on récupère le vin à supprimer
                                 Vin vin = pref.rechercheVinParNom(nomVinSel);
-                                pref.supprVin(vin);
-                                affichage();
-                                GestionSauvegarde.enregistrementPref(pref);
-
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AffichagePref.this,
+                                pref.supprVin(vin); // on supprime le vin de la liste de souhait
+                                affichage(); //on réactualise la cave pour l'affichage
+                                GestionSauvegarde.enregistrementPref(pref); //on sauvegarde la liste de souhait
+                                //on affichage l'actulisation de la liste de souhait
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichagePref.this,
                                         android.R.layout.simple_list_item_1, listeVins);
                                 tab.setAdapter(adapter);
                                 //rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
                                 boutonsInvisible(); // on remet invisible les boutons
+                                Toast.makeText(getApplicationContext(), "Ce vin va être supprimer !!!",
+                                        Toast.LENGTH_SHORT).show();
+                                Log.i("AfichagePref", "suppression Vin : " + nomVinSel);
                             }
                         }
                 );
@@ -253,22 +263,26 @@ public class AffichagePref extends AppCompatActivity {
         }
     }
 
+    //Méthode pour initialiser la liste de souhait (vide au départ)
     public void init(){
         pref = new ListePref();
         affichage();
-        Log.i("AffichagePref", "on a initialiser la liste de vin de la pref et on va enegistrer cette liste dans un fichier .ser");
+        Log.i("AffichagePref", "on a initialisé la liste de vin de la pref et on va enegistrer cette liste dans un fichier .ser");
         GestionSauvegarde.enregistrementPref(pref);
     }
 
+    //Méthode pour enregistrer la liste de souhait dans un tableau pour après l'afficher
     public void affichage(){
-        listeVins = new String[pref.getPref().getNombreVins()*4];
+        //on initialise le tableau avec le nb de case approprié (nb de vins * nb de col)
+        listeVins = new String[pref.getPref().getNombreVins()*nbColParLigne];
         for(int i=0; i<pref.getPref().getNombreVins(); i++){
+            //pour chaque vin, on affiche le nom (sur la 1ère col), la couleur (la 2ème col),
+            //le cépage (la 3ème col) et la région (sur la 4ème)
             Vin vin = pref.getPref().getListeVins().get(i);
-            listeVins[0+i*4] = vin.getNom();
-            listeVins[1+i*4] = vin.getCouleur();
-            listeVins[2+i*4] = vin.getCepage();
-            listeVins[3+i*4] = vin.getRegion();
+            listeVins[0+i*nbColParLigne] = vin.getNom();
+            listeVins[1+i*nbColParLigne] = vin.getCouleur();
+            listeVins[2+i*nbColParLigne] = vin.getCepage();
+            listeVins[3+i*nbColParLigne] = vin.getRegion();
         }
     }
-
 }

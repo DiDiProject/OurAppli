@@ -8,11 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
 import com.example.didi.ourapplicavin.modeles.Bdd;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
-import com.example.didi.ourapplicavin.modeles.ListeVin;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
 //Classe qui permet à l'utilisateur d'ajouter un vin dans la bdd
@@ -22,53 +22,62 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
     private EditText robe = null; //pour récupérer la couleur
     private EditText cepage = null; //pour récupérer le cépage
     private EditText region = null; //pour récupérer la région
-    private Button ajoutVin = null; //bouton pour ajouter ce vin dans la bdd
     //Attributs assicié à cette classe
     private String stringNom = ""; //pour avoir le nom en string
     private String stringRobe = ""; //la couleur en string
     private String stringCepage = ""; //le cépage en string
     private String stringRegion = ""; //et la région en string
-    public ListeVin bdd = null;
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_ajout_vin_bdd); //on affiche le layout associé
-        //on va cherche tous les élements qui nous interresse dans le layout
+        //on va cherche tous les élements qui nous interressent dans le layout
         nom = (EditText) findViewById(R.id.nomAjout);
         robe = (EditText) findViewById(R.id.robeAjout);
         cepage = (EditText) findViewById(R.id.cepageAjout);
         region = (EditText) findViewById(R.id.regionAjout);
-        ajoutVin = (Button)findViewById(R.id.ajoutVinDsBdd);
+        Button ajoutVin = (Button)findViewById(R.id.ajoutVinDsBdd); //bouton pour ajouter ce vin dans la bdd
+
+        // on initialise les champs pour un ajout
+        nom.setText("");
+        robe.setText("");
+        cepage.setText("");
+        region.setText("");
 
         //pour ajouter le vin avec les info de l'utilisateur dans la bdd
         ajoutVin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // on récupère les informations que l'utilisateur a rempli
+                // on récupère les informations que l'utilisateur a rempli sur le vin à ajouter
                 stringNom = nom.getText().toString();
                 stringRobe = robe.getText().toString();
                 stringCepage = cepage.getText().toString();
                 stringRegion = region.getText().toString();
-
-                Vin vin = new Vin (stringNom, stringRobe, stringCepage, stringRegion);
-                Bdd bdd = GestionSauvegarde.getBdd();
-                bdd.ajoutVin(vin);
-                GestionSauvegarde.enregistrementBdd(bdd);
-
-                // on initialise les champs pour un nouveau ajout
-                nom.setText("");
-                robe.setText("");
-                cepage.setText("");
-                region.setText("");
-
-                //puis on revient au menu principal
-                Intent n = new Intent(AffichageAjoutVinBdd.this, AffichageMenuPrincipal.class);
-                startActivity(n);
+                //si l'utilisateur n'a rien rempli => on va pas l'ajouter à la bdd
+                if((stringNom.equals("")) ||
+                        (stringNom.equals("")) && (stringRobe.equals("")) && (stringCepage.equals("")) && (stringRobe.equals(""))){
+                    Toast.makeText(getApplicationContext(), "Vous ne pouvez pas ajouter un vin sans nom !",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    //on crée ce vin
+                    Vin vin = new Vin(stringNom, stringRobe, stringCepage, stringRegion);
+                    //on va chercher notre bdd (enregistrer sur le téléphone/tablette fichier .ser)
+                    Bdd bdd = GestionSauvegarde.getBdd();
+                    bdd.ajoutVin(vin); //on ajoute le vin à la bdd
+                    GestionSauvegarde.enregistrementBdd(bdd); //on sauvegarde cet ajout sur le tèl
+                    //Affichage court
+                    Toast.makeText(getApplicationContext(),"Votre vin a bien été ajouté à la bdd !",
+                            Toast.LENGTH_SHORT).show();
+                    // on initialise les champs pour un nouveau ajout
+                    nom.setText("");
+                    robe.setText("");
+                    cepage.setText("");
+                    region.setText("");
+                }
             }
         });
-
     }
 
     //Méthode qui permet de mettre un menu à l'écran
