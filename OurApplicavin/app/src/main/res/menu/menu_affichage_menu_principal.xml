@@ -2,5 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.didi.ourapplicavin.controleurs.AffichageMenuPrincipal">
-    <item android:id="@+id/renitialiser" android:title="Rénitialiser ma cave" />
+    <item android:id="@+id/renitialiserCave" android:title="Rénitialiser ma cave" />
+    <item android:id="@+id/renitialiserPref" android:title="Rénitialiser ma liste de souhait" />
 </menu>

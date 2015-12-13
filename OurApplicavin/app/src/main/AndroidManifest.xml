@@ -10,7 +10,6 @@
         android:icon="@drawable/photovin"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -51,6 +50,10 @@
         <activity
             android:name=".controleurs.AffichageAjoutVinBdd"
             android:label="@string/title_activity_affichage_ajout_vin_bdd" >
+        </activity>
+        <activity
+            android:name=".controleurs.AffichageAjoutVinCave"
+            android:label="@string/title_activity_affichage_ajout_vin_cave" >
         </activity>
     </application>
 

@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.didi.ourapplicavin.controleurs.AffichageAjoutVinCave">
+
+    <TextView android:text="Nombre de bouteille :" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/texteNbBouteille"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nbBouteilleAjoutCave"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="150dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Millésime : "
+        android:id="@+id/texteMillesime"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/millesimeAjoutCave"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="150dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ajouter le vin à la cave"
+        android:id="@+id/boutonAjoutCave"
+        android:layout_marginTop="100dp" />
+
+</RelativeLayout>

@@ -66,9 +66,6 @@ public class AffichagePref extends AppCompatActivity {
 
         //on récupère la liste de souhait enregistrer
         pref = GestionSauvegarde.getPref();
-        if (pref == null){
-            init(); //si pas de liste de souhait on la créait
-        }
         affichage(); //on préparer l'affichage de la cave à l'écran
         Log.i("AffichagePref", "on récupère la liste de vin pour l'affichage");
 
@@ -261,14 +258,6 @@ public class AffichagePref extends AppCompatActivity {
         for (int i = 0; i < nbColParLigne; i++) {
             tab.getChildAt(position + i).setBackgroundColor(Color.TRANSPARENT);
         }
-    }
-
-    //Méthode pour initialiser la liste de souhait (vide au départ)
-    public void init(){
-        pref = new ListePref();
-        affichage();
-        Log.i("AffichagePref", "on a initialisé la liste de vin de la pref et on va enegistrer cette liste dans un fichier .ser");
-        GestionSauvegarde.enregistrementPref(pref);
     }
 
     //Méthode pour enregistrer la liste de souhait dans un tableau pour après l'afficher

@@ -13,4 +13,5 @@
     <string name="title_activity_affichage_resultat_recherche">Resultat de votre recherche</string>
     <string name="title_activity_affichage_ajout_vin_bdd">Ajouter un vin dans la bdd</string>
     <string name="title_activity_test_modele">TestModele</string>
+    <string name="title_activity_affichage_ajout_vin_cave">AffichageAjoutVinCave</string>
 </resources>

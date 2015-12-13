@@ -87,9 +87,9 @@ public class AffichageCave extends AppCompatActivity {
 
         //on récupère la cave (enregistrer dans fichier .ser sur le tel
         maCave = GestionSauvegarde.getCave();
-        if (maCave == null) {
+        /*if (maCave == null) {
             init(); //si n'a pas de cave on l'initialise
-        }
+        }*/
         //on préparer l'affichage de la cave à l'écran
         affichage();
         Log.i("AffichageCave", "on récupère la cave pour l'affichage");
@@ -346,12 +346,12 @@ public class AffichageCave extends AppCompatActivity {
     }
 
     //Méthode pour initialiser la cave (donc avec 0 vin)
-    public void init() {
+    /*public void init() {
         maCave = new Cave();
         affichage();
         Log.i("AffichageCave", "on a initialisé la liste de vin de la cave et on va enegistrer cette liste dans un fichier .ser");
         GestionSauvegarde.enregistrementCave(maCave); //enregistrement de la cave (vide pour l'instant)
-    }
+    }*/
 
     //Méthode pour enregistrer la cave dans un tableau pour après l'afficher
     public void affichage() {

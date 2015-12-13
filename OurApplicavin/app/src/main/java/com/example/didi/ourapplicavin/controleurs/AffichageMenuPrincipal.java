@@ -12,6 +12,11 @@ import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.MainActivity;
 import com.example.didi.ourapplicavin.R;
+import com.example.didi.ourapplicavin.modeles.Bdd;
+import com.example.didi.ourapplicavin.modeles.Cave;
+import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
+import com.example.didi.ourapplicavin.modeles.ListePref;
+import com.example.didi.ourapplicavin.modeles.Vin;
 
 import java.io.File;
 
@@ -21,6 +26,9 @@ import java.io.File;
 public class AffichageMenuPrincipal extends AppCompatActivity {
     //Attributs
     public final static String bddd = "bdd"; // TODO pour dire qu'on ait dans la bdd pr recherche
+    private Cave maCave = new Cave();
+    private ListePref pref = new ListePref();
+    private Bdd bdd = new Bdd();
 
     //méthode qui se lance lors de cette activité
     @Override
@@ -35,6 +43,8 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         Button recherche = (Button) findViewById(R.id.faireRechercheBdd); //bouton pour faire une recherche dans la bdd
         Button ajoutVinbdd = (Button) findViewById(R.id.ajoutVinbdd); //bouton pour ajouter un vin dans la bdd
         Button quitter = (Button) findViewById(R.id.quitterAppliPrincipal); //bouton pour quitter le menu principal
+
+        init();
 
         //clique sur bouton voir sa cave à vin
         cave.setOnClickListener(new View.OnClickListener() {
@@ -139,18 +149,49 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         // si on clique sur le sous menu (retour au menu principal)
         // on va dans l'activité menu principal
-        if (id == R.id.renitialiser) {
+        if (id == R.id.renitialiserCave) {
             // on supprime le fichier associé la cave et à la pref
             // (on va le récréer après si l'utilisateur va dans sa cave ou ds pref)
             final File fichier = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/maCave.ser");
             fichier.delete();
-            final File fichier2 = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/pref.ser");
-            fichier2.delete();
+            maCave = new Cave();
+            GestionSauvegarde.enregistrementCave(maCave); //enregistrement de la cave (vide pour l'instant)
             return true;
+        } else if (id == R.id.renitialiserPref){
+            final File fichier = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/pref.ser");
+            fichier.delete();
+            pref = new ListePref();
+            GestionSauvegarde.enregistrementPref(pref); //enregistrement de la cave (vide pour l'instant)
+            return  true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //Méthode pour initialiser la cave et la pref(donc avec 0 vin)
+    public void init() {
+        maCave = GestionSauvegarde.getCave();
+        pref = GestionSauvegarde.getPref();
+        bdd = GestionSauvegarde.getBdd();
+        if (maCave == null) {
+            maCave = new Cave();
+            GestionSauvegarde.enregistrementCave(maCave); //enregistrement de la cave (vide pour l'instant)
+        }
+        if (pref == null) {
+            pref = new ListePref();
+            GestionSauvegarde.enregistrementPref(pref); //enregistrement de la cave (vide pour l'instant)
+        }
+        if (bdd == null) {
+            bdd = new Bdd();
+            bdd.ajoutVin(new Vin("Bordeaux", "rouge", "Merlot", "Aquitaine"));
+            bdd.ajoutVin(new Vin("Bordeaux", "blanc", "Saivignon", "Aquitaine"));
+            bdd.ajoutVin(new Vin("Cadillac", "blanc", "Muscadelle", "Aquitaine"));
+            bdd.ajoutVin(new Vin("Riesling", "blanc", "Semillon", "Alsace"));
+            bdd.ajoutVin(new Vin("Whispering Angel", "rosé", "Grenache", "Provence"));
+            GestionSauvegarde.enregistrementBdd(bdd); //enregistrement de la cave (vide pour l'instant)
+        }
+
     }
 
 }
