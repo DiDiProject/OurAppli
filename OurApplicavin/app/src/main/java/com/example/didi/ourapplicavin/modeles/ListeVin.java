@@ -35,7 +35,7 @@ public class ListeVin implements Serializable {
         //on parcourt la liste
         for(int i =0; i< listeVins.size(); i++){
             //si le nom du vin est le même, on retourne ce vin
-            if(nom == listeVins.get(i).getNom()){
+            if(nom.equals(listeVins.get(i).getNom())){
                 vin = listeVins.get(i);
                 break ;
             }
@@ -77,7 +77,7 @@ public class ListeVin implements Serializable {
         Vin vin = new Vin();
         for(int i=0; i<listeVins.size(); i++){
             //si le vin est le même que celui à supprimer on l'enlève dans la liste
-            if(nom == listeVins.get(i).getNom()){
+            if(nom.equals(listeVins.get(i).getNom())){
                 vin = listeVins.get(i);
                 return vin;
             }

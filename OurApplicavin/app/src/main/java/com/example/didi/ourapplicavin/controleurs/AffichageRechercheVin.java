@@ -3,6 +3,7 @@ package com.example.didi.ourapplicavin.controleurs;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,8 @@ public class AffichageRechercheVin extends AppCompatActivity {
     //Attributs pour cette classe
     private boolean avanceeOuPas = false; //si on ait dans recherche par critère ou pas (non de base)
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    public final static String ENDROIT = "endroit";
+    private int endroit = 0;
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -65,6 +68,18 @@ public class AffichageRechercheVin extends AppCompatActivity {
         } else {
             this.invisibleRechercheAvancee();
         }
+
+        Intent i = getIntent();
+        endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);
+        if(endroit != 2) {
+            endroit = i.getIntExtra(AffichageCave.ENDROIT, 1);
+            if(endroit != 1){
+                endroit = i.getIntExtra(AffichagePref.ENDROIT, 3);
+            }
+        } else {
+            endroit = 2;
+        }
+
         //recherche par le nom
         rechercheNom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +87,8 @@ public class AffichageRechercheVin extends AppCompatActivity {
                 // TODO
                 Intent n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
                 n.putExtra(NOM_VIN, nom.getText().toString()); //on passe le nom à chercher à l'activé résultat
+                Log.i("AffichageRecherche", nom.getText().toString() + " vin recherché  :::");
+                n.putExtra(ENDROIT, endroit);
                 startActivity(n);
             }
         });

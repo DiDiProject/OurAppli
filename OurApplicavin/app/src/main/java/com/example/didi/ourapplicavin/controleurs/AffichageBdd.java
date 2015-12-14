@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
 import com.example.didi.ourapplicavin.modeles.Bdd;
-import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.ListePref;
 import com.example.didi.ourapplicavin.modeles.Vin;
@@ -35,7 +34,7 @@ public class AffichageBdd extends AppCompatActivity {
     //Attributs pour cette classe
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
     private int posi; //pour avoir la position dans le tab du vin sélectionné
-    public final static String cave = "bdd"; // TODO pour dire qu'on ait dans la bdd pr recherche
+    public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la bdd pr recherche
     public final static String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste (pas oublier de modif affichage)
     private String[] listeVins; //bdd dans un tab
@@ -128,23 +127,24 @@ public class AffichageBdd extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i("AffichageBdd", "on veut ajouter le vin à la cave !");
                 // on récupère la cave
-                Cave maCave = GestionSauvegarde.getCave();
+                /*Cave maCave = GestionSauvegarde.getCave();
                 //bdd = GestionSauvegarde.getBdd();
                 // on va chercher le vin
                 // TODO faire la recherche avec tous les critères pas juste le nom
                 Vin vin = bdd.rechercheVinParNom(nomVinSel);
                 Log.i("AffichageBdd", vin.getNom() + "le vin à la cave !!!");
                 maCave.ajoutVin(vin, 1); // on ajoute ce vin à la cave
-                GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel
-
-                /*Intent n = new Intent(AffichageBdd.this, AffichageAjoutVinCave.class);
-                n.putExtra(NOM_VIN, nomVinSel);
-                n.addCategory( Intent.CATEGORY_HOME );
-                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(n);*/
+                GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel*/
 
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posi); // on enlève la couleur du vin sélectionné
+
+                Intent n = new Intent(AffichageBdd.this, AffichageAjoutVinCave.class);
+                n.putExtra(NOM_VIN, nomVinSel);
+                n.putExtra(ENDROIT,2);
+                n.addCategory( Intent.CATEGORY_HOME );
+                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(n);
             }
         });
 
@@ -153,8 +153,9 @@ public class AffichageBdd extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("AffichageBdd", "on veut ajouter le vin à la liste de souhait !");
-                // on récupère la liste de souhait
+                // on récupère la liste de souhait et la bdd
                 ListePref pref = GestionSauvegarde.getPref();
+                bdd = GestionSauvegarde.getBdd();
                 // on va chercher le vin
                 // TODO faire la recherche avec tous les critères pas juste le nom
                 Vin vin = bdd.rechercheVinParNom(nomVinSel);
@@ -220,6 +221,7 @@ public class AffichageBdd extends AppCompatActivity {
             Intent n = new Intent(AffichageBdd.this, AffichageRechercheVin.class);
             // TODO
             //dire qu'on ait dans la base de données pour la recherche
+            n.putExtra(ENDROIT, 2);
             n.addCategory(Intent.CATEGORY_HOME);
             n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);

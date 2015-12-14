@@ -23,8 +23,11 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
     private EditText nbBouteille = null; //pour récupérer le nom
     private EditText millesime = null; //pour récupérer la couleur
     private Button ajout = null;
+    private Cave maCave = new Cave();
+    private Bdd bdd = new Bdd();
 
     private String nomVinSel = "";
+    private int endroit = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +38,28 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
         millesime = (EditText) findViewById(R.id.millesimeAjoutCave);
         ajout = (Button) findViewById(R.id.boutonAjoutCave);
 
+        maCave = GestionSauvegarde.getCave();
+        //GestionSauvegarde.enregistrementCave(maCave);
+        bdd = GestionSauvegarde.getBdd();
+        //GestionSauvegarde.enregistrementBdd(bdd);
+
         Intent i = getIntent();
-        nomVinSel = i.getStringExtra(AffichageBdd.NOM_VIN);
+        endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);
+        if(endroit == 2) {
+            nomVinSel = i.getStringExtra(AffichageBdd.NOM_VIN);
+        } else {
+            nomVinSel = i.getStringExtra(AffichagePref.NOM_VIN);
+        }
 
         //pour ajouter le vin avec les info de l'utilisateur dans la bdd
         ajout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Cave maCave = GestionSauvegarde.getCave();
-                Bdd bdd = GestionSauvegarde.getBdd();
+                //maCave = GestionSauvegarde.getCave();
+                //bdd = GestionSauvegarde.getBdd();
                 // on va chercher le vin
+                // TODO pour millésime
                 // TODO faire la recherche avec tous les critères pas juste le nom
                 Log.i("AffichageAjoutVinCave", nomVinSel + " ajouter à la cave !");
                 Vin vin = bdd.rechercheVinParNom(nomVinSel);
@@ -54,10 +68,15 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
                 GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel
 
                 //Affichage court
-                Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
+                Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave ! ",
                         Toast.LENGTH_SHORT).show();
-                Intent n = new Intent(AffichageAjoutVinCave.this, AffichageBdd.class);
-                n.addCategory( Intent.CATEGORY_HOME );
+                Intent n;
+                if(endroit == 2) {
+                    n = new Intent(AffichageAjoutVinCave.this, AffichageBdd.class);
+                } else {
+                    n = new Intent(AffichageAjoutVinCave.this, AffichagePref.class);
+                }
+                n.addCategory(Intent.CATEGORY_HOME);
                 n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(n);
             }

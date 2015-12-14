@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
-import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.ListePref;
 import com.example.didi.ourapplicavin.modeles.Vin;
@@ -32,8 +31,8 @@ public class AffichagePref extends AppCompatActivity {
     private Button supprVin = null; //bouton pour supprimer un vin de la liste de souhait
     private Button annuler = null; //annuler le vin sélectionné
     //Attributs pour cette classe
-    public final static String cave = "pref"; // TODO pour dire qu'on ait dans liste de souhait
-    final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans liste de souhait
+    public final static String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
     private int posiNom = 0; //pour avoir la position dans le tab du vin sélectionné
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
@@ -123,19 +122,25 @@ public class AffichagePref extends AppCompatActivity {
             public void onClick(View v) {
                 //ajouter le vin dans la cave
                 // on récupère la cave
-                Cave maCave = GestionSauvegarde.getCave();
+                /*Cave maCave = GestionSauvegarde.getCave();
                 // TODO
                 // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                 // on récupère le vin à ajouter
                 Vin vin = pref.rechercheVinParNom(nomVinSel);
                 maCave.ajoutVin(vin, 1); //on ajoute ce vin à la cave (par défaut 1 bouteille)
-                GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave
+                GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave*/
 
-                Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
+                        Toast.LENGTH_SHORT).show();*/
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
                 Log.i("AffichagePref", "on ajoute le vin : " + nomVinSel + " : à la cave !");
+                Intent n = new Intent(AffichagePref.this, AffichageAjoutVinCave.class);
+                n.putExtra(NOM_VIN, nomVinSel);
+                n.putExtra(ENDROIT, 3);
+                n.addCategory(Intent.CATEGORY_HOME);
+                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(n);
             }
         });
 
@@ -152,7 +157,7 @@ public class AffichagePref extends AppCompatActivity {
                 boite.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // on va chercher la liste de souhait
-                                //pref = GestionSauvegarde.getPref();
+                                pref = GestionSauvegarde.getPref();
                                 // TODO
                                 // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                 // on récupère le vin à supprimer

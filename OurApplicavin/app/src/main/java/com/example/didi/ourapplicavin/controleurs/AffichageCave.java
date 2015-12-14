@@ -39,8 +39,8 @@ public class AffichageCave extends AppCompatActivity {
     private int nbBouteilleActualiser; //pour aovir le nb de bouteille actualisé
     private int positionTabNb = 0; //pour avoir la position dans le tab (liste vins) du nb de bouteille
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
-    public final static String nomCave = "cave"; // TODO pour dire qu'on ait dans la cave pr recherche
-    final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la cave pr recherche
+    final static String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste (pas oublier de modif affichage)
     private boolean ajoutOuPas = false; //savoir si on est ds ajout nb d'un vin
     private String[] listeVins; //cave ds un tab
@@ -188,7 +188,7 @@ public class AffichageCave extends AppCompatActivity {
                                     boutonsInvisible();
                                     rechangeCouleurLigneVin(positionTabNb - 2); //on enlève la couleur du vin sélectionné
                                     // on va chercher la cave qu'on a enregistré
-                                    //maCave = GestionSauvegarde.getCave();
+                                    maCave = GestionSauvegarde.getCave();
                                     // TODO
                                     // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                     // on récupère le vin à supprimer
@@ -246,7 +246,7 @@ public class AffichageCave extends AppCompatActivity {
                 ajoutOuPas = false;
                 rechangeCouleurLigneVin(positionTabNb - 2); //enlève couleur vin sélectionné
                 // on va chercher la cave qu'on a enregistré
-                //maCave = GestionSauvegarde.getCave();
+                maCave = GestionSauvegarde.getCave();
                 // TODO
                 // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                 // on va chercher la vin pour changer le nb de bouteille
@@ -301,6 +301,7 @@ public class AffichageCave extends AppCompatActivity {
             Intent n = new Intent(AffichageCave.this, AffichageRechercheVin.class);
             // TODO
             //dire qu'on ait dans la cave pour la recherche
+            n.putExtra(ENDROIT, 1);
             n.addCategory(Intent.CATEGORY_HOME);
             n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);

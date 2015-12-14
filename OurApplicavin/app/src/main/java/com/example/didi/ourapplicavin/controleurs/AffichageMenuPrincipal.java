@@ -30,6 +30,7 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
     private Cave maCave = new Cave();
     private ListePref pref = new ListePref();
     private Bdd bdd = new Bdd();
+    public final static String ENDROIT = "endroit";
 
     //méthode qui se lance lors de cette activité
     @Override
@@ -94,6 +95,7 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
                 Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichageRechercheVin.class);
                 // TODO
                 //dire qu'on ait dans la bdd pour la recherche
+                secondeActivite.putExtra(ENDROIT, 2);
                 startActivity(secondeActivite);
             }
         });
@@ -187,7 +189,6 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         if (bdd == null) {
             bdd = new Bdd();
             bdd.ajoutVin(new Vin("Bordeaux", "rouge", "Merlot", "Aquitaine"));
-            bdd.ajoutVin(new Vin("Bordeaux", "blanc", "Saivignon", "Aquitaine"));
             bdd.ajoutVin(new Vin("Cadillac", "blanc", "Muscadelle", "Aquitaine"));
             bdd.ajoutVin(new Vin("Riesling", "blanc", "Semillon", "Alsace"));
             bdd.ajoutVin(new Vin("Whispering Angel", "rosé", "Grenache", "Provence"));

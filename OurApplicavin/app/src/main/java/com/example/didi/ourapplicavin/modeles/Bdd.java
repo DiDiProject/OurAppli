@@ -20,7 +20,7 @@ public class Bdd extends ListeVin implements Serializable {
         return bdd;
     }
 
-    //Méthode pour ajouter un vin à la bdd
+   //Méthode pour ajouter un vin à la bdd
     @Override
     public void ajoutVin(Vin vin){
         bdd.ajoutVin(vin);
