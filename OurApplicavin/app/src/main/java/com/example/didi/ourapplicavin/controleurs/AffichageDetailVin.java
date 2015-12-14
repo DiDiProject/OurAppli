@@ -94,14 +94,20 @@ public class AffichageDetailVin extends AppCompatActivity {
             return true;
         } else if (id == R.id.allerCave) {
             Intent n = new Intent(AffichageDetailVin.this, AffichageCave.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         } else if (id == R.id.allerPref) {
             Intent n = new Intent(AffichageDetailVin.this, AffichagePref.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         } else if (id == R.id.allerBdd) {
             Intent n = new Intent(AffichageDetailVin.this, AffichageBdd.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }

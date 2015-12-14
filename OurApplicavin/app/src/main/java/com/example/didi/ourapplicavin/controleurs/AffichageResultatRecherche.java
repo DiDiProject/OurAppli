@@ -184,24 +184,32 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         //aller au menu principal
         if (id == R.id.retourMenu) {
             Intent n = new Intent(AffichageResultatRecherche.this, AffichageMenuPrincipal.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
         //aller à la cave
         else if (id == R.id.retourCave) {
             Intent n = new Intent(AffichageResultatRecherche.this, AffichageCave.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
         //aller à la cave
         else if (id == R.id.retourBdd) {
             Intent n = new Intent(AffichageResultatRecherche.this, AffichageBdd.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
         //retour à la recherche
         else if (id == R.id.retourRecherche) {
             Intent n = new Intent(AffichageResultatRecherche.this, AffichageRechercheVin.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }

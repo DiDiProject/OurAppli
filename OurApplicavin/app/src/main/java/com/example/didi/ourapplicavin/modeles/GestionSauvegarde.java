@@ -119,7 +119,7 @@ public class GestionSauvegarde {
                     Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/pref.ser");
             oos = new ObjectOutputStream(fichier);
             oos.writeObject(pref);
-            Log.i("GestionSauvegarde", "enregistrement de la bdd; serialization");
+            Log.i("GestionSauvegarde", "enregistrement de la pref; serialization");
             oos.flush();
         } catch (final java.io.IOException e) {
             e.printStackTrace();
@@ -143,7 +143,7 @@ public class GestionSauvegarde {
                     Environment.DIRECTORY_DOCUMENTS) +"/AppliCavin/pref.ser");
             ois = new ObjectInputStream(fichier);
             final ListePref pref2 = (ListePref) ois.readObject();
-            Log.i("GestionSauvegarde", "récupération de la bdd; deserialization");
+            Log.i("GestionSauvegarde", "récupération de la pref; deserialization");
             pref = pref2;
         } catch (final java.io.IOException e) {
             e.printStackTrace();

@@ -152,7 +152,7 @@ public class AffichagePref extends AppCompatActivity {
                 boite.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // on va chercher la liste de souhait
-                                pref = GestionSauvegarde.getPref();
+                                //pref = GestionSauvegarde.getPref();
                                 // TODO
                                 // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                 // on récupère le vin à supprimer
@@ -223,6 +223,8 @@ public class AffichagePref extends AppCompatActivity {
         // on va dans l'activité AffichageCave
         else if (id == R.id.allerCave) {
             Intent n = new Intent(AffichagePref.this, AffichageCave.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }

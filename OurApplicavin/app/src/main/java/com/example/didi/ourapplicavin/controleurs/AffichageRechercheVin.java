@@ -121,18 +121,24 @@ public class AffichageRechercheVin extends AppCompatActivity {
         // on va dans l'activité AffichageCave
         if (id == R.id.retourMenu) {
             Intent n = new Intent(AffichageRechercheVin.this, AffichageMenuPrincipal.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
         //aller à la cave
         else if (id == R.id.retourCave) {
             Intent n = new Intent(AffichageRechercheVin.this, AffichageCave.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
         //aller à la bdd
         else if (id == R.id.retourBdd) {
             Intent n = new Intent(AffichageRechercheVin.this, AffichageBdd.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }

@@ -188,7 +188,7 @@ public class AffichageCave extends AppCompatActivity {
                                     boutonsInvisible();
                                     rechangeCouleurLigneVin(positionTabNb - 2); //on enlève la couleur du vin sélectionné
                                     // on va chercher la cave qu'on a enregistré
-                                    maCave = GestionSauvegarde.getCave();
+                                    //maCave = GestionSauvegarde.getCave();
                                     // TODO
                                     // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                     // on récupère le vin à supprimer
@@ -246,12 +246,13 @@ public class AffichageCave extends AppCompatActivity {
                 ajoutOuPas = false;
                 rechangeCouleurLigneVin(positionTabNb - 2); //enlève couleur vin sélectionné
                 // on va chercher la cave qu'on a enregistré
-                maCave = GestionSauvegarde.getCave();
+                //maCave = GestionSauvegarde.getCave();
                 // TODO
                 // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                 // on va chercher la vin pour changer le nb de bouteille
                 Vin vin = maCave.rechercheVinParNom(nomVinSel);
                 maCave.setNbBouteilleVin(vin, nbBouteilles); //onchage le nb de bouteille du vin ds la cave
+                Log.i("AffichageCave", "on actualise le nb de bouteille de " + nomVinSel);
                 affichage(); //on réactualise la cave pour l'affichage
                 GestionSauvegarde.enregistrementCave(maCave); //on enregistre la nouvelle liste de vin dans la cave (fichier .ser)
                 //on affichage l'actulisation de la cave
@@ -300,6 +301,8 @@ public class AffichageCave extends AppCompatActivity {
             Intent n = new Intent(AffichageCave.this, AffichageRechercheVin.class);
             // TODO
             //dire qu'on ait dans la cave pour la recherche
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
@@ -346,12 +349,12 @@ public class AffichageCave extends AppCompatActivity {
     }
 
     //Méthode pour initialiser la cave (donc avec 0 vin)
-    /*public void init() {
+    public void init() {
         maCave = new Cave();
         affichage();
         Log.i("AffichageCave", "on a initialisé la liste de vin de la cave et on va enegistrer cette liste dans un fichier .ser");
         GestionSauvegarde.enregistrementCave(maCave); //enregistrement de la cave (vide pour l'instant)
-    }*/
+    }
 
     //Méthode pour enregistrer la cave dans un tableau pour après l'afficher
     public void affichage() {

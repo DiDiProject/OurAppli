@@ -95,6 +95,8 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
         // on va dans l'activité AffichageCave
         else if (id == R.id.allerCave) {
             Intent n = new Intent(AffichageAjoutVinCave.this, AffichageCave.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
@@ -102,6 +104,8 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
         // on va dans l'activité AffichagePref
         else if (id == R.id.allerPref) {
             Intent n = new Intent(AffichageAjoutVinCave.this, AffichagePref.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
@@ -109,6 +113,8 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
         // on va dans l'activité AffichageBdd
         else if (id == R.id.allerBdd) {
             Intent n = new Intent(AffichageAjoutVinCave.this, AffichageBdd.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }

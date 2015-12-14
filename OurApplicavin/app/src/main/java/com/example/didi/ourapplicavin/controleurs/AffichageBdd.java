@@ -208,6 +208,8 @@ public class AffichageBdd extends AppCompatActivity {
         // on va dans l'activité AffichageCave
         else if (id == R.id.allerCave) {
             Intent n = new Intent(AffichageBdd.this, AffichageCave.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
@@ -218,6 +220,8 @@ public class AffichageBdd extends AppCompatActivity {
             Intent n = new Intent(AffichageBdd.this, AffichageRechercheVin.class);
             // TODO
             //dire qu'on ait dans la base de données pour la recherche
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
@@ -226,6 +230,8 @@ public class AffichageBdd extends AppCompatActivity {
             Toast.makeText(AffichageBdd.this, "Vous aller effectuer un ajout de vin dans la base de données",
                     Toast.LENGTH_SHORT).show();
             Intent n = new Intent(AffichageBdd.this, AffichageAjoutVinBdd.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -177,6 +178,7 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         if (maCave == null) {
             maCave = new Cave();
             GestionSauvegarde.enregistrementCave(maCave); //enregistrement de la cave (vide pour l'instant)
+            Log.i("AffichageMenuPrincipal", "cave vide ");
         }
         if (pref == null) {
             pref = new ListePref();
