@@ -91,7 +91,12 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             endroit = 2;
         }
         Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
-        rechercheParNom();
+        int type_recherche = i.getIntExtra(AffichageRechercheVin.TYPE_RECHERCHE, 0);
+        if (type_recherche == 0) {
+            rechercheParNom();
+        } else {
+            rechercheParCritere();
+        }
 
         /*listeVins = new String[]{
                 "Bordeaux", "rouge", "8", "rr1",
@@ -310,5 +315,9 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         listeVins[1] = vin.getCouleur();
         listeVins[2] = vin.getCepage();
         listeVins[3] = vin.getRegion();
+    }
+
+    public void rechercheParCritere(){
+        // TODO
     }
 }

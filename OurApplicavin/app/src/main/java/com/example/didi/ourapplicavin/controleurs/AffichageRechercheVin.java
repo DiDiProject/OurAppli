@@ -34,6 +34,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
     private boolean avanceeOuPas = false; //si on ait dans recherche par critère ou pas (non de base)
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     public final static String ENDROIT = "endroit";
+    public final static String TYPE_RECHERCHE = "type de recherche";
     private int endroit = 0;
 
     //Méthode qui se lance quand on est dans cette activité
@@ -89,6 +90,9 @@ public class AffichageRechercheVin extends AppCompatActivity {
                 n.putExtra(NOM_VIN, nom.getText().toString()); //on passe le nom à chercher à l'activé résultat
                 Log.i("AffichageRecherche", nom.getText().toString() + " vin recherché  :::");
                 n.putExtra(ENDROIT, endroit);
+                n.putExtra(TYPE_RECHERCHE, 0);
+                n.addCategory(Intent.CATEGORY_HOME);
+                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(n);
             }
         });
@@ -111,6 +115,9 @@ public class AffichageRechercheVin extends AppCompatActivity {
                 // TODO
                 Intent n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
                 //mettre en para les différents champs
+                n.putExtra(TYPE_RECHERCHE,0);
+                n.addCategory(Intent.CATEGORY_HOME);
+                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(n);
             }
         });
