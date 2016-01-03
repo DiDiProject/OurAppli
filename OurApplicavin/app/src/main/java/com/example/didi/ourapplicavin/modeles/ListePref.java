@@ -24,6 +24,10 @@ public class ListePref implements Serializable {
         return pref;
     }
 
+    public Vin getVin(int posi){
+        return pref.getVin(posi);
+    }
+
     //Méthode pour rechercher un vin avec le nom dans la bdd
     public Vin rechercheVinParNom(String nom){
         return pref.rechercheVinParNom(nom);

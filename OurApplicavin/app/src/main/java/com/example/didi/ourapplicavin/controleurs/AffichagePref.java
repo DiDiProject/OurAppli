@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
 import com.example.didi.ourapplicavin.modeles.Bdd;
+import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.ListePref;
 import com.example.didi.ourapplicavin.modeles.Vin;
@@ -44,6 +45,7 @@ public class AffichagePref extends AppCompatActivity {
     private String[] listeVins; //liste de souhait ds un tab
     private ListePref pref = new ListePref(); // liste de souhait
     private Bdd bdd = new Bdd();
+    private Cave maCave = new Cave();
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -105,15 +107,20 @@ public class AffichagePref extends AppCompatActivity {
                 Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
                 bdd = GestionSauvegarde.getBdd();
                 int positionBdd = bdd.rechercheVin(vin);
-                //on va à l'activité détailVin
-                Log.i("AffichagePref", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds cave " + positionBdd);
-                //on va à l'activité détailVin
-                Intent n = new Intent(AffichagePref.this, AffichageDetailVin.class);
-                n.putExtra(VIN_BDD, positionBdd);
-                //en passant des données (nom du vin ici)
-                // TODO
-                // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
-                startActivity(n);
+                if(positionBdd!=-1) {
+                    //on va à l'activité détailVin
+                    Log.i("AffichagePref", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds cave " + positionBdd);
+                    //on va à l'activité détailVin
+                    Intent n = new Intent(AffichagePref.this, AffichageDetailVin.class);
+                    n.putExtra(VIN_BDD, positionBdd);
+                    //en passant des données (nom du vin ici)
+                    // TODO
+                    // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
+                    startActivity(n);
+                } else {
+                    Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans votre pref !!!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -129,6 +136,9 @@ public class AffichagePref extends AppCompatActivity {
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
                         nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
+                        couleurVinSel = (String) ((TextView) tab.getChildAt(position - i + 1)).getText();
+                        cepageVinSel = (String) ((TextView) tab.getChildAt(position - i + 2)).getText();
+                        regionVinSel = (String) ((TextView) tab.getChildAt(position - i + 3)).getText();
                         posiNom = position - i;
                     }
                 }
@@ -155,13 +165,25 @@ public class AffichagePref extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();*/
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
-                Log.i("AffichagePref", "on ajoute le vin : " + nomVinSel + " : à la cave !");
-                Intent n = new Intent(AffichagePref.this, AffichageAjoutVinCave.class);
-                n.putExtra(NOM_VIN, nomVinSel);
-                n.putExtra(ENDROIT, 3);
-                n.addCategory(Intent.CATEGORY_HOME);
-                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(n);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+
+                maCave = GestionSauvegarde.getCave();
+                if(maCave.rechercheVin(vin)!=-1){
+                    Toast.makeText(getApplicationContext(), "ce vin a déjà été ajouté à votre cave !!!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+
+                    bdd = GestionSauvegarde.getBdd();
+                    int positionBdd = bdd.rechercheVin(vin);
+
+                    Log.i("AffichagePref", "on ajoute le vin : " + nomVinSel + " : à la cave !");
+                    Intent n = new Intent(AffichagePref.this, AffichageAjoutVinCave.class);
+                    n.putExtra(VIN_BDD, positionBdd);
+                    n.putExtra(ENDROIT, 3);
+                    n.addCategory(Intent.CATEGORY_HOME);
+                    n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(n);
+                }
             }
         });
 
@@ -182,7 +204,11 @@ public class AffichagePref extends AppCompatActivity {
                                 // TODO
                                 // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                 // on récupère le vin à supprimer
-                                Vin vin = pref.rechercheVinParNom(nomVinSel);
+                                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                                int posi = pref.rechercheVin(vin);
+                                if(posi!=-1){
+                                Log.i("AffichagePref", "position pref "+posi);
+                                vin = pref.getVin(posi);
                                 pref.supprVin(vin); // on supprime le vin de la liste de souhait
                                 affichage(); //on réactualise la cave pour l'affichage
                                 GestionSauvegarde.enregistrementPref(pref); //on sauvegarde la liste de souhait
@@ -192,9 +218,13 @@ public class AffichagePref extends AppCompatActivity {
                                 tab.setAdapter(adapter);
                                 //rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
                                 boutonsInvisible(); // on remet invisible les boutons
-                                Toast.makeText(getApplicationContext(), "Ce vin va être supprimer !!!",
+                                Toast.makeText(getApplicationContext(), "Ce vin a été supprimé !!!",
                                         Toast.LENGTH_SHORT).show();
                                 Log.i("AfichagePref", "suppression Vin : " + nomVinSel);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans votre pref !!!",
+                                            Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
                 );

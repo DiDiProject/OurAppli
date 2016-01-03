@@ -135,6 +135,7 @@ public class Cave implements Serializable {
     public int rechercheVin(Vin vin){
         return maCave.rechercheVin(vin);
     }
+
     //Méthode pour recherche des vins par critère dans la cave
     public ListeVin rechercheVinParCritere(){
         return maCave.rechercheVinParCritere();

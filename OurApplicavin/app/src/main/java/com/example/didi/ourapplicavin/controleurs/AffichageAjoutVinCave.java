@@ -28,6 +28,8 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
 
     private String nomVinSel = "";
     private int endroit = 0;
+    final static String VIN_BDD = "vin ds bdd";
+    private Vin vinSel = new Vin();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,44 +52,47 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
         bdd = GestionSauvegarde.getBdd();
         //GestionSauvegarde.enregistrementBdd(bdd);
 
+        int posiBdd = -1;
         Intent i = getIntent();
         endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);
-        if(endroit == 2) {
-            nomVinSel = i.getStringExtra(AffichageBdd.NOM_VIN);
-        } else {
-            nomVinSel = i.getStringExtra(AffichagePref.NOM_VIN);
-        }
+        posiBdd = i.getIntExtra(AffichageBdd.VIN_BDD, -1);
+        Log.i("AffichageAjoutVinCave", "posi " + posiBdd + " et endroit "+endroit);
 
-        //pour ajouter le vin avec les info de l'utilisateur dans la bdd
-        ajout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (posiBdd != -1) {
+            bdd = GestionSauvegarde.getBdd();
+            vinSel = bdd.getVin(posiBdd);
+            Log.i("AffichageAjoutVinCave", "dd");
 
-                //maCave = GestionSauvegarde.getCave();
-                //bdd = GestionSauvegarde.getBdd();
-                // on va chercher le vin
-                // TODO pour millésime
-                // TODO faire la recherche avec tous les critères pas juste le nom
-                Log.i("AffichageAjoutVinCave", nomVinSel + " ajouter à la cave !");
-                Vin vin = bdd.rechercheVinParNom(nomVinSel);
-                int nb = Integer.parseInt(nbBouteille.getText().toString());
-                maCave.ajoutVin(vin, nb); // on ajoute ce vin à la cave
-                GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel
+            //pour ajouter le vin avec les info de l'utilisateur dans la bdd
+            ajout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                //Affichage court
-                Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave ! ",
-                        Toast.LENGTH_SHORT).show();
-                Intent n;
-                if(endroit == 2) {
-                    n = new Intent(AffichageAjoutVinCave.this, AffichageBdd.class);
-                } else {
-                    n = new Intent(AffichageAjoutVinCave.this, AffichagePref.class);
+                    //maCave = GestionSauvegarde.getCave();
+                    //bdd = GestionSauvegarde.getBdd();
+                    // on va chercher le vin
+                    // TODO pour millésime
+                    // TODO faire la recherche avec tous les critères pas juste le nom
+                    Log.i("AffichageAjoutVinCave", nomVinSel + " ajouter à la cave !");
+                    int nb = Integer.parseInt(nbBouteille.getText().toString());
+                    maCave.ajoutVin(vinSel, nb); // on ajoute ce vin à la cave
+                    GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel
+
+                    //Affichage court
+                    Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave ! ",
+                            Toast.LENGTH_SHORT).show();
+                    Intent n;
+                    if (endroit == 2) {
+                        n = new Intent(AffichageAjoutVinCave.this, AffichageBdd.class);
+                    } else {
+                        n = new Intent(AffichageAjoutVinCave.this, AffichagePref.class);
+                    }
+                    n.addCategory(Intent.CATEGORY_HOME);
+                    n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(n);
                 }
-                n.addCategory(Intent.CATEGORY_HOME);
-                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(n);
-            }
-        });
+            });
+        }
     }
 
     //Méthode qui permet de mettre un menu à l'écran

@@ -137,17 +137,26 @@ public class AffichageCave extends AppCompatActivity {
                 maCave = GestionSauvegarde.getCave();
                 int positionCave = maCave.rechercheVin(vin);
                 //on va à l'activité détailVin
-                Log.i("AffichageCaveé", "couleur " + couleurVinSel + " region " + regionVinSel + " nb " + nbVinSel + " posi ds cave " + positionCave);
-                bdd = GestionSauvegarde.getBdd();
-                int positionBdd = bdd.rechercheVin(vin);
-
-                Intent n = new Intent(AffichageCave.this, AffichageDetailVin.class);
-                //en passant des données (nom du vin ici)
-                n.putExtra(NOM_VIN, positionCave);
-                n.putExtra(VIN_BDD, positionBdd);
-                // TODO
-                // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
-                startActivity(n);
+                if (positionCave != -1) {
+                    Log.i("AffichageCaveé", "couleur " + couleurVinSel + " region " + regionVinSel + " nb " + nbVinSel + " posi ds cave " + positionCave);
+                    bdd = GestionSauvegarde.getBdd();
+                    int positionBdd = bdd.rechercheVin(vin);
+                    if (positionBdd != -1) {
+                        Intent n = new Intent(AffichageCave.this, AffichageDetailVin.class);
+                        //en passant des données (nom du vin ici)
+                        n.putExtra(NOM_VIN, positionCave);
+                        n.putExtra(VIN_BDD, positionBdd);
+                        // TODO
+                        // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
+                        startActivity(n);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans la bdd !!!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans votre cave !!!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -245,15 +254,22 @@ public class AffichageCave extends AppCompatActivity {
                                     // TODO
                                     // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                     // on récupère le vin à supprimer
-                                    Vin vin = maCave.rechercheVinParNom(nomVinSel);
-                                    maCave.supprVin(vin); //on supprime ce vin de la cave
-                                    affichage(); //on réactualise la cave pour l'affichage
-                                    GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave
-                                    //on affichage l'actulisation de la cave
-                                    ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageCave.this,
-                                            android.R.layout.simple_list_item_1, listeVins);
-                                    tab.setAdapter(adapter);
-                                    Log.i("AfichageCave", "suppression du vin : " + nomVinSel);
+                                    Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                                    int posi = maCave.rechercheVin(vin);
+                                    if (posi != -1) {
+                                        vin = maCave.getVin(posi);
+                                        maCave.supprVin(vin); //on supprime ce vin de la cave
+                                        affichage(); //on réactualise la cave pour l'affichage
+                                        GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave
+                                        //on affichage l'actulisation de la cave
+                                        ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageCave.this,
+                                                android.R.layout.simple_list_item_1, listeVins);
+                                        tab.setAdapter(adapter);
+                                        Log.i("AfichageCave", "suppression du vin : " + nomVinSel);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans votre cave !!!",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                     );
@@ -268,15 +284,22 @@ public class AffichageCave extends AppCompatActivity {
                                     // TODO
                                     // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                     // on va chercher la vin pour changer le nb de bouteille => 0
-                                    Vin vin = maCave.rechercheVinParNom(nomVinSel);
-                                    maCave.setNbBouteilleVin(vin, 0); // on modifie le nb de bouteille du vin
-                                    affichage(); //on réactualise la cave pour l'affichage
-                                    GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave
-                                    //on affichage l'actulisation de la cave
-                                    ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageCave.this,
-                                            android.R.layout.simple_list_item_1, listeVins);
-                                    tab.setAdapter(adapter);
-                                    Log.i("AfichageCave", "conservation du vin : " + nomVinSel + ": avec 0 bouteille !");
+                                    Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                                    int posi = maCave.rechercheVin(vin);
+                                    if (posi != -1) {
+                                        vin = maCave.getVin(posi);
+                                        maCave.setNbBouteilleVin(vin, 0); // on modifie le nb de bouteille du vin
+                                        affichage(); //on réactualise la cave pour l'affichage
+                                        GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave
+                                        //on affichage l'actulisation de la cave
+                                        ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageCave.this,
+                                                android.R.layout.simple_list_item_1, listeVins);
+                                        tab.setAdapter(adapter);
+                                        Log.i("AfichageCave", "conservation du vin : " + nomVinSel + ": avec 0 bouteille !");
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans votre cave !!!",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                     );
@@ -303,16 +326,23 @@ public class AffichageCave extends AppCompatActivity {
                 // TODO
                 // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                 // on va chercher la vin pour changer le nb de bouteille
-                Vin vin = maCave.rechercheVinParNom(nomVinSel);
-                maCave.setNbBouteilleVin(vin, nbBouteilles); //onchage le nb de bouteille du vin ds la cave
-                Log.i("AffichageCave", "on actualise le nb de bouteille de " + nomVinSel);
-                affichage(); //on réactualise la cave pour l'affichage
-                GestionSauvegarde.enregistrementCave(maCave); //on enregistre la nouvelle liste de vin dans la cave (fichier .ser)
-                //on affichage l'actulisation de la cave
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageCave.this,
-                        android.R.layout.simple_list_item_1, listeVins);
-                tab.setAdapter(adapter);
-                Log.i("AffichageCave", "on actualise le nb de bouteille de " + nomVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                int posi = maCave.rechercheVin(vin);
+                if (posi != -1) {
+                    vin = maCave.getVin(posi);
+                    maCave.setNbBouteilleVin(vin, nbBouteilles); //onchage le nb de bouteille du vin ds la cave
+                    Log.i("AffichageCave", "on actualise le nb de bouteille de " + nomVinSel);
+                    affichage(); //on réactualise la cave pour l'affichage
+                    GestionSauvegarde.enregistrementCave(maCave); //on enregistre la nouvelle liste de vin dans la cave (fichier .ser)
+                    //on affichage l'actulisation de la cave
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageCave.this,
+                            android.R.layout.simple_list_item_1, listeVins);
+                    tab.setAdapter(adapter);
+                    Log.i("AffichageCave", "on actualise le nb de bouteille de " + nomVinSel);
+                } else {
+                    Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans votre cave !!!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

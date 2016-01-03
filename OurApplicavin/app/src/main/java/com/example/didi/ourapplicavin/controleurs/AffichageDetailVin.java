@@ -64,7 +64,7 @@ public class AffichageDetailVin extends AppCompatActivity {
             maCave = GestionSauvegarde.getCave();
             cave = true;
         }
-        else if (posiBdd != -1) {
+        if (posiBdd != -1) {
             bdd = GestionSauvegarde.getBdd();
             string_nomVin = bdd.getVin(posiBdd).getNom();
         }

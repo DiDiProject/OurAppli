@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
 import com.example.didi.ourapplicavin.modeles.Bdd;
+import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.ListePref;
 import com.example.didi.ourapplicavin.modeles.Vin;
@@ -39,10 +40,11 @@ public class AffichageBdd extends AppCompatActivity {
     private int posi; //pour avoir la position dans le tab du vin sélectionné
     public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la bdd pr recherche
     public final static String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
-    final static String VIN_BDD = "vin bdd";
+    public final static String VIN_BDD = "vin bdd";
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste (pas oublier de modif affichage)
     private String[] listeVins; //bdd dans un tab
     private Bdd bdd = new Bdd(); //bdd qu'on va chercher ds fichier .ser
+    private Cave maCave = new Cave();
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -135,6 +137,9 @@ public class AffichageBdd extends AppCompatActivity {
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
                         nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
+                        couleurVinSel = (String) ((TextView) tab.getChildAt(position - i + 1)).getText();
+                        cepageVinSel = (String) ((TextView) tab.getChildAt(position - i + 2)).getText();
+                        regionVinSel = (String) ((TextView) tab.getChildAt(position - i + 3)).getText();
                         posi = position - i;
                     }
                 }
@@ -161,12 +166,23 @@ public class AffichageBdd extends AppCompatActivity {
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posi); // on enlève la couleur du vin sélectionné
 
-                Intent n = new Intent(AffichageBdd.this, AffichageAjoutVinCave.class);
-                n.putExtra(NOM_VIN, nomVinSel);
-                n.putExtra(ENDROIT,2);
-                n.addCategory( Intent.CATEGORY_HOME );
-                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(n);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                maCave = GestionSauvegarde.getCave();
+                if (maCave.rechercheVin(vin) != -1) {
+                    Toast.makeText(getApplicationContext(), "ce vin a déjà été ajouté à votre cave !!!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    bdd = GestionSauvegarde.getBdd();
+                    int positionBdd = bdd.rechercheVin(vin);
+                    Log.i("AffichageBdd", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds cave " + positionBdd);
+
+                    Intent n = new Intent(AffichageBdd.this, AffichageAjoutVinCave.class);
+                    n.putExtra(VIN_BDD, positionBdd);
+                    n.putExtra(ENDROIT, 2);
+                    n.addCategory(Intent.CATEGORY_HOME);
+                    n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(n);
+                }
             }
         });
 
@@ -180,7 +196,7 @@ public class AffichageBdd extends AppCompatActivity {
                 bdd = GestionSauvegarde.getBdd();
                 // on va chercher le vin
                 // TODO faire la recherche avec tous les critères pas juste le nom
-                Vin vin = bdd.rechercheVinParNom(nomVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
                 pref.ajoutVin(vin); // on ajoute le vin à la pref
                 GestionSauvegarde.enregistrementPref(pref); // on sauvegarde la liste de souhait sur  le tél
                 //Affichage court
