@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
@@ -15,13 +18,17 @@ import com.example.didi.ourapplicavin.modeles.Bdd;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //Classe qui permet à l'utilisateur d'ajouter un vin dans la bdd
 public class AffichageAjoutVinBdd extends AppCompatActivity {
     // Attributs associé au layout
     private EditText nom = null; //pour récupérer le nom
-    private EditText robe = null; //pour récupérer la couleur
+    //private EditText robe = null; //pour récupérer la couleur
     private EditText cepage = null; //pour récupérer le cépage
     private EditText region = null; //pour récupérer la région
+    private Spinner listeCouleur = null;
     //Attributs assicié à cette classe
     private String stringNom = ""; //pour avoir le nom en string
     private String stringRobe = ""; //la couleur en string
@@ -42,16 +49,51 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
 
         //on va cherche tous les élements qui nous interressent dans le layout
         nom = (EditText) findViewById(R.id.nomAjout);
-        robe = (EditText) findViewById(R.id.robeAjout);
+        //robe = (EditText) findViewById(R.id.robeAjout);
         cepage = (EditText) findViewById(R.id.cepageAjout);
         region = (EditText) findViewById(R.id.regionAjout);
         Button ajoutVin = (Button)findViewById(R.id.ajoutVinDsBdd); //bouton pour ajouter ce vin dans la bdd
+        listeCouleur = (Spinner)findViewById(R.id.listeCouleur);
+
+        List liste = new ArrayList();
+        liste.add("Rouge");
+        liste.add("Blanc");
+        liste.add("Rosé");
+
+ /*Le Spinner a besoin d'un adapter pour sa presentation alors on lui passe le context(this) et
+                un fichier de presentation par défaut( android.R.layout.simple_spinner_item)
+ Avec la liste des elements (exemple) */
+        ArrayAdapter adapter = new ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item,
+                liste
+        );
+
+
+               /* On definit une présentation du spinner quand il est déroulé         (android.R.layout.simple_spinner_dropdown_item) */
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Enfin on passe l'adapter au Spinner et c'est tout
+        listeCouleur.setAdapter(adapter);
 
         // on initialise les champs pour un ajout
         nom.setText("");
-        robe.setText("");
+        //robe.setText("");
         cepage.setText("");
         region.setText("");
+
+        listeCouleur.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                stringRobe = String.valueOf(listeCouleur.getSelectedItem());
+                Toast.makeText(AffichageAjoutVinBdd.this, "couleur du vin : " + stringRobe,
+                        Toast.LENGTH_SHORT).show(); }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+
+        });
 
         //pour ajouter le vin avec les info de l'utilisateur dans la bdd
         ajoutVin.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +101,7 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
             public void onClick(View v) {
                 // on récupère les informations que l'utilisateur a rempli sur le vin à ajouter
                 stringNom = nom.getText().toString();
-                stringRobe = robe.getText().toString();
+                //stringRobe = robe.getText().toString();
                 stringCepage = cepage.getText().toString();
                 stringRegion = region.getText().toString();
                 //si l'utilisateur n'a rien rempli => on va pas l'ajouter à la bdd
@@ -70,9 +112,9 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
                 } else {
                     //on crée ce vin
                     Vin vin = new Vin(stringNom, stringRobe, stringCepage, stringRegion);
-                    //on va chercher notre bdd (enregistrer sur le téléphone/tablette fichier .ser)
                     Bdd bdd = GestionSauvegarde.getBdd();
-                    if(bdd.rechercheVin(vin)!=-1) {
+                    //on va chercher notre bdd (enregistrer sur le téléphone/tablette fichier .ser)
+                    if(bdd.rechercheVin(vin)==-1) {
                         bdd.ajoutVin(vin); //on ajoute le vin à la bdd
                         GestionSauvegarde.enregistrementBdd(bdd); //on sauvegarde cet ajout sur le tèl
                         //Affichage court
@@ -80,7 +122,7 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                         // on initialise les champs pour un nouveau ajout
                         nom.setText("");
-                        robe.setText("");
+                        //robe.setText("");
                         cepage.setText("");
                         region.setText("");
                     } else {

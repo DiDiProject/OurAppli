@@ -60,7 +60,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
-            android:layout_marginLeft="70dp" />
+            android:layout_marginLeft="70dp"
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/textCepageAjout"
@@ -105,6 +106,14 @@
             android:text="  Ajouter ce vin dans la base de données  "
             android:layout_marginTop="260dp"
             android:layout_centerHorizontal="true"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listeCouleur"
+            android:layout_below="@+id/nomAjout"
+            android:layout_alignLeft="@+id/nomAjout"
+            android:layout_alignStart="@+id/nomAjout" />
 
     </RelativeLayout>
 </ScrollView>

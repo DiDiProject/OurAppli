@@ -11,28 +11,34 @@
         android:id="@+id/tabNomColCave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/augmenter"
         android:background="#b9cefd"
-        android:columnWidth="100dp"
+        android:columnWidth="0dp"
         android:gravity="center"
         android:numColumns="auto_fit"
-        android:stretchMode="columnWidth" />
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"/>
 
     <!-- tableau qui affiche la liste des vins de la cave -->
     <GridView
         android:id="@+id/tabResultatVinCave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/augmenter"
         android:layout_marginTop="65dp"
-        android:columnWidth="100dp"
+        android:columnWidth="0dp"
         android:gravity="center"
         android:numColumns="auto_fit"
-        android:stretchMode="columnWidth" />
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"/>
 
     <!-- bouton pour augmenter le nb de bouteille d'un vin -->
     <Button
