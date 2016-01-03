@@ -140,4 +140,16 @@ public class Cave implements Serializable {
     public ListeVin rechercheVinParCritere(){
         return maCave.rechercheVinParCritere();
     }
+
+    public String toString(){
+        String affichage = "Liste des vins :";
+        for (int i = 0; i < maCave.getListeVins().size(); i++) {
+            affichage += "\nNom = " + maCave.getListeVins().get(i).getNom();
+            affichage += "\nrobe = " + maCave.getListeVins().get(i).getCouleur();
+            affichage +=  "\ncépage(s) = " + maCave.getListeVins().get(i).getCepage();
+            affichage += "\nrégion = " + maCave.getListeVins().get(i).getRegion() + "\n";
+        }
+        affichage = "Fin de la liste des vins.";
+        return affichage;
+    }
 }

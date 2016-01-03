@@ -42,4 +42,8 @@ public class ListePref implements Serializable {
     public ListeVin rechercheVinParCritere(){
         return pref.rechercheVinParCritere();
     }
+
+    public String toString(){
+        return pref.toString();
+    }
 }

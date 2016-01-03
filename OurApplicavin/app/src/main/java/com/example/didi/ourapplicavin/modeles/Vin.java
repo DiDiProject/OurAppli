@@ -16,12 +16,12 @@ public class Vin implements Serializable {
     private FicheVin detail;
 
     //Constructeur d'inialisation vin (vide)
-    public Vin(){
+    public Vin() {
         // TODO
         nom = "";
-        couleur ="";
+        couleur = "";
         cepage = "";
-        region ="";
+        region = "";
         detail = new FicheVin(this, "");
     }
 
@@ -63,8 +63,16 @@ public class Vin implements Serializable {
         return detail;
     }
 
-    public boolean compareVin(Objects v){
+    public boolean compareVin(Objects v) {
         // TODO
         return true;
+    }
+
+    public String toString() {
+        String affichage = "";
+        affichage += "\n- Robe : " + couleur;
+        affichage += "\n- Cépage : " + cepage;
+        affichage += "\n- Région : " + region ;
+        return affichage;
     }
 }

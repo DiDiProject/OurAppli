@@ -72,16 +72,21 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
                     Vin vin = new Vin(stringNom, stringRobe, stringCepage, stringRegion);
                     //on va chercher notre bdd (enregistrer sur le téléphone/tablette fichier .ser)
                     Bdd bdd = GestionSauvegarde.getBdd();
-                    bdd.ajoutVin(vin); //on ajoute le vin à la bdd
-                    GestionSauvegarde.enregistrementBdd(bdd); //on sauvegarde cet ajout sur le tèl
-                    //Affichage court
-                    Toast.makeText(getApplicationContext(),"Votre vin a bien été ajouté à la bdd !",
-                            Toast.LENGTH_SHORT).show();
-                    // on initialise les champs pour un nouveau ajout
-                    nom.setText("");
-                    robe.setText("");
-                    cepage.setText("");
-                    region.setText("");
+                    if(bdd.rechercheVin(vin)!=-1) {
+                        bdd.ajoutVin(vin); //on ajoute le vin à la bdd
+                        GestionSauvegarde.enregistrementBdd(bdd); //on sauvegarde cet ajout sur le tèl
+                        //Affichage court
+                        Toast.makeText(getApplicationContext(), "Votre vin a bien été ajouté à la bdd !",
+                                Toast.LENGTH_SHORT).show();
+                        // on initialise les champs pour un nouveau ajout
+                        nom.setText("");
+                        robe.setText("");
+                        cepage.setText("");
+                        region.setText("");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Ce vin est déjà dans la bdd !",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

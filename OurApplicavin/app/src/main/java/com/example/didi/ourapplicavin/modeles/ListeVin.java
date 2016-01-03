@@ -119,4 +119,16 @@ public class ListeVin implements Serializable {
         // TODO
         return liste;
     }
+
+    public String toString(){
+        String affichage = "Liste des vins :";
+        for (int i = 0; i < listeVins.size(); i++) {
+            affichage += "\nNom = " + listeVins.get(i).getNom();
+            affichage += "\nrobe = " + listeVins.get(i).getCouleur();
+            affichage +=  "\ncépage = " + listeVins.get(i).getCepage();
+            affichage += "\nrégion = " + listeVins.get(i).getRegion() + "\n";
+        }
+        affichage = "Fin de la liste des vins.";
+        return affichage;
+    }
 }

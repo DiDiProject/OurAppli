@@ -21,6 +21,7 @@ public class AffichageDetailVin extends AppCompatActivity {
     //Attributs associé au layout
     private TextView nomVin = null; //pour afficher le nom du vin
     private TextView detailVin = null; //pour afficher le détail du vin
+    private TextView texteRemarques = null;
     private EditText remarquesVin = null; //pour afficher les remarques sur ce vin
     private Button enregistrer = null; //pour enregistrer les remarques
     //Attributs associé à cette classe
@@ -49,6 +50,7 @@ public class AffichageDetailVin extends AppCompatActivity {
         detailVin = (TextView) findViewById(R.id.detailVin);
         remarquesVin = (EditText) findViewById(R.id.remarquesVin);
         enregistrer = (Button) findViewById(R.id.enregistrer);
+        texteRemarques = (TextView)findViewById(R.id.textView6);
 
         //On récupère le nom du vin passé en paramètre lors de la transition (depuis autre activité)
         Intent intent = getIntent();
@@ -74,8 +76,9 @@ public class AffichageDetailVin extends AppCompatActivity {
         nomVin.setText(string_nomVin); //on affiche le nom du vin
         // TODO
         // récupérer la desccription du vin en question
-        string_detailVin = "Détail du vin \n-type de vin : ... \n-cépage : ... \n-région : ...";
+        //string_detailVin = "Détail du vin \n-type de vin : ... \n-cépage : ... \n-région : ...";
         //on affiche le détail
+        string_detailVin = bdd.getVin(posiBdd).toString();
         detailVin.setText(string_detailVin);
 
         if (cave) {
@@ -93,6 +96,8 @@ public class AffichageDetailVin extends AppCompatActivity {
                     // il faut maintenant les enregistrer
                 }
             });
+        } else {
+            remarquesInvisible();
         }
     }
 
@@ -141,5 +146,17 @@ public class AffichageDetailVin extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void remarquesVisible(){
+        texteRemarques.setVisibility(View.VISIBLE);
+        remarquesVin.setVisibility(View.VISIBLE);
+        enregistrer.setVisibility(View.VISIBLE);
+    }
+
+    private void remarquesInvisible(){
+        texteRemarques.setVisibility(View.INVISIBLE);
+        remarquesVin.setVisibility(View.INVISIBLE);
+        enregistrer.setVisibility(View.INVISIBLE);
     }
 }
