@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.didi.ourapplicavin.R;
+import com.example.didi.ourapplicavin.modeles.Bdd;
+import com.example.didi.ourapplicavin.modeles.Cave;
+import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 
 //Classe qui affiche la description d'un vin
 // (de la cave, de la liste de pref, de la bdd ou d'une recherche)
@@ -21,16 +24,25 @@ public class AffichageDetailVin extends AppCompatActivity {
     private EditText remarquesVin = null; //pour afficher les remarques sur ce vin
     private Button enregistrer = null; //pour enregistrer les remarques
     //Attributs associé à cette classe
-    final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    final String NOM_VIN = "vin cave"; //pour passer le nom du vin à une autre activité
+    final String VIN_BDD = "vin bdd";
     private String string_nomVin = ""; //pour avoir le nom du vin en string
     private String string_detailVin = ""; //pour avoir le détail du vin en string
     private String string_remarquesVin = ""; //pour avoir les remarques du vin en string
+    private Cave maCave = new Cave();
+    private Bdd bdd = new Bdd();
+    private boolean cave = false;
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_detail_vin); //on affiche le layout associé
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         //on va cherche tous les élements qui nous interresse dans le layout
         nomVin = (TextView) findViewById(R.id.nomVin);
@@ -40,32 +52,48 @@ public class AffichageDetailVin extends AppCompatActivity {
 
         //On récupère le nom du vin passé en paramètre lors de la transition (depuis autre activité)
         Intent intent = getIntent();
+        int posiCave = -1;
+        int posiBdd = -1;
+
         if (intent != null) {
-            string_nomVin = intent.getStringExtra(NOM_VIN);
-            nomVin.setText(string_nomVin); //on affiche le nom du vin
+            posiCave = intent.getIntExtra(NOM_VIN, -1);
+            posiBdd = intent.getIntExtra(VIN_BDD, -1);
         }
 
+        if (posiCave != -1) {
+            maCave = GestionSauvegarde.getCave();
+            cave = true;
+        }
+        else if (posiBdd != -1) {
+            bdd = GestionSauvegarde.getBdd();
+            string_nomVin = bdd.getVin(posiBdd).getNom();
+        }
+        else {
+            string_nomVin = "erreur";
+        }
+        nomVin.setText(string_nomVin); //on affiche le nom du vin
         // TODO
         // récupérer la desccription du vin en question
-        string_detailVin = "Détail du vin -type de vin \n-cépage ... \n-Ffndojhd dfndhif fvndzvh kndk";
+        string_detailVin = "Détail du vin \n-type de vin : ... \n-cépage : ... \n-région : ...";
         //on affiche le détail
         detailVin.setText(string_detailVin);
 
-        // récupérer les remarques
-        string_remarquesVin = "Vos commentaires sur ce vin \nDate des bouteilles \n-accords avec plats ...";
-        //on affiche les remarques
-        remarquesVin.setText(string_remarquesVin);
+        if (cave) {
+            // récupérer les remarques
+            string_remarquesVin = "Vos commentaires sur ce vin \nDate des bouteilles \n-accords avec plats ...";
+            //on affiche les remarques
+            remarquesVin.setText(string_remarquesVin);
 
-        // on enregistre les remarques personnelles
-        enregistrer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO
-                String nvRemarques = remarquesVin.getText().toString(); //on récupère les nouvelles remarques
-                // il faut maintenant les enregistrer
-            }
-        });
-
+            // on enregistre les remarques personnelles
+            enregistrer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO
+                    String nvRemarques = remarquesVin.getText().toString(); //on récupère les nouvelles remarques
+                    // il faut maintenant les enregistrer
+                }
+            });
+        }
     }
 
     //Méthode qui perme de mettre un menu à l'écran

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by didi on 05/12/2015.
  */
-public class ListePref extends ListeVin implements Serializable {
+public class ListePref implements Serializable {
     private ListeVin pref;
 
     public ListePref(){
@@ -27,6 +27,11 @@ public class ListePref extends ListeVin implements Serializable {
     //Méthode pour rechercher un vin avec le nom dans la bdd
     public Vin rechercheVinParNom(String nom){
         return pref.rechercheVinParNom(nom);
+    }
+
+    //Méthode pour rechercher un vin avec le nom dans la bdd
+    public int rechercheVin(Vin vin){
+        return pref.rechercheVin(vin);
     }
 
     //Méthode pour recherche des vins par critère dans la bdd

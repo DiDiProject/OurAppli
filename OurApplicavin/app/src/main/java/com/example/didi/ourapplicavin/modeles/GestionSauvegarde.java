@@ -22,7 +22,7 @@ public class GestionSauvegarde {
             oos = new ObjectOutputStream(fichier);
             oos.writeObject(cave);
             Log.i("GestionSauvegarde", "enregistrement de la cave; serialization");
-            oos.flush();
+            oos.flush(); //vider le tampon
         } catch (final java.io.IOException e) {
             e.printStackTrace();
         } finally {

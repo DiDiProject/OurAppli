@@ -1,8 +1,8 @@
 package com.example.didi.ourapplicavin.controleurs;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +43,13 @@ public class AffichageRechercheVin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_recherche_vin); //on affiche le layout associé
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         //on va cherche tous les élements qui nous interresse dans le layout
         nom = (EditText) findViewById(R.id.nom);
         rechercheNom = (Button) findViewById(R.id.rechercheParNom);
@@ -59,7 +66,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
         //mellisesime = (EditText) findViewById(R.id.millesime);
         //terroir = (EditText) findViewById(R.id.terroir);
         // on rend les différents champs (sauf nom) invisible car de base recherche par nom et pas par critère
-        if (savedInstanceState != null) {
+        /*if (savedInstanceState != null) {
             // Restore value of members from saved state
             if (avanceeOuPas) {
                 visibleRechercheAvancee();
@@ -68,7 +75,9 @@ public class AffichageRechercheVin extends AppCompatActivity {
             }
         } else {
             this.invisibleRechercheAvancee();
-        }
+        }*/
+
+        this.invisibleRechercheAvancee();
 
         Intent i = getIntent();
         endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);

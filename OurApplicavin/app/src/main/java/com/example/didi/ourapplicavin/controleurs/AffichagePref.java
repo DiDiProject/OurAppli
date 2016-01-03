@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
+import com.example.didi.ourapplicavin.modeles.Bdd;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.ListePref;
 import com.example.didi.ourapplicavin.modeles.Vin;
@@ -33,17 +34,29 @@ public class AffichagePref extends AppCompatActivity {
     //Attributs pour cette classe
     public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans liste de souhait
     public final static String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    final static String VIN_BDD = "vin bdd";
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
     private int posiNom = 0; //pour avoir la position dans le tab du vin sélectionné
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
+    private String couleurVinSel = "";
+    private String cepageVinSel = "";
+    private String regionVinSel = "";
     private String[] listeVins; //liste de souhait ds un tab
     private ListePref pref = new ListePref(); // liste de souhait
+    private Bdd bdd = new Bdd();
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_pref); //on affiche le layout associé
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         //on va cherche tous les élements qui nous interressent dans le layout
         tabNom = (GridView) findViewById(R.id.tabNomColPref);
         tab = (GridView) findViewById(R.id.tabResultatVinPref);
@@ -56,7 +69,7 @@ public class AffichagePref extends AppCompatActivity {
 
         // TODO
         // il faudra définir les noms des colonnes
-        String[] title = new String[]{"Nom du vin", "Type", "Cépage", "Région"};
+        String[] title = new String[]{"Nom du vin", "Robe", "Cépage", "Région"};
         // on va mettre ce tab des noms des colonnes dans le tab associé
         ArrayAdapter<String> adapterTitle = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, title);
@@ -84,11 +97,19 @@ public class AffichagePref extends AppCompatActivity {
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
                         nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
+                        couleurVinSel = (String) ((TextView) tab.getChildAt(position - i + 1)).getText();
+                        cepageVinSel = (String) ((TextView) tab.getChildAt(position - i + 2)).getText();
+                        regionVinSel = (String) ((TextView) tab.getChildAt(position - i + 3)).getText();
                     }
                 }
+                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                bdd = GestionSauvegarde.getBdd();
+                int positionBdd = bdd.rechercheVin(vin);
+                //on va à l'activité détailVin
+                Log.i("AffichagePref", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds cave " + positionBdd);
                 //on va à l'activité détailVin
                 Intent n = new Intent(AffichagePref.this, AffichageDetailVin.class);
-                n.putExtra(NOM_VIN, nomVinSel);
+                n.putExtra(VIN_BDD, positionBdd);
                 //en passant des données (nom du vin ici)
                 // TODO
                 // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents

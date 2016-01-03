@@ -33,9 +33,13 @@ public class AffichageBdd extends AppCompatActivity {
     private TextView texteOu = null; //texte entre les deux boutons
     //Attributs pour cette classe
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
+    private String couleurVinSel = "";
+    private String cepageVinSel = "";
+    private String regionVinSel = "";
     private int posi; //pour avoir la position dans le tab du vin sélectionné
     public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la bdd pr recherche
     public final static String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    final static String VIN_BDD = "vin bdd";
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste (pas oublier de modif affichage)
     private String[] listeVins; //bdd dans un tab
     private Bdd bdd = new Bdd(); //bdd qu'on va chercher ds fichier .ser
@@ -45,6 +49,14 @@ public class AffichageBdd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_bdd); //on affiche le layout associé
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         //on va cherche tous les élements qui nous interressent dans le layout
         tabNom = (GridView) findViewById(R.id.tabNomColBdd);
         tab = (GridView) findViewById(R.id.tabResultatVinBdd);
@@ -59,7 +71,7 @@ public class AffichageBdd extends AppCompatActivity {
 
         // TODO
         // il faudra définir les noms des colonnes
-        String[] nomsCol = new String[]{"Nom", "Couleur", "Cépage", "Région"};
+        String[] nomsCol = new String[]{"Nom", "Robe", "Cépage", "Région"};
         // on va mettre ce tab des noms des colonnes dans le tab associé
         ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, nomsCol);
@@ -89,13 +101,23 @@ public class AffichageBdd extends AppCompatActivity {
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
                         nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
+                        couleurVinSel = (String) ((TextView) tab.getChildAt(position - i + 1)).getText();
+                        cepageVinSel = (String) ((TextView) tab.getChildAt(position - i + 2)).getText();
+                        regionVinSel = (String) ((TextView) tab.getChildAt(position - i + 3)).getText();
                     }
                 }
+
+                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                bdd = GestionSauvegarde.getBdd();
+                int positionBdd = bdd.rechercheVin(vin);
+                //on va à l'activité détailVin
+                Log.i("AffichageBdd", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds cave " + positionBdd);
+
                 //on va à l'activité détailVin
                 Intent n = new Intent(AffichageBdd.this, AffichageDetailVin.class);
-                n.putExtra(NOM_VIN, nomVinSel); //en passant des données (nom du vin ici)
+                n.putExtra(VIN_BDD, positionBdd); //en passant des données (nom du vin ici)
                 // TODO
-                // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
+                // passer le vin en entier pas juste le nom
                 startActivity(n);
             }
         });
@@ -177,7 +199,6 @@ public class AffichageBdd extends AppCompatActivity {
                 rechangeCouleurLigneVin(posi); // on enlève la couleur du vin sélectionné
             }
         });
-
     }
 
     //Méthode qui permet de mettre un menu à l'écran

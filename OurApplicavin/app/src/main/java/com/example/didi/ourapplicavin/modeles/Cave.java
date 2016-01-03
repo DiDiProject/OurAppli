@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Classe pour avoir la liste des vins de la cave de l'utilisateur
  * Created by didi on 05/12/2015.
  */
-public class Cave extends ListeVin implements Serializable {
+public class Cave implements Serializable {
     //Attributs
     private ListeVin maCave; //la liste de vins
     private ArrayList<Integer> nbBouteille; //on associe à chaque vin un nb de bouteille
@@ -56,6 +56,10 @@ public class Cave extends ListeVin implements Serializable {
         return maCave;
     }
 
+    public Vin getVin(int posi){
+        return maCave.getVin(posi);
+    }
+
     //Méthode pour avoir le nb de bouteille de tous les vin de la cave
     public ArrayList<Integer> getNbBouteille() {
         return nbBouteille;
@@ -97,7 +101,7 @@ public class Cave extends ListeVin implements Serializable {
     }
 
     //Méthode pour changer le nombre de bouteille d'un vin de la cave
-    public void setNbBouteilleVin(final Vin vin, final int nb) {
+    public void setNbBouteilleVin(Vin vin, int nb) {
         for(int i=0; i<maCave.getNombreVins(); i++){
             //si le vin est le même que celui à supprimer on l'enlève dans la liste
             if(vin == maCave.getListeVins().get(i)){
@@ -110,7 +114,7 @@ public class Cave extends ListeVin implements Serializable {
     }
 
     //Méthode pour changer le remarques d'un vin de la cave
-    public void setRemarquesVin(final Vin vin, final String rq) {
+    public void setRemarquesVin(Vin vin, String rq) {
         for(int i=0; i<maCave.getNombreVins(); i++){
             //si le vin est le même que celui à supprimer on l'enlève dans la liste
             if(vin == maCave.getListeVins().get(i)){
@@ -127,6 +131,10 @@ public class Cave extends ListeVin implements Serializable {
         return maCave.rechercheVinParNom(nom);
     }
 
+    //Méthode pour rechercher un vin avec le nom dans la cave
+    public int rechercheVin(Vin vin){
+        return maCave.rechercheVin(vin);
+    }
     //Méthode pour recherche des vins par critère dans la cave
     public ListeVin rechercheVinParCritere(){
         return maCave.rechercheVinParCritere();

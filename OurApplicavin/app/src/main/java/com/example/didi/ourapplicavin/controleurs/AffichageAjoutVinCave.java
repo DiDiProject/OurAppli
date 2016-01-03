@@ -33,6 +33,13 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_ajout_vin_cave);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         //on va cherche tous les élements qui nous interressent dans le layout
         nbBouteille = (EditText) findViewById(R.id.nbBouteilleAjoutCave);
         millesime = (EditText) findViewById(R.id.millesimeAjoutCave);

@@ -26,17 +26,23 @@ import java.io.File;
 //et ajouter un vin ds la bdd
 public class AffichageMenuPrincipal extends AppCompatActivity {
     //Attributs
-    public final static String bddd = "bdd"; // TODO pour dire qu'on ait dans la bdd pr recherche
     private Cave maCave = new Cave();
     private ListePref pref = new ListePref();
     private Bdd bdd = new Bdd();
-    public final static String ENDROIT = "endroit";
+    public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la bdd pr recherche
 
     //méthode qui se lance lors de cette activité
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_menu_principal); //on affiche le menu principal
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         //on va chercher tous les boutons afin de leur assigner une action (ici changement d'activité)
         Button cave = (Button) findViewById(R.id.voirCave); //bouton pour accéder à la cave
@@ -46,6 +52,7 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         Button ajoutVinbdd = (Button) findViewById(R.id.ajoutVinbdd); //bouton pour ajouter un vin dans la bdd
         Button quitter = (Button) findViewById(R.id.quitterAppliPrincipal); //bouton pour quitter le menu principal
 
+        //initialisation de la cave, pref et bdd (si fichier .ser pas déjà ajouté)
         init();
 
         //clique sur bouton voir sa cave à vin
@@ -172,7 +179,7 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //Méthode pour initialiser la cave et la pref(donc avec 0 vin)
+    //Méthode pour initialiser la cave et la pref(donc avec 0 vin) et la bdd (avec nb vin non exhausitf)
     public void init() {
         maCave = GestionSauvegarde.getCave();
         pref = GestionSauvegarde.getPref();
@@ -192,9 +199,7 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
             bdd.ajoutVin(new Vin("Cadillac", "blanc", "Muscadelle", "Aquitaine"));
             bdd.ajoutVin(new Vin("Riesling", "blanc", "Semillon", "Alsace"));
             bdd.ajoutVin(new Vin("Whispering Angel", "rosé", "Grenache", "Provence"));
-            GestionSauvegarde.enregistrementBdd(bdd); //enregistrement de la cave (vide pour l'instant)
+            GestionSauvegarde.enregistrementBdd(bdd); //enregistrement de la cave (4 vins pour l'instant)
         }
-
     }
-
 }

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Classe pour avoir la liste des vins de la base de données (du serveur externe)
  * Created by didi on 05/12/2015.
  */
-public class Bdd extends ListeVin implements Serializable {
+public class Bdd implements Serializable {
     //Attributs
     private ListeVin bdd;
 
@@ -21,7 +21,6 @@ public class Bdd extends ListeVin implements Serializable {
     }
 
    //Méthode pour ajouter un vin à la bdd
-    @Override
     public void ajoutVin(Vin vin){
         bdd.ajoutVin(vin);
     }
@@ -31,10 +30,19 @@ public class Bdd extends ListeVin implements Serializable {
         return bdd.supprVin(vin);
     }
 
+    public Vin getVin(int posi){
+        return bdd.getVin(posi);
+    }
+
 
     //Méthode pour rechercher un vin avec le nom dans la bdd
     public Vin rechercheVinParNom(String nom){
         return bdd.rechercheVinParNom(nom);
+    }
+
+    //Méthode pour rechercher un vin avec le nom dans la bdd
+    public int rechercheVin(Vin vin){
+        return bdd.rechercheVin(vin);
     }
 
     //Méthode pour recherche des vins par critère dans la bdd

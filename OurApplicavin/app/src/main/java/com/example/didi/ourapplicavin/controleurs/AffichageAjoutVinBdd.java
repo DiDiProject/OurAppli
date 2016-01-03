@@ -33,6 +33,13 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_ajout_vin_bdd); //on affiche le layout associé
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         //on va cherche tous les élements qui nous interressent dans le layout
         nom = (EditText) findViewById(R.id.nomAjout);
         robe = (EditText) findViewById(R.id.robeAjout);

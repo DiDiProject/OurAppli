@@ -53,6 +53,13 @@ public class AffichageResultatRecherche extends AppCompatActivity {
 //            nomVin.setText(intent.getStringExtra(NOM_VIN));
 //        }
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         //on va cherche tous les élements qui nous interresse dans le layout
         tabNomCol = (GridView) findViewById(R.id.tabNomColResultatRecherche);
         tabResultatVin = (GridView) findViewById(R.id.tabResultatVin);
