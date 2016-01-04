@@ -100,9 +100,8 @@ public class ListeVin implements Serializable {
         Log.i("ListeVin", "liste vin size = " + listeVins.size());
         for (int i = 0; i < listeVins.size(); i++) {
             //si le vin est le même que celui à supprimer on l'enlève dans la liste
-            Log.i("ListeVin", "cc");
             if (vin.getNom().equals(listeVins.get(i).getNom())&& vin.getCouleur().equals(listeVins.get(i).getCouleur()) &&
-                    vin.getCepage().equals(listeVins.get(i).getCepage()) && vin.getRegion().equals(listeVins.get(i).getRegion())){
+                    vin.getCepage().get(0).equals(listeVins.get(i).getCepage().get(0)) && vin.getRegion().equals(listeVins.get(i).getRegion())){
                 v = listeVins.get(i);
                 return i;
             }

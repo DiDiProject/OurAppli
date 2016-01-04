@@ -320,7 +320,7 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         Log.i("AffichageResultat", vin.getNom() + " vin recherché");
         listeVins[0] = vin.getNom();
         listeVins[1] = vin.getCouleur();
-        listeVins[2] = vin.getCepage();
+        listeVins[2] = vin.getCepage().get(0);
         listeVins[3] = vin.getRegion();
     }
 

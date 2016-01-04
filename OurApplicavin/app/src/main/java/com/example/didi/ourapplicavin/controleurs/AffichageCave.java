@@ -24,6 +24,8 @@ import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
+import java.util.ArrayList;
+
 //Classe qui affiche la liste des vins de la cave "virtuelle" de l'utilisateur
 //elle est appelée via le menu principal
 public class AffichageCave extends AppCompatActivity {
@@ -43,7 +45,7 @@ public class AffichageCave extends AppCompatActivity {
     private String couleurVinSel = "";
     private String nbVinSel = "";
     private String cepageVinSel = "";
-    private String regionVinSel = "";
+    private String millesimeVinSel = "";
     public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la cave pr recherche
     final static String NOM_VIN = "vin cave"; //pour passer le nom du vin à une autre activité
     final static String VIN_BDD = "vin bdd";
@@ -95,7 +97,7 @@ public class AffichageCave extends AppCompatActivity {
         tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
         // TODO
         // il faudra définir les noms des colonnes
-        String[] title = new String[]{"Nom du vin", "Robe", "Nb", "Cépage", "Région"};
+        String[] title = new String[]{"Nom du vin", "Robe", "Nb", "Cépage", "Millésime"};
         // on va mettre ce tab des noms des colonnes dans le tab associé
         ArrayAdapter<String> adapterTitle = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, title);
@@ -130,15 +132,18 @@ public class AffichageCave extends AppCompatActivity {
                         couleurVinSel = (String) ((TextView) tab.getChildAt(position - i + 1)).getText();
                         nbVinSel = (String) ((TextView) tab.getChildAt(position - i + 2)).getText();
                         cepageVinSel = (String) ((TextView) tab.getChildAt(position - i + 3)).getText();
-                        regionVinSel = (String) ((TextView) tab.getChildAt(position - i + 4)).getText();
+                        millesimeVinSel = (String) ((TextView) tab.getChildAt(position - i + 4)).getText();
                     }
                 }
-                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                ArrayList<String> ce = new ArrayList<String>();
+                ce.add(cepageVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, "", Integer.parseInt(nbVinSel), millesimeVinSel);
                 maCave = GestionSauvegarde.getCave();
                 int positionCave = maCave.rechercheVin(vin);
+                vin = maCave.getVin(positionCave);
                 //on va à l'activité détailVin
                 if (positionCave != -1) {
-                    Log.i("AffichageCaveé", "couleur " + couleurVinSel + " region " + regionVinSel + " nb " + nbVinSel + " posi ds cave " + positionCave);
+                    Log.i("AffichageCaveé", "couleur " + couleurVinSel + " méllisime " + millesimeVinSel + " nb " + nbVinSel + " posi ds cave " + positionCave);
                     bdd = GestionSauvegarde.getBdd();
                     int positionBdd = bdd.rechercheVin(vin);
                     if (positionBdd != -1) {
@@ -180,7 +185,7 @@ public class AffichageCave extends AppCompatActivity {
                     couleurVinSel = (String) ((TextView) tab.getChildAt(position + 1)).getText();
                     nbVinSel = (String) ((TextView) tab.getChildAt(position + 2)).getText();
                     cepageVinSel = (String) ((TextView) tab.getChildAt(position + 3)).getText();
-                    regionVinSel = (String) ((TextView) tab.getChildAt(position + 4)).getText();
+                    millesimeVinSel = (String) ((TextView) tab.getChildAt(position + 4)).getText();
                 } else if (position % nbColParLigne == 1) {
                     nbBouteilleavant = (String) ((TextView) tab.getChildAt(position + 1)).getText();
                     positionTabNb = position + 1;
@@ -188,7 +193,7 @@ public class AffichageCave extends AppCompatActivity {
                     couleurVinSel = (String) ((TextView) tab.getChildAt(position - 1 + 1)).getText();
                     nbVinSel = (String) ((TextView) tab.getChildAt(position - 1 + 2)).getText();
                     cepageVinSel = (String) ((TextView) tab.getChildAt(position - 1 + 3)).getText();
-                    regionVinSel = (String) ((TextView) tab.getChildAt(position - 1 + 4)).getText();
+                    millesimeVinSel = (String) ((TextView) tab.getChildAt(position - 1 + 4)).getText();
                 } else if (position % nbColParLigne == 2) {
                     nbBouteilleavant = (String) ((TextView) tab.getChildAt(position)).getText();
                     positionTabNb = position;
@@ -196,7 +201,7 @@ public class AffichageCave extends AppCompatActivity {
                     couleurVinSel = (String) ((TextView) tab.getChildAt(position - 2 + 1)).getText();
                     nbVinSel = (String) ((TextView) tab.getChildAt(position - 2 + 2)).getText();
                     cepageVinSel = (String) ((TextView) tab.getChildAt(position - 2 + 3)).getText();
-                    regionVinSel = (String) ((TextView) tab.getChildAt(position - 2 + 4)).getText();
+                    millesimeVinSel = (String) ((TextView) tab.getChildAt(position - 2 + 4)).getText();
                 } else if (position % nbColParLigne == 3) {
                     nbBouteilleavant = (String) ((TextView) tab.getChildAt(position - 1)).getText();
                     positionTabNb = position - 1;
@@ -204,7 +209,7 @@ public class AffichageCave extends AppCompatActivity {
                     couleurVinSel = (String) ((TextView) tab.getChildAt(position - 3 + 1)).getText();
                     nbVinSel = (String) ((TextView) tab.getChildAt(position - 3 + 2)).getText();
                     cepageVinSel = (String) ((TextView) tab.getChildAt(position - 3 + 3)).getText();
-                    regionVinSel = (String) ((TextView) tab.getChildAt(position - 3 + 4)).getText();
+                    millesimeVinSel = (String) ((TextView) tab.getChildAt(position - 3 + 4)).getText();
                 } else {
                     nbBouteilleavant = (String) ((TextView) tab.getChildAt(position - 2)).getText();
                     positionTabNb = position - 2;
@@ -212,7 +217,7 @@ public class AffichageCave extends AppCompatActivity {
                     couleurVinSel = (String) ((TextView) tab.getChildAt(position - 4 + 1)).getText();
                     nbVinSel = (String) ((TextView) tab.getChildAt(position - 4 + 2)).getText();
                     cepageVinSel = (String) ((TextView) tab.getChildAt(position - 4 + 3)).getText();
-                    regionVinSel = (String) ((TextView) tab.getChildAt(position - 4 + 4)).getText();
+                    millesimeVinSel = (String) ((TextView) tab.getChildAt(position - 4 + 4)).getText();
                 }
                 nb.setText(nbBouteilleavant); //met le nombre de bouteille du vin en affichage
                 //on surligne la ligne du vin sélectionné
@@ -254,7 +259,9 @@ public class AffichageCave extends AppCompatActivity {
                                     // TODO
                                     // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                     // on récupère le vin à supprimer
-                                    Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                                    ArrayList<String> ce = new ArrayList<String>();
+                                    ce.add(cepageVinSel);
+                                    Vin vin = new Vin(nomVinSel, couleurVinSel, ce, "", 0, millesimeVinSel);
                                     int posi = maCave.rechercheVin(vin);
                                     if (posi != -1) {
                                         vin = maCave.getVin(posi);
@@ -284,11 +291,13 @@ public class AffichageCave extends AppCompatActivity {
                                     // TODO
                                     // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                     // on va chercher la vin pour changer le nb de bouteille => 0
-                                    Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                                    ArrayList<String> ce = new ArrayList<String>();
+                                    ce.add(cepageVinSel);
+                                    Vin vin = new Vin(nomVinSel, couleurVinSel, ce, millesimeVinSel);
                                     int posi = maCave.rechercheVin(vin);
                                     if (posi != -1) {
                                         vin = maCave.getVin(posi);
-                                        maCave.setNbBouteilleVin(vin, 0); // on modifie le nb de bouteille du vin
+                                        maCave.getVin(posi).setNbBouteille(0); // on modifie le nb de bouteille du vin
                                         affichage(); //on réactualise la cave pour l'affichage
                                         GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave
                                         //on affichage l'actulisation de la cave
@@ -326,11 +335,13 @@ public class AffichageCave extends AppCompatActivity {
                 // TODO
                 // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                 // on va chercher la vin pour changer le nb de bouteille
-                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                ArrayList<String> ce = new ArrayList<String>();
+                ce.add(cepageVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, "", 0, millesimeVinSel);
                 int posi = maCave.rechercheVin(vin);
                 if (posi != -1) {
                     vin = maCave.getVin(posi);
-                    maCave.setNbBouteilleVin(vin, nbBouteilles); //onchage le nb de bouteille du vin ds la cave
+                    maCave.getVin(posi).setNbBouteille(nbBouteilles); //onchage le nb de bouteille du vin ds la cave
                     Log.i("AffichageCave", "on actualise le nb de bouteille de " + nomVinSel);
                     affichage(); //on réactualise la cave pour l'affichage
                     GestionSauvegarde.enregistrementCave(maCave); //on enregistre la nouvelle liste de vin dans la cave (fichier .ser)
@@ -451,9 +462,9 @@ public class AffichageCave extends AppCompatActivity {
             Vin vin = maCave.getVinsCave().getListeVins().get(i);
             listeVins[0 + i * nbColParLigne] = vin.getNom();
             listeVins[1 + i * nbColParLigne] = vin.getCouleur();
-            listeVins[2 + i * nbColParLigne] = "" + maCave.getNbBouteilleVin(vin);
-            listeVins[3 + i * nbColParLigne] = vin.getCepage();
-            listeVins[4 + i * nbColParLigne] = vin.getRegion();
+            listeVins[2 + i * nbColParLigne] = "" + vin.getNbBouteille();
+            listeVins[3 + i * nbColParLigne] = vin.getCepage().get(0);
+            listeVins[4 + i * nbColParLigne] = vin.getMillesime();
         }
     }
 }

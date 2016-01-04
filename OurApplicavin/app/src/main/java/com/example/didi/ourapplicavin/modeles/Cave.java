@@ -1,5 +1,7 @@
 package com.example.didi.ourapplicavin.modeles;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -10,39 +12,39 @@ import java.util.ArrayList;
 public class Cave implements Serializable {
     //Attributs
     private ListeVin maCave; //la liste de vins
-    private ArrayList<Integer> nbBouteille; //on associe à chaque vin un nb de bouteille
-    private ArrayList<String> remarques; //et des remarques personnelles
+    //private ArrayList<Integer> nbBouteille; //on associe à chaque vin un nb de bouteille
+    //private ArrayList<String> remarques; //et des remarques personnelles
 
     //Constructeur d''initialisation
     public Cave(){
         maCave = new ListeVin();
-        nbBouteille = new ArrayList<Integer>();
-        remarques = new ArrayList<String>();
+        //nbBouteille = new ArrayList<Integer>();
+        //remarques = new ArrayList<String>();
     }
 
     public Cave(ListeVin liste, ArrayList<Integer> nb, ArrayList<String> rq){
         maCave = new ListeVin();
-        nbBouteille = new ArrayList<Integer>();
-        remarques = new ArrayList<String>();
+        //nbBouteille = new ArrayList<Integer>();
+        //remarques = new ArrayList<String>();
     }
 
     //Méthode pour ajouter un vin dans la cave
-    public void ajoutVin(Vin vin, int nb){
+    public void ajoutVin(Vin vin){
         maCave.ajoutVin(vin); //on ajoute le vin dans la liste
-        nbBouteille.add(nb); //à ce vin on lui associe un nb de bouteille
+        //nbBouteille.add(nb);
         // TODO
         //vérifier quand on ajoute le vin à la liste, le nb est bien ajouter
         // à la même position de la liste de nb Bouteille
-        remarques.add("à compléter"); //on initialise le remarques (pout l'instant l'utilisateur n'a rien mis)
+        //remarques.add("à compléter"); //on initialise le remarques (pout l'instant l'utilisateur n'a rien mis)
     }
 
     //Méthode pour supprimer un vin de la cave
     public int supprVin(Vin vin){
         int posi = maCave.supprVin(vin); //on supprime ce vin de la liste
-        if(posi >= 0){
+        /*if(posi >= 0){
             nbBouteille.remove(posi); //on enlève le nb de bouteille
             remarques.remove(posi); //ainsi que les remarques
-        }
+        }*/
         return  posi;
     }
 
@@ -60,17 +62,7 @@ public class Cave implements Serializable {
         return maCave.getVin(posi);
     }
 
-    //Méthode pour avoir le nb de bouteille de tous les vin de la cave
-    public ArrayList<Integer> getNbBouteille() {
-        return nbBouteille;
-    }
-
-    //Méthode pour avoir les remarques de tous les vin de la cave
-    public ArrayList<String> getRemarques() {
-        return remarques;
-    }
-
-    //Méthode pour avoir les remarques d'un vin de la cave
+    /*//Méthode pour avoir les remarques d'un vin de la cave
     public String getRemarquesVin(Vin vin) {
         String rq = "";
         for(int i=0; i<maCave.getNombreVins(); i++){
@@ -83,9 +75,9 @@ public class Cave implements Serializable {
         // TODO
         // exception si on n'a pas trouvé le vin
         return rq;
-    }
+    }*/
 
-    //Méthode pour avoir le nb de bouteille d'un vin de la cave
+    /*//Méthode pour avoir le nb de bouteille d'un vin de la cave
     public int getNbBouteilleVin(Vin vin) {
         int nb = 0;
         for(int i=0; i<maCave.getNombreVins(); i++){
@@ -98,9 +90,9 @@ public class Cave implements Serializable {
         // TODO
         // exception si on n'a pas trouvé le vin
         return nb;
-    }
+    }*/
 
-    //Méthode pour changer le nombre de bouteille d'un vin de la cave
+    /*//Méthode pour changer le nombre de bouteille d'un vin de la cave
     public void setNbBouteilleVin(Vin vin, int nb) {
         for(int i=0; i<maCave.getNombreVins(); i++){
             //si le vin est le même que celui à supprimer on l'enlève dans la liste
@@ -124,7 +116,7 @@ public class Cave implements Serializable {
         }
         // TODO
         // exception si on n'a pas trouvé le vin
-    }
+    }*/
 
     //Méthode pour rechercher un vin avec le nom dans la cave
     public Vin rechercheVinParNom(String nom){
@@ -133,7 +125,20 @@ public class Cave implements Serializable {
 
     //Méthode pour rechercher un vin avec le nom dans la cave
     public int rechercheVin(Vin vin){
-        return maCave.rechercheVin(vin);
+        Vin v = new Vin();
+        Log.i("ListeVin", "liste vin size = " + maCave.getListeVins().size());
+        for (int i = 0; i < maCave.getListeVins().size(); i++) {
+            //si le vin est le même que celui à supprimer on l'enlève dans la liste
+            if (vin.getNom().equals(maCave.getListeVins().get(i).getNom())&& vin.getCouleur().equals(maCave.getListeVins().get(i).getCouleur()) &&
+                    vin.getCepage().get(0).equals(maCave.getListeVins().get(i).getCepage().get(0))
+                    && vin.getMillesime().equals(maCave.getListeVins().get(i).getMillesime())){
+                v = maCave.getListeVins().get(i);
+                return i;
+            }
+        }
+        // TODO
+        // mettre autre chose qu'un vin vide
+        return -1;
     }
 
     //Méthode pour recherche des vins par critère dans la cave
@@ -144,10 +149,12 @@ public class Cave implements Serializable {
     public String toString(){
         String affichage = "Liste des vins :";
         for (int i = 0; i < maCave.getListeVins().size(); i++) {
-            affichage += "\nNom = " + maCave.getListeVins().get(i).getNom();
-            affichage += "\nrobe = " + maCave.getListeVins().get(i).getCouleur();
-            affichage +=  "\ncépage(s) = " + maCave.getListeVins().get(i).getCepage();
-            affichage += "\nrégion = " + maCave.getListeVins().get(i).getRegion() + "\n";
+            affichage += "\nNom : " + maCave.getListeVins().get(i).getNom();
+            affichage += "\nRobe : " + maCave.getListeVins().get(i).getCouleur();
+            affichage += "\nCépage(s) : " + maCave.getListeVins().get(i).getCepage();
+            affichage += "\nRégion : " + maCave.getListeVins().get(i).getRegion();
+            affichage += "\nNombre de bouteille : " + maCave.getListeVins().get(i).getNbBouteille();
+            affichage += "\nMillésime : " + maCave.getListeVins().get(i).getMillesime() + "\n";
         }
         affichage = "Fin de la liste des vins.";
         return affichage;

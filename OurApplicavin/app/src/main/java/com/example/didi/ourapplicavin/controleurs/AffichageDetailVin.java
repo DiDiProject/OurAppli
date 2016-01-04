@@ -79,9 +79,9 @@ public class AffichageDetailVin extends AppCompatActivity {
         //string_detailVin = "Détail du vin \n-type de vin : ... \n-cépage : ... \n-région : ...";
         //on affiche le détail
         string_detailVin = bdd.getVin(posiBdd).toString();
-        detailVin.setText(string_detailVin);
 
         if (cave) {
+            string_detailVin = maCave.getVin(posiCave).toStringCave();
             // récupérer les remarques
             string_remarquesVin = "Vos commentaires sur ce vin \nDate des bouteilles \n-accords avec plats ...";
             //on affiche les remarques
@@ -99,6 +99,7 @@ public class AffichageDetailVin extends AppCompatActivity {
         } else {
             remarquesInvisible();
         }
+        detailVin.setText(string_detailVin);
     }
 
     //Méthode qui perme de mettre un menu à l'écran

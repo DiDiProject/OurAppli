@@ -20,6 +20,7 @@ import com.example.didi.ourapplicavin.modeles.ListePref;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
 import java.io.File;
+import java.util.ArrayList;
 
 //Classe du menu principal
 //pour ensuite accéder à la cave, liste de preférence, la bdd, faire une recherche ds la bdd
@@ -195,10 +196,19 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         }
         if (bdd == null) {
             bdd = new Bdd();
-            bdd.ajoutVin(new Vin("Bordeaux", "rouge", "Merlot", "Aquitaine"));
-            bdd.ajoutVin(new Vin("Cadillac", "blanc", "Muscadelle", "Aquitaine"));
-            bdd.ajoutVin(new Vin("Riesling", "blanc", "Semillon", "Alsace"));
-            bdd.ajoutVin(new Vin("Whispering Angel", "rosé", "Grenache", "Provence"));
+            ArrayList<String> cepage = new ArrayList<String>();
+            cepage.add("Merlot");
+            cepage.add("Muscadelle");
+            bdd.ajoutVin(new Vin("Bordeaux", "rouge", cepage, "Aquitaine"));
+            ArrayList<String> cepage2 = new ArrayList<String>();
+            cepage2.add("Muscadelle");
+            bdd.ajoutVin(new Vin("Cadillac", "blanc", cepage2, "Aquitaine"));
+            ArrayList<String> cepage3 = new ArrayList<String>();
+            cepage3.add("Semillon");
+            bdd.ajoutVin(new Vin("Riesling", "blanc", cepage3, "Alsace"));
+            ArrayList<String> cepage4 = new ArrayList<String>();
+            cepage4.add("Grenache");
+            bdd.ajoutVin(new Vin("Whispering Angel", "rosé", cepage4, "Provence"));
             GestionSauvegarde.enregistrementBdd(bdd); //enregistrement de la cave (4 vins pour l'instant)
         }
     }

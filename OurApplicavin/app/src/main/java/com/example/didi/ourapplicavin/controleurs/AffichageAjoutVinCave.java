@@ -7,8 +7,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
@@ -17,16 +20,21 @@ import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //Classe qui permet à l'utilisateur d'ajouter un vin dans la cave en rensignant le nb de bouteille ainsi que le millesime
 public class AffichageAjoutVinCave extends AppCompatActivity {
     // Attributs associé au layout
     private EditText nbBouteille = null; //pour récupérer le nom
-    private EditText millesime = null; //pour récupérer la couleur
+    //private EditText millesime = null; //pour récupérer la couleur
     private Button ajout = null;
+    private Spinner listeMillesime = null;
     private Cave maCave = new Cave();
     private Bdd bdd = new Bdd();
 
     private String nomVinSel = "";
+    private String string_millesime = "2016";
     private int endroit = 0;
     final static String VIN_BDD = "vin ds bdd";
     private Vin vinSel = new Vin();
@@ -44,8 +52,37 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
 
         //on va cherche tous les élements qui nous interressent dans le layout
         nbBouteille = (EditText) findViewById(R.id.nbBouteilleAjoutCave);
-        millesime = (EditText) findViewById(R.id.millesimeAjoutCave);
+        //millesime = (EditText) findViewById(R.id.millesimeAjoutCave);
         ajout = (Button) findViewById(R.id.boutonAjoutCave);
+        listeMillesime = (Spinner)findViewById(R.id.listeMillesime);
+
+        List liste = new ArrayList();
+        for(int i=1990 ; i<2016; i++) {
+            liste.add(i);
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item,
+                liste
+        );
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Enfin on passe l'adapter au Spinner et c'est tout
+        listeMillesime.setAdapter(adapter);
+
+        listeMillesime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                string_millesime = String.valueOf(listeMillesime.getSelectedItem());
+                Toast.makeText(AffichageAjoutVinCave.this, "millésime du vin : " + string_millesime,
+                        Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                string_millesime = "2016";
+            }
+        });
 
         maCave = GestionSauvegarde.getCave();
         //GestionSauvegarde.enregistrementCave(maCave);
@@ -61,6 +98,7 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
         if (posiBdd != -1) {
             bdd = GestionSauvegarde.getBdd();
             vinSel = bdd.getVin(posiBdd);
+            nomVinSel = bdd.getVin(posiBdd).getNom();
             Log.i("AffichageAjoutVinCave", "dd");
 
             //pour ajouter le vin avec les info de l'utilisateur dans la bdd
@@ -75,11 +113,12 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
                     // TODO faire la recherche avec tous les critères pas juste le nom
                     Log.i("AffichageAjoutVinCave", nomVinSel + " ajouter à la cave !");
                     int nb = Integer.parseInt(nbBouteille.getText().toString());
-                    maCave.ajoutVin(vinSel, nb); // on ajoute ce vin à la cave
+                    vinSel = new Vin(vinSel, nb, string_millesime);
+                    maCave.ajoutVin(vinSel); // on ajoute ce vin à la cave
                     GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel
 
                     //Affichage court
-                    Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave ! ",
+                    Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave ! " + vinSel.toString(),
                             Toast.LENGTH_SHORT).show();
                     Intent n;
                     if (endroit == 2) {

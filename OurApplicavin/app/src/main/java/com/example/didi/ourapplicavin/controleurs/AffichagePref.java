@@ -24,6 +24,8 @@ import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.ListePref;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
+import java.util.ArrayList;
+
 //Classe qui permet d'afficher la liste de préférence de l'utilisateur
 public class AffichagePref extends AppCompatActivity {
     //Attributs associés au layout
@@ -104,7 +106,9 @@ public class AffichagePref extends AppCompatActivity {
                         regionVinSel = (String) ((TextView) tab.getChildAt(position - i + 3)).getText();
                     }
                 }
-                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                ArrayList<String> ce = new ArrayList<String>();
+                ce.add(cepageVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 bdd = GestionSauvegarde.getBdd();
                 int positionBdd = bdd.rechercheVin(vin);
                 if(positionBdd!=-1) {
@@ -165,7 +169,9 @@ public class AffichagePref extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();*/
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
-                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                ArrayList<String> ce = new ArrayList<String>();
+                ce.add(cepageVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
 
                 maCave = GestionSauvegarde.getCave();
                 if(maCave.rechercheVin(vin)!=-1){
@@ -204,7 +210,9 @@ public class AffichagePref extends AppCompatActivity {
                                 // TODO
                                 // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                 // on récupère le vin à supprimer
-                                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                                ArrayList<String> ce = new ArrayList<String>();
+                                ce.add(cepageVinSel);
+                                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                                 int posi = pref.rechercheVin(vin);
                                 if(posi!=-1){
                                 Log.i("AffichagePref", "position pref "+posi);
@@ -328,7 +336,7 @@ public class AffichagePref extends AppCompatActivity {
             Vin vin = pref.getPref().getListeVins().get(i);
             listeVins[0+i*nbColParLigne] = vin.getNom();
             listeVins[1+i*nbColParLigne] = vin.getCouleur();
-            listeVins[2+i*nbColParLigne] = vin.getCepage();
+            listeVins[2+i*nbColParLigne] = vin.getCepage().get(0);
             listeVins[3+i*nbColParLigne] = vin.getRegion();
         }
     }

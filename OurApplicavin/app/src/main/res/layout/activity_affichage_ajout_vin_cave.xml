@@ -29,18 +29,19 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/millesimeAjoutCave"
-        android:layout_marginTop="45dp"
-        android:layout_marginLeft="150dp" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ajouter le vin à la cave"
         android:id="@+id/boutonAjoutCave"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="130dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listeMillesime"
+        android:layout_alignTop="@+id/texteMillesime"
+        android:layout_toRightOf="@+id/texteNbBouteille"
+        android:layout_toEndOf="@+id/texteNbBouteille" />
 
 </RelativeLayout>

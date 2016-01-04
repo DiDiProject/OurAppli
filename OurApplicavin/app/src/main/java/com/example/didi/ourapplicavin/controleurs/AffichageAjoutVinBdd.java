@@ -31,7 +31,7 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
     private Spinner listeCouleur = null;
     //Attributs assicié à cette classe
     private String stringNom = ""; //pour avoir le nom en string
-    private String stringRobe = ""; //la couleur en string
+    private String stringRobe = "Rouge"; //la couleur en string
     private String stringCepage = ""; //le cépage en string
     private String stringRegion = ""; //et la région en string
 
@@ -52,8 +52,8 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
         //robe = (EditText) findViewById(R.id.robeAjout);
         cepage = (EditText) findViewById(R.id.cepageAjout);
         region = (EditText) findViewById(R.id.regionAjout);
-        Button ajoutVin = (Button)findViewById(R.id.ajoutVinDsBdd); //bouton pour ajouter ce vin dans la bdd
-        listeCouleur = (Spinner)findViewById(R.id.listeCouleur);
+        Button ajoutVin = (Button) findViewById(R.id.ajoutVinDsBdd); //bouton pour ajouter ce vin dans la bdd
+        listeCouleur = (Spinner) findViewById(R.id.listeCouleur);
 
         List liste = new ArrayList();
         liste.add("Rouge");
@@ -81,18 +81,17 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
         cepage.setText("");
         region.setText("");
 
-        listeCouleur.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        listeCouleur.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 stringRobe = String.valueOf(listeCouleur.getSelectedItem());
                 Toast.makeText(AffichageAjoutVinBdd.this, "couleur du vin : " + stringRobe,
-                        Toast.LENGTH_SHORT).show(); }
-
+                        Toast.LENGTH_SHORT).show();
+            }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
+                stringRobe = "Rouge";
             }
-
         });
 
         //pour ajouter le vin avec les info de l'utilisateur dans la bdd
@@ -105,16 +104,18 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
                 stringCepage = cepage.getText().toString();
                 stringRegion = region.getText().toString();
                 //si l'utilisateur n'a rien rempli => on va pas l'ajouter à la bdd
-                if((stringNom.equals("")) ||
-                        (stringNom.equals("")) && (stringRobe.equals("")) && (stringCepage.equals("")) && (stringRobe.equals(""))){
+                if ((stringNom.equals("")) ||
+                        (stringNom.equals("")) && (stringRobe.equals("")) && (stringCepage.equals("")) && (stringRobe.equals(""))) {
                     Toast.makeText(getApplicationContext(), "Vous ne pouvez pas ajouter un vin sans nom !",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     //on crée ce vin
-                    Vin vin = new Vin(stringNom, stringRobe, stringCepage, stringRegion);
+                    ArrayList<String> ce = new ArrayList<String>();
+                    ce.add(stringCepage);
+                    Vin vin = new Vin(stringNom, stringRobe, ce, stringRegion);
                     Bdd bdd = GestionSauvegarde.getBdd();
                     //on va chercher notre bdd (enregistrer sur le téléphone/tablette fichier .ser)
-                    if(bdd.rechercheVin(vin)==-1) {
+                    if (bdd.rechercheVin(vin) == -1) {
                         bdd.ajoutVin(vin); //on ajoute le vin à la bdd
                         GestionSauvegarde.enregistrementBdd(bdd); //on sauvegarde cet ajout sur le tèl
                         //Affichage court
@@ -156,7 +157,7 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
         // on va dans l'activité AffichageMenuPrincipal
         if (id == R.id.retourMenu) {
             Intent n = new Intent(AffichageAjoutVinBdd.this, AffichageMenuPrincipal.class);
-            n.addCategory( Intent.CATEGORY_HOME );
+            n.addCategory(Intent.CATEGORY_HOME);
             n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;

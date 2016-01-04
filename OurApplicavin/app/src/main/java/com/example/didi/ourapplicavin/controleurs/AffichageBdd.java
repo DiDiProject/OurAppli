@@ -22,6 +22,8 @@ import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.ListePref;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
+import java.util.ArrayList;
+
 //Classe qui affiche la base de données des vins
 public class AffichageBdd extends AppCompatActivity {
     //Attributs associés au layout
@@ -109,18 +111,25 @@ public class AffichageBdd extends AppCompatActivity {
                     }
                 }
 
-                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                ArrayList<String> ce = new ArrayList<String>();
+                ce.add(cepageVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 bdd = GestionSauvegarde.getBdd();
                 int positionBdd = bdd.rechercheVin(vin);
-                //on va à l'activité détailVin
-                Log.i("AffichageBdd", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds cave " + positionBdd);
+                if (positionBdd != -1) {
+                    //on va à l'activité détailVin
+                    Log.i("AffichageBdd", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds cave " + positionBdd);
 
-                //on va à l'activité détailVin
-                Intent n = new Intent(AffichageBdd.this, AffichageDetailVin.class);
-                n.putExtra(VIN_BDD, positionBdd); //en passant des données (nom du vin ici)
-                // TODO
-                // passer le vin en entier pas juste le nom
-                startActivity(n);
+                    //on va à l'activité détailVin
+                    Intent n = new Intent(AffichageBdd.this, AffichageDetailVin.class);
+                    n.putExtra(VIN_BDD, positionBdd); //en passant des données (nom du vin ici)
+                    // TODO
+                    // passer le vin en entier pas juste le nom
+                    startActivity(n);
+                }else{
+                    Toast.makeText(getApplicationContext(), "ce vin n'a pas été trouvé ds la bdd!!!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -166,7 +175,9 @@ public class AffichageBdd extends AppCompatActivity {
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posi); // on enlève la couleur du vin sélectionné
 
-                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                ArrayList<String> ce = new ArrayList<String>();
+                ce.add(cepageVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 maCave = GestionSauvegarde.getCave();
                 if (maCave.rechercheVin(vin) != -1) {
                     Toast.makeText(getApplicationContext(), "ce vin a déjà été ajouté à votre cave !!!",
@@ -196,7 +207,9 @@ public class AffichageBdd extends AppCompatActivity {
                 bdd = GestionSauvegarde.getBdd();
                 // on va chercher le vin
                 // TODO faire la recherche avec tous les critères pas juste le nom
-                Vin vin = new Vin(nomVinSel, couleurVinSel, cepageVinSel, regionVinSel);
+                ArrayList<String> ce = new ArrayList<String>();
+                ce.add(cepageVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 pref.ajoutVin(vin); // on ajoute le vin à la pref
                 GestionSauvegarde.enregistrementPref(pref); // on sauvegarde la liste de souhait sur  le tél
                 //Affichage court
@@ -322,7 +335,8 @@ public class AffichageBdd extends AppCompatActivity {
             Vin vin = bdd.getBdd().getListeVins().get(i);
             listeVins[0 + i * nbColParLigne] = vin.getNom();
             listeVins[1 + i * nbColParLigne] = vin.getCouleur();
-            listeVins[2 + i * nbColParLigne] = vin.getCepage();
+            Log.i("AffichageBdd", "" + vin.getCepage());
+            listeVins[2 + i * nbColParLigne] = vin.getCepage().get(0);
             listeVins[3 + i * nbColParLigne] = vin.getRegion();
         }
     }
