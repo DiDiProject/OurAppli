@@ -293,7 +293,7 @@ public class AffichageCave extends AppCompatActivity {
                                     // on va chercher la vin pour changer le nb de bouteille => 0
                                     ArrayList<String> ce = new ArrayList<String>();
                                     ce.add(cepageVinSel);
-                                    Vin vin = new Vin(nomVinSel, couleurVinSel, ce, millesimeVinSel);
+                                    Vin vin = new Vin(nomVinSel, couleurVinSel, ce, "", 0, millesimeVinSel);
                                     int posi = maCave.rechercheVin(vin);
                                     if (posi != -1) {
                                         vin = maCave.getVin(posi);
