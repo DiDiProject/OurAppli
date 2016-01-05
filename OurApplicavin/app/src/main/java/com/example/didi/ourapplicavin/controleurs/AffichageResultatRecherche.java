@@ -20,7 +20,10 @@ import com.example.didi.ourapplicavin.modeles.Bdd;
 import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
 import com.example.didi.ourapplicavin.modeles.ListePref;
+import com.example.didi.ourapplicavin.modeles.ListeVin;
 import com.example.didi.ourapplicavin.modeles.Vin;
+
+import java.util.ArrayList;
 
 //Classe qui affiche la liste des vins de la recherche
 public class AffichageResultatRecherche extends AppCompatActivity {
@@ -34,12 +37,17 @@ public class AffichageResultatRecherche extends AppCompatActivity {
     private TextView texteOu = null; //texte entre les deux boutons
     //Attributs pour cette classe
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
+    private String couleurVinSel = "";
+    private String cepageVinSel = "";
+    private String regionVinSel = "";
     private int posi; //pour avoir la position dans le tab du vin sélectionné
     final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    final static String VIN_BDD = "vin bdd";
     private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
     private String[] listeVins = new String[4]; // TODO liste des vin de la recherche à récupérer
     public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la bdd pr recherche
     private int endroit = 0;
+    private Bdd bdd = new Bdd();
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -85,17 +93,21 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         //il faudra mettre la liste des vins provenant de la recherche
 
         Intent i = getIntent();
-        endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);
-        nomVinSel = i.getStringExtra(AffichageBdd.NOM_VIN);
-        if(endroit != 2) {
-            endroit = i.getIntExtra(AffichageCave.ENDROIT, 1);
-            nomVinSel = i.getStringExtra(AffichageCave.NOM_VIN);
-            if(endroit != 1){
-                endroit = i.getIntExtra(AffichagePref.ENDROIT, 3);
-                nomVinSel = i.getStringExtra(AffichagePref.NOM_VIN);
+        if (i!=null) {
+            endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);
+            Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
+            nomVinSel = i.getStringExtra(AffichageRechercheVin.NOM_VIN);
+            Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
+            if (endroit != 2) {
+                endroit = i.getIntExtra(AffichageCave.ENDROIT, 1);
+                nomVinSel = i.getStringExtra(AffichageRechercheVin.NOM_VIN);
+                if (endroit != 1) {
+                    endroit = i.getIntExtra(AffichagePref.ENDROIT, 3);
+                    nomVinSel = i.getStringExtra(AffichageRechercheVin.NOM_VIN);
+                }
+            } else {
+                endroit = 2;
             }
-        } else {
-            endroit = 2;
         }
         Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
         int type_recherche = i.getIntExtra(AffichageRechercheVin.TYPE_RECHERCHE, 0);
@@ -129,16 +141,28 @@ public class AffichageResultatRecherche extends AppCompatActivity {
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
                         nomVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i)).getText();
+                        couleurVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 1)).getText();
+                        cepageVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 2)).getText();
+                        regionVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 3)).getText();
                     }
                 }
-                //Affichage court
-                Toast.makeText(getApplicationContext(), "La description de " + nomVinSel + " va s'afficher !",
-                        Toast.LENGTH_SHORT).show();
-                //on va à l'activité détailVin
-                Intent n = new Intent(AffichageResultatRecherche.this, AffichageDetailVin.class);
-                n.putExtra(NOM_VIN, nomVinSel);
-                //en passant des données (nom du vin ici)
-                startActivity(n);
+                ArrayList<String> ce = new ArrayList<String>();
+                ce.add(cepageVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
+
+                bdd = GestionSauvegarde.getBdd();
+                int positionBdd = bdd.rechercheVin(vin);
+                if (positionBdd != -1) {
+                    Intent n = new Intent(AffichageResultatRecherche.this, AffichageDetailVin.class);
+                    //en passant des données (nom du vin ici)
+                    n.putExtra(VIN_BDD, positionBdd);
+                    // TODO
+                    // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
+                    startActivity(n);
+                } else {
+                    Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans la bdd !!!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -168,12 +192,11 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO
-
                 boutonsInvisible();
                 rechangeCouleurLigneVin(posi);
                 Intent n = new Intent(AffichageResultatRecherche.this, AffichageAjoutVinCave.class);
                 n.putExtra(NOM_VIN, nomVinSel);
-                n.putExtra(ENDROIT,2);
+                n.putExtra(ENDROIT, 2);
                 n.addCategory(Intent.CATEGORY_HOME);
                 n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(n);
@@ -191,8 +214,8 @@ public class AffichageResultatRecherche extends AppCompatActivity {
                 Bdd bdd = GestionSauvegarde.getBdd();
                 // on va chercher le vin
                 // TODO faire la recherche avec tous les critères pas juste le nom
-                Vin vin = bdd.rechercheVinParNom(nomVinSel);
-                pref.ajoutVin(vin); // on ajoute le vin à la pref
+                //Vin vin = bdd.rechercheVinParNom(nomVinSel);
+                //pref.ajoutVin(vin); // on ajoute le vin à la pref
                 GestionSauvegarde.enregistrementPref(pref); // on sauvegarde la liste de souhait sur  le tél
                 //Affichage court
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la liste de souhait !",
@@ -301,30 +324,37 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         }
     }
 
-    private void rechercheParNom(){
+    private void rechercheParNom() {
         listeVins = new String[nbColParLigne];
-        Vin vin = new Vin();
-        if(endroit == 1){
+        ListeVin liste = new ListeVin();
+        if (endroit == 1) {
             Cave cave = GestionSauvegarde.getCave();
-            vin = cave.rechercheVinParNom(nomVinSel);
+            Log.i("AffichageResultat", "recherche ds la cave de " + nomVinSel);
+            liste = cave.rechercheVinParNom(nomVinSel);
             Log.i("AffichageResultat", "recherche ds la cave");
-        } else if(endroit == 2){
+        } else if (endroit == 2) {
             Bdd bdd = GestionSauvegarde.getBdd();
-            vin = bdd.rechercheVinParNom(nomVinSel);
+            liste = bdd.rechercheVinParNom(nomVinSel);
             Log.i("AffichageResultat", "recherche ds la bdd");
         } else {
             ListePref pref = GestionSauvegarde.getPref();
-            vin = pref.rechercheVinParNom(nomVinSel);
+            liste = pref.rechercheVinParNom(nomVinSel);
             Log.i("AffichageResultat", "recherche ds la pref");
         }
-        Log.i("AffichageResultat", vin.getNom() + " vin recherché");
-        listeVins[0] = vin.getNom();
-        listeVins[1] = vin.getCouleur();
-        listeVins[2] = vin.getCepage().get(0);
-        listeVins[3] = vin.getRegion();
+        Log.i("AffichageResultat", liste.toString() + "");
+        listeVins = new String[liste.getNombreVins() * nbColParLigne];
+        for (int i = 0; i < liste.getNombreVins(); i++) {
+            //pour chaque vin, on affiche le nom (sur la 1ère col), la couleur (la 2ème col),
+            //le nb de bouteille (la 3ème col) et la région (sur la 4ème)
+            Vin vin = liste.getListeVins().get(i);
+            listeVins[0 + i * nbColParLigne] = vin.getNom();
+            listeVins[1 + i * nbColParLigne] = vin.getCouleur();
+            listeVins[2 + i * nbColParLigne] = vin.getCepage().get(0);
+            listeVins[3 + i * nbColParLigne] = vin.getRegion();
+        }
     }
 
-    public void rechercheParCritere(){
+    public void rechercheParCritere() {
         // TODO
     }
 }

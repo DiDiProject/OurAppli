@@ -36,7 +36,7 @@ public class Bdd implements Serializable {
 
 
     //Méthode pour rechercher un vin avec le nom dans la bdd
-    public Vin rechercheVinParNom(String nom) {
+    public ListeVin rechercheVinParNom(String nom) {
         return bdd.rechercheVinParNom(nom);
     }
 

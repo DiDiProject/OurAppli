@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
@@ -30,11 +31,13 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
     //private EditText millesime = null; //pour récupérer la couleur
     private Button ajout = null;
     private Spinner listeMillesime = null;
+    private TextView detailVin = null;
+
     private Cave maCave = new Cave();
     private Bdd bdd = new Bdd();
-
     private String nomVinSel = "";
     private String string_millesime = "2016";
+    private String string_detail = "";
     private int endroit = 0;
     final static String VIN_BDD = "vin ds bdd";
     private Vin vinSel = new Vin();
@@ -55,6 +58,7 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
         //millesime = (EditText) findViewById(R.id.millesimeAjoutCave);
         ajout = (Button) findViewById(R.id.boutonAjoutCave);
         listeMillesime = (Spinner)findViewById(R.id.listeMillesime);
+        detailVin = (TextView)findViewById(R.id.detailVinAjoutCave);
 
         List liste = new ArrayList();
         for(int i=1990 ; i<2016; i++) {
@@ -75,8 +79,6 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 string_millesime = String.valueOf(listeMillesime.getSelectedItem());
-                Toast.makeText(AffichageAjoutVinCave.this, "millésime du vin : " + string_millesime,
-                        Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -101,6 +103,9 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
             nomVinSel = bdd.getVin(posiBdd).getNom();
             Log.i("AffichageAjoutVinCave", "dd");
 
+            string_detail = bdd.getVin(posiBdd).toString();
+            detailVin.setText("Détail du vin que vous allez ajouter à la cave : \n- Nom : " + nomVinSel + string_detail);
+
             //pour ajouter le vin avec les info de l'utilisateur dans la bdd
             ajout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,21 +119,26 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
                     Log.i("AffichageAjoutVinCave", nomVinSel + " ajouter à la cave !");
                     int nb = Integer.parseInt(nbBouteille.getText().toString());
                     vinSel = new Vin(vinSel, nb, string_millesime);
-                    maCave.ajoutVin(vinSel); // on ajoute ce vin à la cave
-                    GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel
-
-                    //Affichage court
-                    Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave ! " + vinSel.toString(),
-                            Toast.LENGTH_SHORT).show();
-                    Intent n;
-                    if (endroit == 2) {
-                        n = new Intent(AffichageAjoutVinCave.this, AffichageBdd.class);
+                    if (maCave.rechercheVin(vinSel) != -1) {
+                        Toast.makeText(getApplicationContext(), "Ce vin avec ce millésime a déjà été ajouté à votre cave !!! ",
+                                Toast.LENGTH_SHORT).show();
                     } else {
-                        n = new Intent(AffichageAjoutVinCave.this, AffichagePref.class);
+                        maCave.ajoutVin(vinSel); // on ajoute ce vin à la cave
+                        GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel
+
+                        //Affichage court
+                        Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave ! \n" + vinSel.toString(),
+                                Toast.LENGTH_SHORT).show();
+                        Intent n;
+                        if (endroit == 2) {
+                            n = new Intent(AffichageAjoutVinCave.this, AffichageBdd.class);
+                        } else {
+                            n = new Intent(AffichageAjoutVinCave.this, AffichagePref.class);
+                        }
+                        n.addCategory(Intent.CATEGORY_HOME);
+                        n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(n);
                     }
-                    n.addCategory(Intent.CATEGORY_HOME);
-                    n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(n);
                 }
             });
         }

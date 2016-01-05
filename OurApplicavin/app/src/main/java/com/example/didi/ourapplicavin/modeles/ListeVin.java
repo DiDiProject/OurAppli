@@ -79,19 +79,18 @@ public class ListeVin implements Serializable {
     }
 
     //Méthode pour rechercher un vin avec le nom dans une liste de vin
-    public Vin rechercheVinParNom(String nom) {
-        Vin vin = new Vin();
+    public ListeVin rechercheVinParNom(String nom) {
+        ListeVin listeVin = new ListeVin();
         Log.i("ListeVin", "liste vin size = " + listeVins.size());
         for (int i = 0; i < listeVins.size(); i++) {
             //si le vin est le même que celui à supprimer on l'enlève dans la liste
             if (nom.equals(listeVins.get(i).getNom())) {
-                vin = listeVins.get(i);
-                return vin;
+                listeVin.ajoutVin(listeVins.get(i));
             }
         }
         // TODO
         // mettre autre chose qu'un vin vide
-        return vin;
+        return listeVin;
     }
 
     //Méthode pour rechercher un vin avec le nom dans une liste de vin

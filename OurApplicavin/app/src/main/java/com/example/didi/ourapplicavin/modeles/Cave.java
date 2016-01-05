@@ -119,7 +119,7 @@ public class Cave implements Serializable {
     }*/
 
     //Méthode pour rechercher un vin avec le nom dans la cave
-    public Vin rechercheVinParNom(String nom){
+    public ListeVin rechercheVinParNom(String nom){
         return maCave.rechercheVinParNom(nom);
     }
 
@@ -141,6 +141,25 @@ public class Cave implements Serializable {
         return -1;
     }
 
+    //Méthode pour rechercher un vin avec le nom dans la cave
+    public int rechercheVinBdd(Vin vin){
+        Vin v = new Vin();
+        Log.i("ListeVin", "liste vin size = " + maCave.getListeVins().size());
+        for (int i = 0; i < maCave.getListeVins().size(); i++) {
+            //si le vin est le même que celui à supprimer on l'enlève dans la liste
+            if (vin.getNom().equals(maCave.getListeVins().get(i).getNom())&& vin.getCouleur().equals(maCave.getListeVins().get(i).getCouleur()) &&
+                    vin.getCepage().get(0).equals(maCave.getListeVins().get(i).getCepage().get(0))
+                    && vin.getRegion().equals(maCave.getListeVins().get(i).getRegion())){
+                v = maCave.getListeVins().get(i);
+                return i;
+            }
+        }
+        // TODO
+        // mettre autre chose qu'un vin vide
+        return -1;
+    }
+
+
     //Méthode pour recherche des vins par critère dans la cave
     public ListeVin rechercheVinParCritere(){
         return maCave.rechercheVinParCritere();
@@ -149,12 +168,12 @@ public class Cave implements Serializable {
     public String toString(){
         String affichage = "Liste des vins :";
         for (int i = 0; i < maCave.getListeVins().size(); i++) {
-            affichage += "\nNom : " + maCave.getListeVins().get(i).getNom();
-            affichage += "\nRobe : " + maCave.getListeVins().get(i).getCouleur();
-            affichage += "\nCépage(s) : " + maCave.getListeVins().get(i).getCepage();
-            affichage += "\nRégion : " + maCave.getListeVins().get(i).getRegion();
-            affichage += "\nNombre de bouteille : " + maCave.getListeVins().get(i).getNbBouteille();
-            affichage += "\nMillésime : " + maCave.getListeVins().get(i).getMillesime() + "\n";
+            affichage += "\n Nom : " + maCave.getListeVins().get(i).getNom();
+            affichage += "\n Robe : " + maCave.getListeVins().get(i).getCouleur();
+            affichage += "\n Cépage(s) : " + maCave.getListeVins().get(i).getCepage();
+            affichage += "\n Région : " + maCave.getListeVins().get(i).getRegion();
+            affichage += "\n Nombre de bouteille : " + maCave.getListeVins().get(i).getNbBouteille();
+            affichage += "\n Millésime : " + maCave.getListeVins().get(i).getMillesime() + "\n";
         }
         affichage = "Fin de la liste des vins.";
         return affichage;

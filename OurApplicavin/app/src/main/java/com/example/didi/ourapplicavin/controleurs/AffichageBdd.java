@@ -126,7 +126,7 @@ public class AffichageBdd extends AppCompatActivity {
                     // TODO
                     // passer le vin en entier pas juste le nom
                     startActivity(n);
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "ce vin n'a pas été trouvé ds la bdd!!!",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -179,21 +179,17 @@ public class AffichageBdd extends AppCompatActivity {
                 ce.add(cepageVinSel);
                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 maCave = GestionSauvegarde.getCave();
-                if (maCave.rechercheVin(vin) != -1) {
-                    Toast.makeText(getApplicationContext(), "ce vin a déjà été ajouté à votre cave !!!",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    bdd = GestionSauvegarde.getBdd();
-                    int positionBdd = bdd.rechercheVin(vin);
-                    Log.i("AffichageBdd", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds cave " + positionBdd);
+                bdd = GestionSauvegarde.getBdd();
+                int positionBdd = bdd.rechercheVin(vin);
+                Log.i("AffichageBdd", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds cave " + positionBdd);
 
-                    Intent n = new Intent(AffichageBdd.this, AffichageAjoutVinCave.class);
-                    n.putExtra(VIN_BDD, positionBdd);
-                    n.putExtra(ENDROIT, 2);
-                    n.addCategory(Intent.CATEGORY_HOME);
-                    n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(n);
-                }
+                Intent n = new Intent(AffichageBdd.this, AffichageAjoutVinCave.class);
+                n.putExtra(VIN_BDD, positionBdd);
+                n.putExtra(ENDROIT, 2);
+                n.addCategory(Intent.CATEGORY_HOME);
+                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(n);
+
             }
         });
 

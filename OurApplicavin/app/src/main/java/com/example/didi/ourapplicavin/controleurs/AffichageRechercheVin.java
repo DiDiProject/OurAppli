@@ -32,7 +32,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
     private Button rechercheAvancee = null; //bouton pour faire la recherche par critère
     //Attributs pour cette classe
     private boolean avanceeOuPas = false; //si on ait dans recherche par critère ou pas (non de base)
-    final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    final static String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     public final static String ENDROIT = "endroit";
     public final static String TYPE_RECHERCHE = "type de recherche";
     private int endroit = 0;
