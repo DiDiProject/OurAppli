@@ -48,6 +48,7 @@ public class AffichageResultatRecherche extends AppCompatActivity {
     public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la bdd pr recherche
     private int endroit = 0;
     private Bdd bdd = new Bdd();
+    private Cave maCave = new Cave();
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -82,7 +83,7 @@ public class AffichageResultatRecherche extends AppCompatActivity {
 
         // TODO
         //il faudra définir les noms des colonnes
-        String[] title = new String[]{"Nom du vin", "Type", "Cépage", "Région"};
+        String[] title = new String[]{"Nom", "Type", "Cépage", "Région"};
         // on va mettre ce tab des noms des colonnes dans le tab associé
         ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, title);
@@ -93,18 +94,15 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         //il faudra mettre la liste des vins provenant de la recherche
 
         Intent i = getIntent();
-        if (i!=null) {
+        if (i != null) {
             endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);
             Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
             nomVinSel = i.getStringExtra(AffichageRechercheVin.NOM_VIN);
             Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
-            if (endroit != 2) {
-                endroit = i.getIntExtra(AffichageCave.ENDROIT, 1);
+            if (endroit != 2 && endroit != 1) {
+                endroit = i.getIntExtra(AffichagePref.ENDROIT, 3);
                 nomVinSel = i.getStringExtra(AffichageRechercheVin.NOM_VIN);
-                if (endroit != 1) {
-                    endroit = i.getIntExtra(AffichagePref.ENDROIT, 3);
-                    nomVinSel = i.getStringExtra(AffichageRechercheVin.NOM_VIN);
-                }
+
             } else {
                 endroit = 2;
             }
@@ -179,6 +177,9 @@ public class AffichageResultatRecherche extends AppCompatActivity {
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
                         nomVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i)).getText();
+                        couleurVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 1)).getText();
+                        cepageVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 2)).getText();
+                        regionVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 3)).getText();
                         posi = position - i;
                     }
                 }
@@ -192,14 +193,29 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO
-                boutonsInvisible();
-                rechangeCouleurLigneVin(posi);
-                Intent n = new Intent(AffichageResultatRecherche.this, AffichageAjoutVinCave.class);
-                n.putExtra(NOM_VIN, nomVinSel);
-                n.putExtra(ENDROIT, 2);
-                n.addCategory(Intent.CATEGORY_HOME);
-                n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(n);
+                Log.i("AffichageResultatCave", "on veut ajouter le vin à la cave !");
+                boutonsInvisible(); // on remet invisible les boutons
+                rechangeCouleurLigneVin(posi); // on enlève la couleur du vin sélectionné
+                ArrayList<String> ce = new ArrayList<String>();
+                ce.add(cepageVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
+                maCave = GestionSauvegarde.getCave();
+                bdd = GestionSauvegarde.getBdd();
+                int positionBdd = bdd.rechercheVin(vin);
+                if (positionBdd != -1) {
+                    Log.i("AffichageBdd", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds bdd " + positionBdd);
+                    Intent n = new Intent(AffichageResultatRecherche.this, AffichageAjoutVinCave.class);
+                    n.putExtra(VIN_BDD, positionBdd);
+                    n.putExtra(ENDROIT, endroit);
+                    n.addCategory(Intent.CATEGORY_HOME);
+                    n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(n);
+                    boutonsInvisible();
+                    rechangeCouleurLigneVin(posi);
+                } else {
+                    Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans la bdd !!!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -208,14 +224,16 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO
-                Log.i("AffichageBdd", "on veut ajouter le vin à la liste de souhait !");
+                Log.i("AffichageResultat", "on veut ajouter le vin à la liste de souhait !");
                 // on récupère la liste de souhait et la bdd
                 ListePref pref = GestionSauvegarde.getPref();
-                Bdd bdd = GestionSauvegarde.getBdd();
+                bdd = GestionSauvegarde.getBdd();
                 // on va chercher le vin
                 // TODO faire la recherche avec tous les critères pas juste le nom
-                //Vin vin = bdd.rechercheVinParNom(nomVinSel);
-                //pref.ajoutVin(vin); // on ajoute le vin à la pref
+                ArrayList<String> ce = new ArrayList<String>();
+                ce.add(cepageVinSel);
+                Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
+                pref.ajoutVin(vin); // on ajoute le vin à la pref
                 GestionSauvegarde.enregistrementPref(pref); // on sauvegarde la liste de souhait sur  le tél
                 //Affichage court
                 Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la liste de souhait !",

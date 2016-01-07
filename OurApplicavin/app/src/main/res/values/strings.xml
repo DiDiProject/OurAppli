@@ -11,6 +11,7 @@
     <string name="title_activity_affichage_detail_vin">Detail du vin</string>
     <string name="title_activity_affichage_recherche_vin">Faire une recherche</string>
     <string name="title_activity_affichage_resultat_recherche">Resultat de votre recherche</string>
+    <string name="title_activity_affichage_resultat_recherche_cave">Resultat de votre recherche ds cave</string>
     <string name="title_activity_affichage_ajout_vin_bdd">Ajouter un vin dans la bdd</string>
     <string name="title_activity_test_modele">TestModele</string>
     <string name="title_activity_affichage_ajout_vin_cave">Ajouter un vin à la cave</string>

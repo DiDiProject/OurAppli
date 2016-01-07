@@ -155,18 +155,6 @@ public class AffichagePref extends AppCompatActivity {
         ajoutCave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ajouter le vin dans la cave
-                // on récupère la cave
-                /*Cave maCave = GestionSauvegarde.getCave();
-                // TODO
-                // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
-                // on récupère le vin à ajouter
-                Vin vin = pref.rechercheVinParNom(nomVinSel);
-                maCave.ajoutVin(vin, 1); //on ajoute ce vin à la cave (par défaut 1 bouteille)
-                GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave*/
-
-                /*Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave !",
-                        Toast.LENGTH_SHORT).show();*/
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
                 ArrayList<String> ce = new ArrayList<String>();

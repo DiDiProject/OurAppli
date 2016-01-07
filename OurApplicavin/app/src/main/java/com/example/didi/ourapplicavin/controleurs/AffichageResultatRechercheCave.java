@@ -22,37 +22,40 @@ import com.example.didi.ourapplicavin.R;
 import com.example.didi.ourapplicavin.modeles.Bdd;
 import com.example.didi.ourapplicavin.modeles.Cave;
 import com.example.didi.ourapplicavin.modeles.GestionSauvegarde;
+import com.example.didi.ourapplicavin.modeles.ListeVin;
 import com.example.didi.ourapplicavin.modeles.Vin;
 
 import java.util.ArrayList;
 
-//Classe qui affiche la liste des vins de la cave "virtuelle" de l'utilisateur
-//elle est appelée via le menu principal
-public class AffichageCave extends AppCompatActivity {
+//Classe qui affiche la liste des vins de la recherche
+public class AffichageResultatRechercheCave extends AppCompatActivity {
     //Attributs associés au layout
-    private Button augmenter = null; //bouton pour augmenter le nb de bouteille
-    private Button diminuer = null; //bouton pour diminuer le nb de bouteille
-    private EditText nb = null; //pour afficher le nb de bouteille en temps réel
-    private TextView texte = null; //texte pour dire qu'on parle de bouteille
-    private Button ok = null; //pour enregistrer ce nouveau nb de bouteille
-    private GridView tab = null; //tab pour afficher la liste des vins de la cave
-    private GridView tabNom = null; //tab pour afficher le nom des colonnes
+    private GridView tabNomCol = null; //tab pour afficher le nom des colonnes
+    private GridView tabResultatVin = null; //tab pour afficher la liste des vins de la bdd
+    private Button augmenter = null; //bouton pour ajout un vin dans la cave
+    private Button diminuer = null; //dans la liste de souhait
+    private Button ok = null; //annuler le vin sélectionné
+    private TextView texte = null; //texte ajout
+    private TextView nb = null;
+    private TextView texteOu = null; //texte entre les deux boutons
     //Attributs pour cette classe
-    private int nbBouteilles; //pour avoir le nb de bouteille (en entier)
-    private int nbBouteilleActualiser; //pour aovir le nb de bouteille actualisé
-    private int positionTabNom = 0; //pour avoir la position dans le tab (liste vins) du nb de bouteille
+    private ListeVin liste;
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
     private String couleurVinSel = "";
     private String nbVinSel = "";
     private String cepageVinSel = "";
     private String millesimeVinSel = "";
-    public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la cave pr recherche
-    final static String NOM_VIN = "vin cave"; //pour passer le nom du vin à une autre activité
+    private int nbBouteilles; //pour avoir le nb de bouteille (en entier)
+    private int nbBouteilleActualiser; //pour aovir le nb de bouteille actualisé
+    private int positionTabNom; //pour avoir la position dans le tab du vin sélectionné
+    final String NOM_VIN = "vin cave"; //pour passer le nom du vin à une autre activité
     final static String VIN_BDD = "vin bdd";
-    private int nbColParLigne = 5; // TODO définit le nb de col par ligne pour la liste (pas oublier de modif affichage)
     private boolean ajoutOuPas = false; //savoir si on est ds ajout nb d'un vin
-    private String[] listeVins; //cave ds un tab
-    private Cave maCave = new Cave(); //cave qu'on va ensuite récupérer ds fichier .ser
+    private int nbColParLigne = 5; // TODO définit le nb de col par ligne pour la liste
+    private String[] listeVins = new String[4]; // TODO liste des vin de la recherche à récupérer
+    public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la bdd pr recherche
+    private int endroit = 0;
+    private Cave maCave = new Cave();
     private Bdd bdd = new Bdd();
 
     //Méthode qui se lance quand on est dans cette activité
@@ -60,79 +63,72 @@ public class AffichageCave extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_cave); //on affiche le layout associé
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        //on va cherche tous les élements qui nous interressent dans le layout
-        tabNom = (GridView) findViewById(R.id.tabNomColCave);
-        tab = (GridView) findViewById(R.id.tabResultatVinCave);
+        Log.i("ResulatRechercheCave", "début de l'activité");
+        //on va cherche tous les élements qui nous interresse dans le layout
+        tabNomCol = (GridView) findViewById(R.id.tabNomColCave);
+        tabResultatVin = (GridView) findViewById(R.id.tabResultatVinCave);
         augmenter = (Button) findViewById(R.id.augmenter);
         diminuer = (Button) findViewById(R.id.diminuer);
         nb = (EditText) findViewById(R.id.nbBouteille);
         texte = (TextView) findViewById(R.id.textView3);
         ok = (Button) findViewById(R.id.ok);
-        //on rend les boutons inutiles au départ invisible ainsi que le tab actif
-
-        //pour l'horientation du tel (mode paysage ou portait) ms ne marche pas
-        /*if (savedInstanceState != null) {
-            // Restore value of members from saved state
-            if (ajoutOuPas) {
-                boutonsVisible();
-                tabNom.setEnabled(true);
-            } else {
-                boutonsInvisible();
-                tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
-            }
-        } else {
-            boutonsInvisible();
-            tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
-        }*/
-
+        // on rend les boutons inutiles au départ invisible ainsi que le tab actif
         boutonsInvisible();
-        tabNom.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
+        tabNomCol.setEnabled(false); //pas besion de cliquer sur le tab des noms des colonnes
+
         // TODO
-        // il faudra définir les noms des colonnes
-        String[] title = new String[]{"Nom du vin", "Robe", "Nb", "Cépage", "Millésime"};
+        //il faudra définir les noms des colonnes
+        String[] title = new String[]{"Nom", "Type", "Nb", "Cépage", "Millésime"};
         // on va mettre ce tab des noms des colonnes dans le tab associé
-        ArrayAdapter<String> adapterTitle = new ArrayAdapter<>(this,
+        ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, title);
-        tabNom.setAdapter(adapterTitle);
-        tabNom.setNumColumns(nbColParLigne);  //définit le nombre de colonne par ligne
+        tabNomCol.setAdapter(adapterTitle);
+        tabNomCol.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne
 
-        //on récupère la cave (enregistrer dans fichier .ser sur le tel
-        maCave = GestionSauvegarde.getCave();
-        /*if (maCave == null) {
-            init(); //si n'a pas de cave on l'initialise
-        }*/
-        //on préparer l'affichage de la cave à l'écran
-        affichage();
-        Log.i("AffichageCave", "on récupère la cave pour l'affichage");
+        // TODO
+        //il faudra mettre la liste des vins provenant de la recherche
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        Intent i = getIntent();
+        if (i != null) {
+            endroit = i.getIntExtra(AffichageCave.ENDROIT, 2);
+            nomVinSel = i.getStringExtra(AffichageRechercheVin.NOM_VIN);
+            Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
+            if (endroit != 1) {
+                Toast.makeText(getApplicationContext(), "erreur !!!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        int type_recherche = i.getIntExtra(AffichageRechercheVin.TYPE_RECHERCHE, 0);
+        if (type_recherche == 0) {
+            rechercheParNom();
+        } else {
+            rechercheParCritere();
+        }
+
+        // on va mettre ce tab de la liste des vins dans le tab associé
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, listeVins);
-        tab.setAdapter(adapter);
-        tab.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne comme tabNom
-        Log.i("AffichageCave", "on affiche la cave de l'utilisateur !");
+        tabResultatVin.setAdapter(adapter);
+        tabResultatVin.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne comme tabNomCol
 
         //quand on fait un clic court sur un des vins (n'importe quelle colonne)
         //on va afficher le détail de ce vin
-        tab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        tabResultatVin.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Log.i("AffichageCave", "on veut le détail d'un vin !");
                 //selon la colonne où l'utilisateur clique, il faudra récupérer le nom du vin
-                //[nomVinSel = (String) ((TextView) v).getText(); //directement mais que pour le vin cliqué]
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
-                        nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
-                        couleurVinSel = (String) ((TextView) tab.getChildAt(position - i + 1)).getText();
-                        nbVinSel = (String) ((TextView) tab.getChildAt(position - i + 2)).getText();
-                        cepageVinSel = (String) ((TextView) tab.getChildAt(position - i + 3)).getText();
-                        millesimeVinSel = (String) ((TextView) tab.getChildAt(position - i + 4)).getText();
+                        nomVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i)).getText();
+                        couleurVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 1)).getText();
+                        nbVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 2)).getText();
+                        cepageVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 3)).getText();
+                        millesimeVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 4)).getText();
                     }
                 }
                 ArrayList<String> ce = new ArrayList<String>();
@@ -147,7 +143,7 @@ public class AffichageCave extends AppCompatActivity {
                     bdd = GestionSauvegarde.getBdd();
                     int positionBdd = bdd.rechercheVin(vin);
                     if (positionBdd != -1) {
-                        Intent n = new Intent(AffichageCave.this, AffichageDetailVin.class);
+                        Intent n = new Intent(AffichageResultatRechercheCave.this, AffichageDetailVin.class);
                         //en passant des données (nom du vin ici)
                         n.putExtra(NOM_VIN, positionCave);
                         n.putExtra(VIN_BDD, positionBdd);
@@ -165,73 +161,28 @@ public class AffichageCave extends AppCompatActivity {
             }
         });
 
-        // quand on fait un clic long sur un des vins,
-        // on veut augmenter ou diminuer son nb de bouteille
-        tab.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        // quand on fait un clic long sur un des vins, on veut soit l'ajouter
+        // dans la cave ou dans la liste de souhait
+        tabResultatVin.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("AffichageCave", "on veut ajouter des bouteilles ou en supprimer ou supprimer directement un vin !");
-                //on rend visible les boutons +, - et ok et rend le tab inactif
-                boutonsVisible();
-                ajoutOuPas = true;
-                //on va chercher la position nomVin ainsi que son nom et le nb bouteille
-                String nbBouteilleavant = "0"; //si on arrive pas à récupérer le nb bouteille
-                positionTabNom = 0; //si on arrive pas à récupérer le nb bouteille
                 // TODO
-                // à changer si plus de 4 col
+                //on rend visible les boutons ajout dans cave, pref et annuler
+                //et on rend le tab inactif
+                boutonsVisible();
+                //on va chercher la position nomVin ainsi que sa position dans le tab
+                positionTabNom = position;
                 for (int i = 0; i < nbColParLigne; i++) {
                     if (position % nbColParLigne == i) {
-                        nomVinSel = (String) ((TextView) tab.getChildAt(position - i)).getText();
-                        couleurVinSel = (String) ((TextView) tab.getChildAt(position - i + 1)).getText();
-                        nbVinSel = (String) ((TextView) tab.getChildAt(position - i + 2)).getText();
-                        cepageVinSel = (String) ((TextView) tab.getChildAt(position - i + 3)).getText();
-                        millesimeVinSel = (String) ((TextView) tab.getChildAt(position - i + 4)).getText();
+                        nomVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i)).getText();
+                        couleurVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 1)).getText();
+                        nbVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 2)).getText();
+                        cepageVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 3)).getText();
+                        millesimeVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 4)).getText();
                         positionTabNom = position - i;
                     }
                 }
-               /* if (position % nbColParLigne == 0) {
-                    nbBouteilleavant = (String) ((TextView) tab.getChildAt(position + 2)).getText();
-                    positionTabNb = position + 2;
-                    nomVinSel = (String) ((TextView) tab.getChildAt(position)).getText();
-                    couleurVinSel = (String) ((TextView) tab.getChildAt(position + 1)).getText();
-                    nbVinSel = (String) ((TextView) tab.getChildAt(position + 2)).getText();
-                    cepageVinSel = (String) ((TextView) tab.getChildAt(position + 3)).getText();
-                    millesimeVinSel = (String) ((TextView) tab.getChildAt(position + 4)).getText();
-                } else if (position % nbColParLigne == 1) {
-                    nbBouteilleavant = (String) ((TextView) tab.getChildAt(position + 1)).getText();
-                    positionTabNb = position + 1;
-                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 1)).getText();
-                    couleurVinSel = (String) ((TextView) tab.getChildAt(position - 1 + 1)).getText();
-                    nbVinSel = (String) ((TextView) tab.getChildAt(position - 1 + 2)).getText();
-                    cepageVinSel = (String) ((TextView) tab.getChildAt(position - 1 + 3)).getText();
-                    millesimeVinSel = (String) ((TextView) tab.getChildAt(position - 1 + 4)).getText();
-                } else if (position % nbColParLigne == 2) {
-                    nbBouteilleavant = (String) ((TextView) tab.getChildAt(position)).getText();
-                    positionTabNb = position;
-                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 2)).getText();
-                    couleurVinSel = (String) ((TextView) tab.getChildAt(position - 2 + 1)).getText();
-                    nbVinSel = (String) ((TextView) tab.getChildAt(position - 2 + 2)).getText();
-                    cepageVinSel = (String) ((TextView) tab.getChildAt(position - 2 + 3)).getText();
-                    millesimeVinSel = (String) ((TextView) tab.getChildAt(position - 2 + 4)).getText();
-                } else if (position % nbColParLigne == 3) {
-                    nbBouteilleavant = (String) ((TextView) tab.getChildAt(position - 1)).getText();
-                    positionTabNb = position - 1;
-                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 3)).getText();
-                    couleurVinSel = (String) ((TextView) tab.getChildAt(position - 3 + 1)).getText();
-                    nbVinSel = (String) ((TextView) tab.getChildAt(position - 3 + 2)).getText();
-                    cepageVinSel = (String) ((TextView) tab.getChildAt(position - 3 + 3)).getText();
-                    millesimeVinSel = (String) ((TextView) tab.getChildAt(position - 3 + 4)).getText();
-                } else {
-                    nbBouteilleavant = (String) ((TextView) tab.getChildAt(position - 2)).getText();
-                    positionTabNb = position - 2;
-                    nomVinSel = (String) ((TextView) tab.getChildAt(position - 4)).getText();
-                    couleurVinSel = (String) ((TextView) tab.getChildAt(position - 4 + 1)).getText();
-                    nbVinSel = (String) ((TextView) tab.getChildAt(position - 4 + 2)).getText();
-                    cepageVinSel = (String) ((TextView) tab.getChildAt(position - 4 + 3)).getText();
-                    millesimeVinSel = (String) ((TextView) tab.getChildAt(position - 4 + 4)).getText();
-                }*/
-                nb.setText(nbVinSel); //met le nombre de bouteille du vin en affichage
-                //on surligne la ligne du vin sélectionné
-                changeCouleurLigneVin(positionTabNom);
+                nb.setText(nbVinSel);
+                changeCouleurLigneVin(positionTabNom); //on surligne la ligne du vin sélectionné
                 return true;
             }
         });
@@ -249,13 +200,13 @@ public class AffichageCave extends AppCompatActivity {
         //pour diminuer le nombre de bouteille (juste un clique sur -)
         diminuer.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 int nbavant = Integer.parseInt(nb.getText().toString()); //on récupère le nb de bouteille
                 //si on arrive à 1 bouteille ou à 0
                 if (nbavant <= 1) {
                     //affiche une boite de dialogue pour confirmation suppression vin ou conserver ce vin
                     AlertDialog.Builder boite;
-                    boite = new AlertDialog.Builder(AffichageCave.this);
+                    boite = new AlertDialog.Builder(AffichageResultatRechercheCave.this);
                     boite.setTitle("Suppresion ?");
                     boite.setIcon(R.drawable.photovin); //image
                     boite.setMessage("Voulez-vous supprimer le " + nomVinSel + " ou le conserver dans votre cave avec 0 bouteille ?");
@@ -272,16 +223,19 @@ public class AffichageCave extends AppCompatActivity {
                                     ArrayList<String> ce = new ArrayList<String>();
                                     ce.add(cepageVinSel);
                                     Vin vin = new Vin(nomVinSel, couleurVinSel, ce, "", 0, millesimeVinSel);
-                                    int posi = maCave.rechercheVin(vin);
-                                    if (posi != -1) {
-                                        vin = maCave.getVin(posi);
-                                        maCave.supprVin(vin); //on supprime ce vin de la cave
+                                    int posi = liste.rechercheVinCave(vin);
+                                    int posiCave = maCave.rechercheVin(vin);
+                                    if (posi!=-1 || posiCave != -1) {
+                                        vin = maCave.getVin(posiCave);
+                                        maCave.supprVin(vin);
+                                        vin = liste.getVin(posi);
+                                        liste.supprVin(vin);
                                         affichage(); //on réactualise la cave pour l'affichage
                                         GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave
                                         //on affichage l'actulisation de la cave
-                                        ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageCave.this,
+                                        ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageResultatRechercheCave.this,
                                                 android.R.layout.simple_list_item_1, listeVins);
-                                        tab.setAdapter(adapter);
+                                        tabResultatVin.setAdapter(adapter);
                                         Log.i("AfichageCave", "suppression du vin : " + nomVinSel);
                                     } else {
                                         Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans votre cave !!!",
@@ -304,16 +258,17 @@ public class AffichageCave extends AppCompatActivity {
                                     ArrayList<String> ce = new ArrayList<String>();
                                     ce.add(cepageVinSel);
                                     Vin vin = new Vin(nomVinSel, couleurVinSel, ce, "", 0, millesimeVinSel);
-                                    int posi = maCave.rechercheVin(vin);
-                                    if (posi != -1) {
-                                        vin = maCave.getVin(posi);
-                                        maCave.getVin(posi).setNbBouteille(0); // on modifie le nb de bouteille du vin
+                                    int posi = liste.rechercheVinCave(vin);
+                                    int posiCave = maCave.rechercheVin(vin);
+                                    if (posi != -1 || posiCave!=-1) {
+                                        maCave.getVin(posiCave).setNbBouteille(0); // on modifie le nb de bouteille du vin
+                                        liste.getVin(posi).setNbBouteille(0);
                                         affichage(); //on réactualise la cave pour l'affichage
                                         GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave
                                         //on affichage l'actulisation de la cave
-                                        ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageCave.this,
+                                        ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageResultatRechercheCave.this,
                                                 android.R.layout.simple_list_item_1, listeVins);
-                                        tab.setAdapter(adapter);
+                                        tabResultatVin.setAdapter(adapter);
                                         Log.i("AfichageCave", "conservation du vin : " + nomVinSel + ": avec 0 bouteille !");
                                     } else {
                                         Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans votre cave !!!",
@@ -341,40 +296,41 @@ public class AffichageCave extends AppCompatActivity {
                 ajoutOuPas = false;
                 rechangeCouleurLigneVin(positionTabNom); //enlève couleur vin sélectionné
                 // on va chercher la cave qu'on a enregistré
-                maCave = GestionSauvegarde.getCave();
                 // TODO
                 // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                 // on va chercher la vin pour changer le nb de bouteille
                 ArrayList<String> ce = new ArrayList<String>();
                 ce.add(cepageVinSel);
                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, "", 0, millesimeVinSel);
-                int posi = maCave.rechercheVin(vin);
-                if (posi != -1) {
-                    vin = maCave.getVin(posi);
-                    maCave.getVin(posi).setNbBouteille(nbBouteilles); //onchage le nb de bouteille du vin ds la cave
+                maCave = GestionSauvegarde.getCave();
+                int posiCave = maCave.rechercheVin(vin);
+                int posi = liste.rechercheVinCave(vin);
+                if (posi != -1 || posiCave!=-1) {
+                    liste.getVin(posi).setNbBouteille(nbBouteilles); //onchage le nb de bouteille du vin ds la cave
+                    maCave.getVin(posiCave).setNbBouteille(nbBouteilles);
                     Log.i("AffichageCave", "on actualise le nb de bouteille de " + nomVinSel);
                     affichage(); //on réactualise la cave pour l'affichage
-                    GestionSauvegarde.enregistrementCave(maCave); //on enregistre la nouvelle liste de vin dans la cave (fichier .ser)
+                    GestionSauvegarde.enregistrementCave(maCave);
                     //on affichage l'actulisation de la cave
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageCave.this,
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(AffichageResultatRechercheCave.this,
                             android.R.layout.simple_list_item_1, listeVins);
-                    tab.setAdapter(adapter);
+                    tabResultatVin.setAdapter(adapter);
                     Log.i("AffichageCave", "on actualise le nb de bouteille de " + nomVinSel);
                 } else {
-                    Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans votre cave !!!",
+                    Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans la liste de recherche !!!",
                             Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
-
-    //Méthode qui permet de mettre un menu à l'écran
-    // ce menu est définit dans menu_affichage_cave
+    //Méthode qui perme de mettre un menu à l'écran
+    // ce menu est définit dans menu_affichage_rechercher_vin
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_affichage_cave, menu); //on affiche le menu de la cave
+        getMenuInflater().inflate(R.menu.menu_affichage_resultat_recherche, menu);
         return true;
     }
 
@@ -387,33 +343,41 @@ public class AffichageCave extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        // si on clique sur le sous menu (retour au menu principal)
-        // on va dans l'activité menu principal
+        //aller au menu principal
         if (id == R.id.retourMenu) {
-            Intent n = new Intent(AffichageCave.this, AffichageMenuPrincipal.class);
-            // on enlève l'activité précédente (celle de voir sa cave)
+            Intent n = new Intent(AffichageResultatRechercheCave.this, AffichageMenuPrincipal.class);
             n.addCategory(Intent.CATEGORY_HOME);
             n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
-        // si on clique sur le sous menu (rechercher des vins)
-        // on va dans l'activité recherche vin
-        else if (id == R.id.rechercheCave) {
-            Toast.makeText(AffichageCave.this, "Vous aller effectuer une recherche dans votre cave !",
-                    Toast.LENGTH_SHORT).show();
-            Intent n = new Intent(AffichageCave.this, AffichageRechercheVin.class);
-            // TODO
-            //dire qu'on ait dans la cave pour la recherche
-            n.putExtra(ENDROIT, 1);
+        //aller à la cave
+        else if (id == R.id.retourCave) {
+            Intent n = new Intent(AffichageResultatRechercheCave.this, AffichageCave.class);
             n.addCategory(Intent.CATEGORY_HOME);
             n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(n);
             return true;
         }
+        //aller à la cave
+        else if (id == R.id.retourBdd) {
+            Intent n = new Intent(AffichageResultatRechercheCave.this, AffichageBdd.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(n);
+            return true;
+        }
+        //retour à la recherche
+        else if (id == R.id.retourRecherche) {
+            Intent n = new Intent(AffichageResultatRechercheCave.this, AffichageRechercheVin.class);
+            n.addCategory(Intent.CATEGORY_HOME);
+            n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(n);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
-
 
     //Méthode qui rend invisble les boutons + et -
     //et le tableau de la liste de vins devient actif
@@ -423,7 +387,7 @@ public class AffichageCave extends AppCompatActivity {
         nb.setVisibility(View.INVISIBLE);
         ok.setVisibility(View.INVISIBLE);
         texte.setVisibility(View.INVISIBLE);
-        tab.setEnabled(true);
+        tabResultatVin.setEnabled(true);
     }
 
     //Méthode qui rend visble les boutons + et - pour que l'utilisateur augmente ou diminue le nb de
@@ -435,41 +399,56 @@ public class AffichageCave extends AppCompatActivity {
         nb.setVisibility(View.VISIBLE);
         ok.setVisibility(View.VISIBLE);
         texte.setVisibility(View.VISIBLE);
-        tab.setEnabled(false);
+        tabResultatVin.setEnabled(false);
     }
 
-    //Méthode pour surligner la ligne (vin sélectionné)
-    //position doit être celui du nom
+    //Méthode qui surligne la ligne (vin sélectionné)
     private void changeCouleurLigneVin(int position) {
         for (int i = 0; i < nbColParLigne; i++) {
-            tab.getChildAt(position + i).setBackgroundColor(Color.rgb(176, 222, 253)); //bleu clair
+            tabResultatVin.getChildAt(position + i).setBackgroundColor(Color.rgb(253, 220, 216)); //rouge/rose clair
         }
     }
 
     //Méthode qui désurligne la ligne
-    //position doit être celui du nom
     private void rechangeCouleurLigneVin(int position) {
         for (int i = 0; i < nbColParLigne; i++) {
-            tab.getChildAt(position + i).setBackgroundColor(Color.TRANSPARENT);
+            tabResultatVin.getChildAt(position + i).setBackgroundColor(Color.TRANSPARENT);
         }
     }
 
-    //Méthode pour initialiser la cave (donc avec 0 vin)
-    public void init() {
-        maCave = new Cave();
-        affichage();
-        Log.i("AffichageCave", "on a initialisé la liste de vin de la cave et on va enegistrer cette liste dans un fichier .ser");
-        GestionSauvegarde.enregistrementCave(maCave); //enregistrement de la cave (vide pour l'instant)
+    private void rechercheParNom() {
+        listeVins = new String[nbColParLigne];
+        liste = new ListeVin();
+        Cave cave = GestionSauvegarde.getCave();
+        Log.i("AffichageResultat", "recherche ds la cave de " + nomVinSel);
+        liste = cave.rechercheVinParNom(nomVinSel);
+        Log.i("AffichageResultat", "recherche ds la cave");
+        Log.i("AffichageResultat", liste.toString() + "");
+        listeVins = new String[liste.getNombreVins() * nbColParLigne];
+        for (int i = 0; i < liste.getNombreVins(); i++) {
+            //pour chaque vin, on affiche le nom (sur la 1ère col), la couleur (la 2ème col),
+            //le nb de bouteille (la 3ème col) et la région (sur la 4ème)
+            Vin vin = liste.getListeVins().get(i);
+            listeVins[0 + i * nbColParLigne] = vin.getNom();
+            listeVins[1 + i * nbColParLigne] = vin.getCouleur();
+            listeVins[2 + i * nbColParLigne] = "" + vin.getNbBouteille();
+            listeVins[3 + i * nbColParLigne] = vin.getCepage().get(0);
+            listeVins[4 + i * nbColParLigne] = vin.getMillesime();
+        }
+    }
+
+    public void rechercheParCritere() {
+        // TODO
     }
 
     //Méthode pour enregistrer la cave dans un tableau pour après l'afficher
     public void affichage() {
         //on initialise le tableau avec le nb de case approprié (nb de vins * nb de col)
-        listeVins = new String[maCave.getVinsCave().getNombreVins() * nbColParLigne];
-        for (int i = 0; i < maCave.getVinsCave().getNombreVins(); i++) {
+        listeVins = new String[liste.getNombreVins() * nbColParLigne];
+        for (int i = 0; i < liste.getNombreVins(); i++) {
             //pour chaque vin, on affiche le nom (sur la 1ère col), la couleur (la 2ème col),
             //le nb de bouteille (la 3ème col) et la région (sur la 4ème)
-            Vin vin = maCave.getVinsCave().getListeVins().get(i);
+            Vin vin = liste.getListeVins().get(i);
             listeVins[0 + i * nbColParLigne] = vin.getNom();
             listeVins[1 + i * nbColParLigne] = vin.getCouleur();
             listeVins[2 + i * nbColParLigne] = "" + vin.getNbBouteille();

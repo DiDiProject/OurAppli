@@ -130,10 +130,12 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave ! \n" + vinSel.toString(),
                                 Toast.LENGTH_SHORT).show();
                         Intent n;
-                        if (endroit == 2) {
-                            n = new Intent(AffichageAjoutVinCave.this, AffichageBdd.class);
-                        } else {
+                        if (endroit == 1) {
+                            n = new Intent(AffichageAjoutVinCave.this, AffichageCave.class);
+                        } else if (endroit == 3) {
                             n = new Intent(AffichageAjoutVinCave.this, AffichagePref.class);
+                        } else {
+                            n = new Intent(AffichageAjoutVinCave.this, AffichageBdd.class);
                         }
                         n.addCategory(Intent.CATEGORY_HOME);
                         n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

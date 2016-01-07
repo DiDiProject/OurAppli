@@ -95,7 +95,13 @@ public class AffichageRechercheVin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO
-                Intent n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
+                Intent n;
+                if(endroit!=1) {
+                    n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
+
+                } else {
+                    n = new Intent(AffichageRechercheVin.this, AffichageResultatRechercheCave.class);
+                }
                 n.putExtra(NOM_VIN, nom.getText().toString()); //on passe le nom à chercher à l'activé résultat
                 Log.i("AffichageRecherche", nom.getText().toString() + " vin recherché  :::");
                 n.putExtra(ENDROIT, endroit);

@@ -47,6 +47,10 @@
             android:label="@string/title_activity_affichage_resultat_recherche" >
         </activity>
         <activity
+            android:name=".controleurs.AffichageResultatRechercheCave"
+            android:label="@string/title_activity_affichage_resultat_recherche_cave" >
+        </activity>
+        <activity
             android:name=".controleurs.AffichageAjoutVinBdd"
             android:label="@string/title_activity_affichage_ajout_vin_bdd" >
         </activity>

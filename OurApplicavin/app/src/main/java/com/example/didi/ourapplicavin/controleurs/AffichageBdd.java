@@ -181,7 +181,7 @@ public class AffichageBdd extends AppCompatActivity {
                 maCave = GestionSauvegarde.getCave();
                 bdd = GestionSauvegarde.getBdd();
                 int positionBdd = bdd.rechercheVin(vin);
-                Log.i("AffichageBdd", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds cave " + positionBdd);
+                Log.i("AffichageBdd", "couleur " + couleurVinSel + " region " + regionVinSel + " posi ds bdd " + positionBdd);
 
                 Intent n = new Intent(AffichageBdd.this, AffichageAjoutVinCave.class);
                 n.putExtra(VIN_BDD, positionBdd);

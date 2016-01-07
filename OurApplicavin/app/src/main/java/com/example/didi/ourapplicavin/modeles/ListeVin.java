@@ -110,6 +110,24 @@ public class ListeVin implements Serializable {
         return -1;
     }
 
+    //Méthode pour rechercher un vin avec le nom dans une liste de vin
+    public int rechercheVinCave(Vin vin) {
+        Vin v = new Vin();
+        Log.i("ListeVin", "liste vin size = " + listeVins.size());
+        for (int i = 0; i < listeVins.size(); i++) {
+            //si le vin est le même que celui à supprimer on l'enlève dans la liste
+            if (vin.getNom().equals(listeVins.get(i).getNom())&& vin.getCouleur().equals(listeVins.get(i).getCouleur()) &&
+                    vin.getCepage().get(0).equals(listeVins.get(i).getCepage().get(0))
+                    && vin.getMillesime().equals(listeVins.get(i).getMillesime())){
+                v = listeVins.get(i);
+                return i;
+            }
+        }
+        // TODO
+        // mettre autre chose qu'un vin vide
+        return -1;
+    }
+
     //Méthode pour recherche des vi{
     // ns par critère dans une liste de vin
     public ListeVin rechercheVinParCritere() {
