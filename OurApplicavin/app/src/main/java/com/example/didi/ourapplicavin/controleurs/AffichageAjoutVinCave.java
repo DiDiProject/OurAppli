@@ -28,18 +28,13 @@ import java.util.List;
 public class AffichageAjoutVinCave extends AppCompatActivity {
     // Attributs associé au layout
     private EditText nbBouteille = null; //pour récupérer le nom
-    //private EditText millesime = null; //pour récupérer la couleur
-    private Button ajout = null;
     private Spinner listeMillesime = null;
-    private TextView detailVin = null;
 
-    private Cave maCave = new Cave();
-    private Bdd bdd = new Bdd();
+    private Cave maCave;
+    private Bdd bdd;
     private String nomVinSel = "";
     private String string_millesime = "2016";
-    private String string_detail = "";
     private int endroit = 0;
-    final static String VIN_BDD = "vin ds bdd";
     private Vin vinSel = new Vin();
 
     @Override
@@ -47,6 +42,8 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_ajout_vin_cave);
 
+        maCave = new Cave();
+        bdd = new Bdd();
     }
 
     @Override
@@ -56,9 +53,9 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
         //on va cherche tous les élements qui nous interressent dans le layout
         nbBouteille = (EditText) findViewById(R.id.nbBouteilleAjoutCave);
         //millesime = (EditText) findViewById(R.id.millesimeAjoutCave);
-        ajout = (Button) findViewById(R.id.boutonAjoutCave);
+        Button ajout = (Button) findViewById(R.id.boutonAjoutCave);
         listeMillesime = (Spinner)findViewById(R.id.listeMillesime);
-        detailVin = (TextView)findViewById(R.id.detailVinAjoutCave);
+        TextView detailVin = (TextView) findViewById(R.id.detailVinAjoutCave);
 
         List liste = new ArrayList();
         for(int i=1990 ; i<2016; i++) {
@@ -87,11 +84,8 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
         });
 
         maCave = GestionSauvegarde.getCave();
-        //GestionSauvegarde.enregistrementCave(maCave);
-        bdd = GestionSauvegarde.getBdd();
-        //GestionSauvegarde.enregistrementBdd(bdd);
 
-        int posiBdd = -1;
+        int posiBdd;
         Intent i = getIntent();
         endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);
         posiBdd = i.getIntExtra(AffichageBdd.VIN_BDD, -1);
@@ -103,19 +97,16 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
             nomVinSel = bdd.getVin(posiBdd).getNom();
             Log.i("AffichageAjoutVinCave", "dd");
 
-            string_detail = bdd.getVin(posiBdd).toString();
+            String string_detail = bdd.getVin(posiBdd).toString();
             detailVin.setText("Détail du vin que vous allez ajouter à la cave : \n- Nom : " + nomVinSel + string_detail);
 
             //pour ajouter le vin avec les info de l'utilisateur dans la bdd
             ajout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    //maCave = GestionSauvegarde.getCave();
-                    //bdd = GestionSauvegarde.getBdd();
+                    maCave = GestionSauvegarde.getCave();
+                    bdd = GestionSauvegarde.getBdd();
                     // on va chercher le vin
-                    // TODO pour millésime
-                    // TODO faire la recherche avec tous les critères pas juste le nom
                     Log.i("AffichageAjoutVinCave", nomVinSel + " ajouter à la cave !");
                     int nb = Integer.parseInt(nbBouteille.getText().toString());
                     vinSel = new Vin(vinSel, nb, string_millesime);
@@ -125,7 +116,6 @@ public class AffichageAjoutVinCave extends AppCompatActivity {
                     } else {
                         maCave.ajoutVin(vinSel); // on ajoute ce vin à la cave
                         GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel
-
                         //Affichage court
                         Toast.makeText(getApplicationContext(), nomVinSel + " a bien été ajouté à la cave ! \n" + vinSel.toString(),
                                 Toast.LENGTH_SHORT).show();

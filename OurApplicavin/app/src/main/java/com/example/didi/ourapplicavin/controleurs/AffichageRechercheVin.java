@@ -94,7 +94,6 @@ public class AffichageRechercheVin extends AppCompatActivity {
         rechercheNom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
                 Intent n;
                 if(endroit!=1) {
                     n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);

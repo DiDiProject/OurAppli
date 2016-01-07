@@ -47,9 +47,7 @@ public class GestionSauvegarde {
             final Cave cave2 = (Cave) ois.readObject();
             Log.i("AffichageCave", "récupération de la cave avec getCave; deserialization");
             cave = cave2;
-        } catch (final java.io.IOException e) {
-            e.printStackTrace();
-        } catch (final ClassNotFoundException e) {
+        } catch (final IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -96,9 +94,7 @@ public class GestionSauvegarde {
             final Bdd bdd2 = (Bdd) ois.readObject();
             Log.i("GestionSauvegarde", "récupération de la bdd; deserialization");
             bdd = bdd2;
-        } catch (final java.io.IOException e) {
-            e.printStackTrace();
-        } catch (final ClassNotFoundException e) {
+        } catch (final IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -145,9 +141,7 @@ public class GestionSauvegarde {
             final ListePref pref2 = (ListePref) ois.readObject();
             Log.i("GestionSauvegarde", "récupération de la pref; deserialization");
             pref = pref2;
-        } catch (final java.io.IOException e) {
-            e.printStackTrace();
-        } catch (final ClassNotFoundException e) {
+        } catch (final IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             try {

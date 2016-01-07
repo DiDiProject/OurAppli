@@ -2,7 +2,6 @@ package com.example.didi.ourapplicavin.modeles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * //Classe Object vin
@@ -21,10 +20,9 @@ public class Vin implements Serializable {
 
     //Constructeur d'inialisation vin (vide)
     public Vin() {
-        // TODO
         nom = "";
         couleur = "";
-        cepage = new ArrayList<String>();
+        cepage = new ArrayList<>();
         cepage.add("");
         region = "";
         nbBouteille = 0;
@@ -108,16 +106,17 @@ public class Vin implements Serializable {
         return detail;
     }
 
-    public boolean compareVin(Objects v) {
+    public boolean compareVin(Vin v) {
         // TODO
-        return true;
+        return v.getNom().equals(nom) && v.getCouleur().equals(couleur) &&
+                v.getCepage().equals(cepage);
     }
 
     public String toString() {
         String affichage = "";
         affichage += "\n- Robe : " + couleur;
         affichage += "\n- Cépage(s) : " + cepage;
-        affichage += "\n- Région : " + region; ;
+        affichage += "\n- Région : " + region;
         return affichage;
     }
 

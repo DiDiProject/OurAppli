@@ -27,10 +27,10 @@ import java.util.ArrayList;
 //et ajouter un vin ds la bdd
 public class AffichageMenuPrincipal extends AppCompatActivity {
     //Attributs
-    private Cave maCave = new Cave();
-    private ListePref pref = new ListePref();
-    private Bdd bdd = new Bdd();
-    public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la bdd pr recherche
+    private Cave maCave;
+    private ListePref pref;
+    private Bdd bdd;
+    public final static String ENDROIT = "endroit"; //pour dire qu'on ait dans la bdd pr recherche
 
     //méthode qui se lance lors de cette activité
     @Override
@@ -38,7 +38,9 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_menu_principal); //on affiche le menu principal
 
-
+        maCave = new Cave();
+        pref = new ListePref();
+        bdd = new Bdd();
     }
 
     @Override
@@ -101,7 +103,6 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
                 Toast.makeText(AffichageMenuPrincipal.this, "Vous aller effectuer une recherche dans la base de données !",
                         Toast.LENGTH_SHORT).show();
                 Intent secondeActivite = new Intent(AffichageMenuPrincipal.this, AffichageRechercheVin.class);
-                // TODO
                 //dire qu'on ait dans la bdd pour la recherche
                 secondeActivite.putExtra(ENDROIT, 2);
                 startActivity(secondeActivite);
@@ -196,17 +197,17 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
         }
         if (bdd == null) {
             bdd = new Bdd();
-            ArrayList<String> cepage = new ArrayList<String>();
+            ArrayList<String> cepage = new ArrayList<>();
             cepage.add("Merlot");
             cepage.add("Muscadelle");
             bdd.ajoutVin(new Vin("Bordeaux", "rouge", cepage, "Aquitaine"));
-            ArrayList<String> cepage2 = new ArrayList<String>();
+            ArrayList<String> cepage2 = new ArrayList<>();
             cepage2.add("Muscadelle");
             bdd.ajoutVin(new Vin("Cadillac", "blanc", cepage2, "Aquitaine"));
-            ArrayList<String> cepage3 = new ArrayList<String>();
+            ArrayList<String> cepage3 = new ArrayList<>();
             cepage3.add("Semillon");
             bdd.ajoutVin(new Vin("Riesling", "blanc", cepage3, "Alsace"));
-            ArrayList<String> cepage4 = new ArrayList<String>();
+            ArrayList<String> cepage4 = new ArrayList<>();
             cepage4.add("Grenache");
             bdd.ajoutVin(new Vin("Whispering Angel", "rosé", cepage4, "Provence"));
             GestionSauvegarde.enregistrementBdd(bdd); //enregistrement de la cave (4 vins pour l'instant)

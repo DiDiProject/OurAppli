@@ -16,7 +16,7 @@ public class ListeVin implements Serializable {
 
     //Constructeur d'initialisation d'une liste de vins (vide)
     public ListeVin() {
-        this.listeVins = new ArrayList<Vin>();
+        this.listeVins = new ArrayList<>();
         this.nombreVins = 0;
     }
 
@@ -29,22 +29,6 @@ public class ListeVin implements Serializable {
     //Méthode pour avoir la liste des vins
     public ArrayList<Vin> getListeVins() {
         return listeVins;
-    }
-
-    //Méthode pour avoir un vin en ayant le nom du vin
-    public Vin getVin(String nom) {
-        Vin vin = new Vin();
-        //on parcourt la liste
-        for (int i = 0; i < listeVins.size(); i++) {
-            //si le nom du vin est le même, on retourne ce vin
-            if (nom.equals(listeVins.get(i).getNom())) {
-                vin = listeVins.get(i);
-                break;
-            }
-        }
-        // TODO
-        // exception si on n'a pas trouvé le vin
-        return vin;
     }
 
     public Vin getVin(int position) {
@@ -68,7 +52,6 @@ public class ListeVin implements Serializable {
                 return i;
             }
         }
-        // TODO
         // exception si on n'a pas trouvé le vin
         return -1;
     }
@@ -88,42 +71,35 @@ public class ListeVin implements Serializable {
                 listeVin.ajoutVin(listeVins.get(i));
             }
         }
-        // TODO
         // mettre autre chose qu'un vin vide
         return listeVin;
     }
 
     //Méthode pour rechercher un vin avec le nom dans une liste de vin
     public int rechercheVin(Vin vin) {
-        Vin v = new Vin();
         Log.i("ListeVin", "liste vin size = " + listeVins.size());
         for (int i = 0; i < listeVins.size(); i++) {
             //si le vin est le même que celui à supprimer on l'enlève dans la liste
             if (vin.getNom().equals(listeVins.get(i).getNom())&& vin.getCouleur().equals(listeVins.get(i).getCouleur()) &&
                     vin.getCepage().get(0).equals(listeVins.get(i).getCepage().get(0)) && vin.getRegion().equals(listeVins.get(i).getRegion())){
-                v = listeVins.get(i);
                 return i;
             }
         }
-        // TODO
         // mettre autre chose qu'un vin vide
         return -1;
     }
 
     //Méthode pour rechercher un vin avec le nom dans une liste de vin
     public int rechercheVinCave(Vin vin) {
-        Vin v = new Vin();
         Log.i("ListeVin", "liste vin size = " + listeVins.size());
         for (int i = 0; i < listeVins.size(); i++) {
             //si le vin est le même que celui à supprimer on l'enlève dans la liste
             if (vin.getNom().equals(listeVins.get(i).getNom())&& vin.getCouleur().equals(listeVins.get(i).getCouleur()) &&
                     vin.getCepage().get(0).equals(listeVins.get(i).getCepage().get(0))
                     && vin.getMillesime().equals(listeVins.get(i).getMillesime())){
-                v = listeVins.get(i);
                 return i;
             }
         }
-        // TODO
         // mettre autre chose qu'un vin vide
         return -1;
     }
@@ -139,10 +115,10 @@ public class ListeVin implements Serializable {
     public String toString(){
         String affichage = "Liste des vins :";
         for (int i = 0; i < listeVins.size(); i++) {
-            affichage += "\nNom = " + listeVins.get(i).getNom();
-            affichage += "\nrobe = " + listeVins.get(i).getCouleur();
-            affichage +=  "\ncépage = " + listeVins.get(i).getCepage();
-            affichage += "\nrégion = " + listeVins.get(i).getRegion() + "\n";
+            affichage += "\n- Nom = " + listeVins.get(i).getNom();
+            affichage += "\n- Robe = " + listeVins.get(i).getCouleur();
+            affichage += "\n- Cépage = " + listeVins.get(i).getCepage();
+            affichage += "\n- Région = " + listeVins.get(i).getRegion() + "\n";
         }
         affichage = "Fin de la liste des vins.";
         return affichage;

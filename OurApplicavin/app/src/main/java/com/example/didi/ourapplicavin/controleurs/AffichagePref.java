@@ -35,10 +35,9 @@ public class AffichagePref extends AppCompatActivity {
     private Button supprVin = null; //bouton pour supprimer un vin de la liste de souhait
     private Button annuler = null; //annuler le vin sélectionné
     //Attributs pour cette classe
-    public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans liste de souhait
-    public final static String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    public final static String ENDROIT = "endroit"; //pour dire qu'on ait dans liste de souhait
     final static String VIN_BDD = "vin bdd";
-    private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
+    private int nbColParLigne = 4; //définit le nb de col par ligne pour la liste
     private int posiNom = 0; //pour avoir la position dans le tab du vin sélectionné
     private String nomVinSel = ""; //pour avoir le nom du vin sélectionné
     private String couleurVinSel = "";
@@ -106,7 +105,7 @@ public class AffichagePref extends AppCompatActivity {
                         regionVinSel = (String) ((TextView) tab.getChildAt(position - i + 3)).getText();
                     }
                 }
-                ArrayList<String> ce = new ArrayList<String>();
+                ArrayList<String> ce = new ArrayList<>();
                 ce.add(cepageVinSel);
                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 bdd = GestionSauvegarde.getBdd();
@@ -118,8 +117,6 @@ public class AffichagePref extends AppCompatActivity {
                     Intent n = new Intent(AffichagePref.this, AffichageDetailVin.class);
                     n.putExtra(VIN_BDD, positionBdd);
                     //en passant des données (nom du vin ici)
-                    // TODO
-                    // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                     startActivity(n);
                 } else {
                     Toast.makeText(getApplicationContext(), "le vin que vous avez sélectionné n'a pas été trouvé dans votre pref !!!",
@@ -157,7 +154,7 @@ public class AffichagePref extends AppCompatActivity {
             public void onClick(View v) {
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posiNom); // on enlève la couleur du vin sélectionné
-                ArrayList<String> ce = new ArrayList<String>();
+                ArrayList<String> ce = new ArrayList<>();
                 ce.add(cepageVinSel);
                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
 
@@ -195,10 +192,8 @@ public class AffichagePref extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 // on va chercher la liste de souhait
                                 pref = GestionSauvegarde.getPref();
-                                // TODO
-                                // prendre le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                                 // on récupère le vin à supprimer
-                                ArrayList<String> ce = new ArrayList<String>();
+                                ArrayList<String> ce = new ArrayList<>();
                                 ce.add(cepageVinSel);
                                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                                 int posi = pref.rechercheVin(vin);
@@ -322,7 +317,7 @@ public class AffichagePref extends AppCompatActivity {
             //pour chaque vin, on affiche le nom (sur la 1ère col), la couleur (la 2ème col),
             //le cépage (la 3ème col) et la région (sur la 4ème)
             Vin vin = pref.getPref().getListeVins().get(i);
-            listeVins[0+i*nbColParLigne] = vin.getNom();
+            listeVins[  i*nbColParLigne] = vin.getNom();
             listeVins[1+i*nbColParLigne] = vin.getCouleur();
             listeVins[2+i*nbColParLigne] = vin.getCepage().get(0);
             listeVins[3+i*nbColParLigne] = vin.getRegion();

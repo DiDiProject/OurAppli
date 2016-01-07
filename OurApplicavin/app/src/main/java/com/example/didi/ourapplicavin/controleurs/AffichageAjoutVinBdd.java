@@ -110,7 +110,7 @@ public class AffichageAjoutVinBdd extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     //on crée ce vin
-                    ArrayList<String> ce = new ArrayList<String>();
+                    ArrayList<String> ce = new ArrayList<>();
                     ce.add(stringCepage);
                     Vin vin = new Vin(stringNom, stringRobe, ce, stringRegion);
                     Bdd bdd = GestionSauvegarde.getBdd();

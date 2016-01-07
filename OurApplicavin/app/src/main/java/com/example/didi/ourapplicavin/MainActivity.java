@@ -18,6 +18,12 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); //on affiche l'écran d'accueil
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         //on va chercher le bouton (grâce à son identifiant qu'on a choisi dans le layout)
         //pour accéder ensuite au menu principal ou quitter l'application
         Button menuPrincipal = (Button)findViewById(R.id.allerMenuPrincipal);
@@ -41,5 +47,6 @@ public class MainActivity extends Activity {
             }
         });
     }
+
     //pas besoin de mettre un menu pour cette écran
 }

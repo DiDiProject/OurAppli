@@ -76,7 +76,6 @@ public class AffichageDetailVin extends AppCompatActivity {
         nomVin.setText(string_nomVin); //on affiche le nom du vin
         // TODO
         // récupérer la desccription du vin en question
-        //string_detailVin = "Détail du vin \n-type de vin : ... \n-cépage : ... \n-région : ...";
         //on affiche le détail
         string_detailVin = bdd.getVin(posiBdd).toString();
 
@@ -84,6 +83,8 @@ public class AffichageDetailVin extends AppCompatActivity {
             string_detailVin = maCave.getVin(posiCave).toStringCave();
             // récupérer les remarques
             string_remarquesVin = "Vos commentaires sur ce vin \nDate des bouteilles \n-accords avec plats ...";
+            // TODO
+            // string_remarquesVin = maCave.getVin(posiCave).getRemarques();
             //on affiche les remarques
             remarquesVin.setText(string_remarquesVin);
 

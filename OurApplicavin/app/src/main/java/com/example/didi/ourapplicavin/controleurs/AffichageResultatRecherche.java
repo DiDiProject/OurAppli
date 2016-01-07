@@ -40,12 +40,12 @@ public class AffichageResultatRecherche extends AppCompatActivity {
     private String couleurVinSel = "";
     private String cepageVinSel = "";
     private String regionVinSel = "";
+    private ListeVin liste;
     private int posi; //pour avoir la position dans le tab du vin sélectionné
-    final String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     final static String VIN_BDD = "vin bdd";
-    private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste
-    private String[] listeVins = new String[4]; // TODO liste des vin de la recherche à récupérer
-    public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la bdd pr recherche
+    private int nbColParLigne = 4; //définit le nb de col par ligne pour la liste
+    private String[] listeVins = new String[nbColParLigne]; //liste des vin de la recherche à récupérer
+    public final static String ENDROIT = "endroit"; //pour dire qu'on ait dans la bdd pr recherche
     private int endroit = 0;
     private Bdd bdd = new Bdd();
     private Cave maCave = new Cave();
@@ -85,14 +85,13 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         //il faudra définir les noms des colonnes
         String[] title = new String[]{"Nom", "Type", "Cépage", "Région"};
         // on va mettre ce tab des noms des colonnes dans le tab associé
-        ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapterTitle = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, title);
         tabNomCol.setAdapter(adapterTitle);
         tabNomCol.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne
 
-        // TODO
-        //il faudra mettre la liste des vins provenant de la recherche
 
+        //il faudra mettre la liste des vins provenant de la recherche
         Intent i = getIntent();
         if (i != null) {
             endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);
@@ -106,27 +105,17 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             } else {
                 endroit = 2;
             }
-        }
-        Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
-        int type_recherche = i.getIntExtra(AffichageRechercheVin.TYPE_RECHERCHE, 0);
-        if (type_recherche == 0) {
-            rechercheParNom();
-        } else {
-            rechercheParCritere();
-        }
 
-        /*listeVins = new String[]{
-                "Bordeaux", "rouge", "8", "rr1",
-                "Cadillac", "blanc", "1", "rr1",
-                "Riesling", "blanc", "5", "rr1",
-                "Whispering Angel", "rosé", "3", "rr1",
-                "MonBazillac", "blanc", "10", "rr1",
-                "Champagne dom pérignon", "blanc", "10", "rr1",
-                "Gewurztraminer d'Alsace", "blanc", "1", "rr1",
-                "Monbazillac", "balnc", "4", "rr1"
-        };*/
+            Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
+            int type_recherche = i.getIntExtra(AffichageRechercheVin.TYPE_RECHERCHE, 0);
+            if (type_recherche == 0) {
+                rechercheParNom();
+            } else {
+                rechercheParCritere();
+            }
+        }
         // on va mettre ce tab de la liste des vins dans le tab associé
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, listeVins);
         tabResultatVin.setAdapter(adapter);
         tabResultatVin.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne comme tabNomCol
@@ -144,7 +133,7 @@ public class AffichageResultatRecherche extends AppCompatActivity {
                         regionVinSel = (String) ((TextView) tabResultatVin.getChildAt(position - i + 3)).getText();
                     }
                 }
-                ArrayList<String> ce = new ArrayList<String>();
+                ArrayList<String> ce = new ArrayList<>();
                 ce.add(cepageVinSel);
                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
 
@@ -154,7 +143,6 @@ public class AffichageResultatRecherche extends AppCompatActivity {
                     Intent n = new Intent(AffichageResultatRecherche.this, AffichageDetailVin.class);
                     //en passant des données (nom du vin ici)
                     n.putExtra(VIN_BDD, positionBdd);
-                    // TODO
                     // passer le vin en entier pas juste le nom (car peut avoir même nom avec deux vin différents
                     startActivity(n);
                 } else {
@@ -168,7 +156,6 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         // dans la cave ou dans la liste de souhait
         tabResultatVin.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO
                 //on rend visible les boutons ajout dans cave, pref et annuler
                 //et on rend le tab inactif
                 boutonsVisible();
@@ -192,11 +179,10 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         ajoutCave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
                 Log.i("AffichageResultatCave", "on veut ajouter le vin à la cave !");
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posi); // on enlève la couleur du vin sélectionné
-                ArrayList<String> ce = new ArrayList<String>();
+                ArrayList<String> ce = new ArrayList<>();
                 ce.add(cepageVinSel);
                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 maCave = GestionSauvegarde.getCave();
@@ -223,14 +209,13 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         ajoutSouhait.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
                 Log.i("AffichageResultat", "on veut ajouter le vin à la liste de souhait !");
                 // on récupère la liste de souhait et la bdd
                 ListePref pref = GestionSauvegarde.getPref();
                 bdd = GestionSauvegarde.getBdd();
                 // on va chercher le vin
-                // TODO faire la recherche avec tous les critères pas juste le nom
-                ArrayList<String> ce = new ArrayList<String>();
+                // faire la recherche avec tous les critères pas juste le nom
+                ArrayList<String> ce = new ArrayList<>();
                 ce.add(cepageVinSel);
                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 pref.ajoutVin(vin); // on ajoute le vin à la pref
@@ -344,7 +329,6 @@ public class AffichageResultatRecherche extends AppCompatActivity {
 
     private void rechercheParNom() {
         listeVins = new String[nbColParLigne];
-        ListeVin liste = new ListeVin();
         if (endroit == 1) {
             Cave cave = GestionSauvegarde.getCave();
             Log.i("AffichageResultat", "recherche ds la cave de " + nomVinSel);
@@ -365,7 +349,7 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             //pour chaque vin, on affiche le nom (sur la 1ère col), la couleur (la 2ème col),
             //le nb de bouteille (la 3ème col) et la région (sur la 4ème)
             Vin vin = liste.getListeVins().get(i);
-            listeVins[0 + i * nbColParLigne] = vin.getNom();
+            listeVins[    i * nbColParLigne] = vin.getNom();
             listeVins[1 + i * nbColParLigne] = vin.getCouleur();
             listeVins[2 + i * nbColParLigne] = vin.getCepage().get(0);
             listeVins[3 + i * nbColParLigne] = vin.getRegion();

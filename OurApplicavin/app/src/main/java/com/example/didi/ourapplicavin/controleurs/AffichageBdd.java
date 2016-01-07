@@ -40,13 +40,12 @@ public class AffichageBdd extends AppCompatActivity {
     private String cepageVinSel = "";
     private String regionVinSel = "";
     private int posi; //pour avoir la position dans le tab du vin sélectionné
-    public final static String ENDROIT = "endroit"; // TODO pour dire qu'on ait dans la bdd pr recherche
-    public final static String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
+    public final static String ENDROIT = "endroit"; //pour dire qu'on ait dans la bdd pr recherche
     public final static String VIN_BDD = "vin bdd";
-    private int nbColParLigne = 4; // TODO définit le nb de col par ligne pour la liste (pas oublier de modif affichage)
+    private int nbColParLigne = 4; //définit le nb de col par ligne pour la liste (pas oublier de modif affichage)
     private String[] listeVins; //bdd dans un tab
     private Bdd bdd = new Bdd(); //bdd qu'on va chercher ds fichier .ser
-    private Cave maCave = new Cave();
+    private Cave maCave;
 
     //Méthode qui se lance quand on est dans cette activité
     @Override
@@ -54,7 +53,7 @@ public class AffichageBdd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_bdd); //on affiche le layout associé
 
-
+        maCave = new Cave();
     }
 
     @Override
@@ -77,7 +76,7 @@ public class AffichageBdd extends AppCompatActivity {
         // il faudra définir les noms des colonnes
         String[] nomsCol = new String[]{"Nom", "Robe", "Cépage", "Région"};
         // on va mettre ce tab des noms des colonnes dans le tab associé
-        ArrayAdapter<String> adapterTitle = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapterTitle = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, nomsCol);
         tabNom.setAdapter(adapterTitle);
         tabNom.setNumColumns(nbColParLigne); //définit le nombre de colonne par ligne
@@ -111,7 +110,7 @@ public class AffichageBdd extends AppCompatActivity {
                     }
                 }
 
-                ArrayList<String> ce = new ArrayList<String>();
+                ArrayList<String> ce = new ArrayList<>();
                 ce.add(cepageVinSel);
                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 bdd = GestionSauvegarde.getBdd();
@@ -122,9 +121,7 @@ public class AffichageBdd extends AppCompatActivity {
 
                     //on va à l'activité détailVin
                     Intent n = new Intent(AffichageBdd.this, AffichageDetailVin.class);
-                    n.putExtra(VIN_BDD, positionBdd); //en passant des données (nom du vin ici)
-                    // TODO
-                    // passer le vin en entier pas juste le nom
+                    n.putExtra(VIN_BDD, positionBdd); //en passant des données (position du vin dans la bdd ici)
                     startActivity(n);
                 } else {
                     Toast.makeText(getApplicationContext(), "ce vin n'a pas été trouvé ds la bdd!!!",
@@ -162,20 +159,11 @@ public class AffichageBdd extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("AffichageBdd", "on veut ajouter le vin à la cave !");
-                // on récupère la cave
-                /*Cave maCave = GestionSauvegarde.getCave();
-                //bdd = GestionSauvegarde.getBdd();
-                // on va chercher le vin
-                // TODO faire la recherche avec tous les critères pas juste le nom
-                Vin vin = bdd.rechercheVinParNom(nomVinSel);
-                Log.i("AffichageBdd", vin.getNom() + "le vin à la cave !!!");
-                maCave.ajoutVin(vin, 1); // on ajoute ce vin à la cave
-                GestionSauvegarde.enregistrementCave(maCave); //on sauvegarde la cave sur le tel*/
 
                 boutonsInvisible(); // on remet invisible les boutons
                 rechangeCouleurLigneVin(posi); // on enlève la couleur du vin sélectionné
 
-                ArrayList<String> ce = new ArrayList<String>();
+                ArrayList<String> ce = new ArrayList<>();
                 ce.add(cepageVinSel);
                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 maCave = GestionSauvegarde.getCave();
@@ -202,8 +190,7 @@ public class AffichageBdd extends AppCompatActivity {
                 ListePref pref = GestionSauvegarde.getPref();
                 bdd = GestionSauvegarde.getBdd();
                 // on va chercher le vin
-                // TODO faire la recherche avec tous les critères pas juste le nom
-                ArrayList<String> ce = new ArrayList<String>();
+                ArrayList<String> ce = new ArrayList<>();
                 ce.add(cepageVinSel);
                 Vin vin = new Vin(nomVinSel, couleurVinSel, ce, regionVinSel);
                 pref.ajoutVin(vin); // on ajoute le vin à la pref
@@ -265,8 +252,7 @@ public class AffichageBdd extends AppCompatActivity {
             Toast.makeText(AffichageBdd.this, "Vous aller effectuer une recherche dans la base de données !",
                     Toast.LENGTH_SHORT).show();
             Intent n = new Intent(AffichageBdd.this, AffichageRechercheVin.class);
-            // TODO
-            //dire qu'on ait dans la base de données pour la recherche
+            //on dit qu'on ait dans la base de données pour la recherche
             n.putExtra(ENDROIT, 2);
             n.addCategory(Intent.CATEGORY_HOME);
             n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -329,9 +315,8 @@ public class AffichageBdd extends AppCompatActivity {
             //pour chaque vin, on affiche le nom (sur la 1ère col), la couleur (la 2ème col),
             //le cépage (la 3ème col) et la région (sur la 4ème)
             Vin vin = bdd.getBdd().getListeVins().get(i);
-            listeVins[0 + i * nbColParLigne] = vin.getNom();
+            listeVins[    i * nbColParLigne] = vin.getNom();
             listeVins[1 + i * nbColParLigne] = vin.getCouleur();
-            Log.i("AffichageBdd", "" + vin.getCepage());
             listeVins[2 + i * nbColParLigne] = vin.getCepage().get(0);
             listeVins[3 + i * nbColParLigne] = vin.getRegion();
         }

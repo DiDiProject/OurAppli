@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Created by didi on 05/12/2015.
  */
+// TODO
 public class FicheVin implements Serializable {
     private Vin vin;
     private String detail;

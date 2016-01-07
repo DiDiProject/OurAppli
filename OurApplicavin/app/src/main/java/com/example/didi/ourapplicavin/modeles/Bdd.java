@@ -21,19 +21,14 @@ public class Bdd implements Serializable {
     }
 
     //Méthode pour ajouter un vin à la bdd
-    public void ajoutVin(Vin vin) {
+    public void ajoutVin(final Vin vin) {
         bdd.ajoutVin(vin);
     }
 
-    //Méthode pour supprimer un vin à la bdd
-    public int supprVin(Vin vin) {
-        return bdd.supprVin(vin);
-    }
-
-    public Vin getVin(int posi) {
+    //Méthode pour avoir le vin à une certaine position de la bdd
+    public Vin getVin(final int posi) {
         return bdd.getVin(posi);
     }
-
 
     //Méthode pour rechercher un vin avec le nom dans la bdd
     public ListeVin rechercheVinParNom(String nom) {
