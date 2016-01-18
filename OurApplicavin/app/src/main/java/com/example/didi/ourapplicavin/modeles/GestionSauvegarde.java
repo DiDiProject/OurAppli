@@ -18,7 +18,7 @@ public class GestionSauvegarde {
         ObjectOutputStream oos = null;
         try {
             final FileOutputStream fichier = new FileOutputStream(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/maCave.ser");
+                    Environment.DIRECTORY_DOWNLOADS) + "/AppliCavin/maCave.ser");
             oos = new ObjectOutputStream(fichier);
             oos.writeObject(cave);
             Log.i("GestionSauvegarde", "enregistrement de la cave; serialization");
@@ -42,11 +42,10 @@ public class GestionSauvegarde {
         ObjectInputStream ois = null;
         try {
             final FileInputStream fichier = new FileInputStream(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS) +"/AppliCavin/maCave.ser");
+                    Environment.DIRECTORY_DOWNLOADS) +"/AppliCavin/maCave.ser");
             ois = new ObjectInputStream(fichier);
-            final Cave cave2 = (Cave) ois.readObject();
+            cave = (Cave) ois.readObject();
             Log.i("AffichageCave", "récupération de la cave avec getCave; deserialization");
-            cave = cave2;
         } catch (final IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -65,7 +64,7 @@ public class GestionSauvegarde {
         ObjectOutputStream oos = null;
         try {
             final FileOutputStream fichier = new FileOutputStream(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/bdd.ser");
+                    Environment.DIRECTORY_DOWNLOADS) + "/AppliCavin/bdd.ser");
             oos = new ObjectOutputStream(fichier);
             oos.writeObject(bdd);
             Log.i("GestionSauvegarde", "enregistrement de la bdd; serialization");
@@ -89,11 +88,10 @@ public class GestionSauvegarde {
         ObjectInputStream ois = null;
         try {
             final FileInputStream fichier = new FileInputStream(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS) +"/AppliCavin/bdd.ser");
+                    Environment.DIRECTORY_DOWNLOADS) +"/AppliCavin/bdd.ser");
             ois = new ObjectInputStream(fichier);
-            final Bdd bdd2 = (Bdd) ois.readObject();
+            bdd = (Bdd) ois.readObject();
             Log.i("GestionSauvegarde", "récupération de la bdd; deserialization");
-            bdd = bdd2;
         } catch (final IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -112,7 +110,7 @@ public class GestionSauvegarde {
         ObjectOutputStream oos = null;
         try {
             final FileOutputStream fichier = new FileOutputStream(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/pref.ser");
+                    Environment.DIRECTORY_DOWNLOADS) + "/AppliCavin/pref.ser");
             oos = new ObjectOutputStream(fichier);
             oos.writeObject(pref);
             Log.i("GestionSauvegarde", "enregistrement de la pref; serialization");
@@ -136,7 +134,7 @@ public class GestionSauvegarde {
         ObjectInputStream ois = null;
         try {
             final FileInputStream fichier = new FileInputStream(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS) +"/AppliCavin/pref.ser");
+                    Environment.DIRECTORY_DOWNLOADS) +"/AppliCavin/pref.ser");
             ois = new ObjectInputStream(fichier);
             final ListePref pref2 = (ListePref) ois.readObject();
             Log.i("GestionSauvegarde", "récupération de la pref; deserialization");

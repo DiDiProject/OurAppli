@@ -66,8 +66,8 @@ public class Cave implements Serializable {
     }
 
     //Méthode pour recherche des vins par critère dans la cave
-    public ListeVin rechercheVinParCritere(){
-        return maCave.rechercheVinParCritere();
+    public ListeVin rechercheVinParCritere(String nom, String robe, String cepage, String region){
+        return maCave.rechercheVinParCritere(nom, robe, cepage, region);
     }
 
     public String toString(){

@@ -40,6 +40,10 @@ public class AffichageResultatRecherche extends AppCompatActivity {
     private String couleurVinSel = "";
     private String cepageVinSel = "";
     private String regionVinSel = "";
+    private String nom = "";
+    private String couleur = "";
+    private String cepage = "";
+    private String region = "";
     private ListeVin liste;
     private int posi; //pour avoir la position dans le tab du vin sélectionné
     final static String VIN_BDD = "vin bdd";
@@ -95,7 +99,6 @@ public class AffichageResultatRecherche extends AppCompatActivity {
         Intent i = getIntent();
         if (i != null) {
             endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);
-            Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
             nomVinSel = i.getStringExtra(AffichageRechercheVin.NOM_VIN);
             Log.i("AffichageResultat", nomVinSel + " vin recherché !!!");
             if (endroit != 2 && endroit != 1) {
@@ -111,7 +114,13 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             if (type_recherche == 0) {
                 rechercheParNom();
             } else {
+                nom = i.getStringExtra("nom");
+                couleur = i.getStringExtra("couleur");
+                cepage = i.getStringExtra("cépage");
+                region = i.getStringExtra("région");
+                Log.i("AffichageResultat", nom + " vin recherché !! ii!" + couleur + cepage + region);
                 rechercheParCritere();
+                Log.i("AffichageResultat", "  !! ii!");
             }
         }
         // on va mettre ce tab de la liste des vins dans le tab associé
@@ -354,9 +363,32 @@ public class AffichageResultatRecherche extends AppCompatActivity {
             listeVins[2 + i * nbColParLigne] = vin.getCepage().get(0);
             listeVins[3 + i * nbColParLigne] = vin.getRegion();
         }
+        if(liste.getListeVins().isEmpty()){
+            listeVins = new String[1];
+            listeVins[0] = "Aucun vin ne correspond à votre recherche !";
+        }
     }
 
     public void rechercheParCritere() {
         // TODO
+        bdd = GestionSauvegarde.getBdd();
+        Log.i("AffichageResultat", " ! tt! ii!");
+        liste = bdd.rechercheVinParCritere(nom, couleur, cepage, region);
+        //Log.i("AffichageResultat", liste.getListeVins().get(0).getNom() + "  !! ii!");
+        Log.i("AffichageResultat", nom + " vin recherché !! ii!");
+        listeVins = new String[liste.getNombreVins() * nbColParLigne];
+        for (int i = 0; i < liste.getNombreVins(); i++) {
+            //pour chaque vin, on affiche le nom (sur la 1ère col), la couleur (la 2ème col),
+            //le nb de bouteille (la 3ème col) et la région (sur la 4ème)
+            Vin vin = liste.getListeVins().get(i);
+            listeVins[    i * nbColParLigne] = vin.getNom();
+            listeVins[1 + i * nbColParLigne] = vin.getCouleur();
+            listeVins[2 + i * nbColParLigne] = vin.getCepage().get(0);
+            listeVins[3 + i * nbColParLigne] = vin.getRegion();
+        }
+        if(liste.getListeVins().isEmpty()){
+            listeVins = new String[1];
+            listeVins[0] = "Aucun vin ne correspond à votre recherche !";
+        }
     }
 }

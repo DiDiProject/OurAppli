@@ -41,8 +41,8 @@ public class Bdd implements Serializable {
     }
 
     //Méthode pour recherche des vins par critère dans la bdd
-    public ListeVin rechercheVinParCritere() {
-        return bdd.rechercheVinParCritere();
+    public ListeVin rechercheVinParCritere(String nom, String robe, String cepage, String region) {
+        return bdd.rechercheVinParCritere(nom, robe, cepage, region);
     }
 
     public String toString() {

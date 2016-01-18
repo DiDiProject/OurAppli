@@ -135,7 +135,7 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
 
         //création du dossier AppliCavin sur le téléphone pour enregistrer la cave et la liste de souhait (et pour l'instant la bdd)
         File dir = new File (Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS) +"/AppliCavin");
+                Environment.DIRECTORY_DOWNLOADS) +"/AppliCavin");
         if(!dir.exists()) {
             dir.mkdirs(); //s'il n'exite pas on le créer
         }
@@ -165,14 +165,14 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
             // on supprime le fichier associé la cave et à la pref
             // (on va le récréer après si l'utilisateur va dans sa cave ou ds pref)
             final File fichier = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/maCave.ser");
+                    Environment.DIRECTORY_DOWNLOADS) + "/AppliCavin/maCave.ser");
             fichier.delete();
             maCave = new Cave();
             GestionSauvegarde.enregistrementCave(maCave); //enregistrement de la cave (vide pour l'instant)
             return true;
         } else if (id == R.id.renitialiserPref){
             final File fichier = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS) + "/AppliCavin/pref.ser");
+                    Environment.DIRECTORY_DOWNLOADS) + "/AppliCavin/pref.ser");
             fichier.delete();
             pref = new ListePref();
             GestionSauvegarde.enregistrementPref(pref); //enregistrement de la cave (vide pour l'instant)
@@ -200,16 +200,16 @@ public class AffichageMenuPrincipal extends AppCompatActivity {
             ArrayList<String> cepage = new ArrayList<>();
             cepage.add("Merlot");
             cepage.add("Muscadelle");
-            bdd.ajoutVin(new Vin("Bordeaux", "rouge", cepage, "Aquitaine"));
+            bdd.ajoutVin(new Vin("Bordeaux", "Rouge", cepage, "Aquitaine"));
             ArrayList<String> cepage2 = new ArrayList<>();
             cepage2.add("Muscadelle");
-            bdd.ajoutVin(new Vin("Cadillac", "blanc", cepage2, "Aquitaine"));
+            bdd.ajoutVin(new Vin("Cadillac", "Blanc", cepage2, "Aquitaine"));
             ArrayList<String> cepage3 = new ArrayList<>();
             cepage3.add("Semillon");
-            bdd.ajoutVin(new Vin("Riesling", "blanc", cepage3, "Alsace"));
+            bdd.ajoutVin(new Vin("Riesling", "Blanc", cepage3, "Alsace"));
             ArrayList<String> cepage4 = new ArrayList<>();
             cepage4.add("Grenache");
-            bdd.ajoutVin(new Vin("Whispering Angel", "rosé", cepage4, "Provence"));
+            bdd.ajoutVin(new Vin("Whispering Angel", "Rosé", cepage4, "Provence"));
             GestionSauvegarde.enregistrementBdd(bdd); //enregistrement de la cave (4 vins pour l'instant)
         }
     }

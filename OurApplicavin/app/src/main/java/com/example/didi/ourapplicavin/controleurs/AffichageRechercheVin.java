@@ -7,11 +7,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.didi.ourapplicavin.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //classe pour faire une recherche (par nom ou par critère) soit dans la cave ou dans la bdd
 public class AffichageRechercheVin extends AppCompatActivity {
@@ -24,7 +31,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
     private TextView texteRegion = null;
     //private TextView texteMillesime = null;
     //private TextView texteTerroir = null;
-    private EditText robe = null;
+    private Spinner robe = null;
     private EditText cepage = null;
     private EditText region = null;
     //private EditText mellisesime = null;
@@ -35,6 +42,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
     final static String NOM_VIN = "nom du vin"; //pour passer le nom du vin à une autre activité
     public final static String ENDROIT = "endroit";
     public final static String TYPE_RECHERCHE = "type de recherche";
+    private String string_couleur = "";
     private int endroit = 0;
 
     //Méthode qui se lance quand on est dans cette activité
@@ -60,7 +68,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
         texteRegion = (TextView) findViewById(R.id.textRegion);
         //texteMillesime = (TextView) findViewById(R.id.textMillesime);
         //texteTerroir = (TextView) findViewById(R.id.textTerroir);
-        robe = (EditText) findViewById(R.id.robe);
+        robe = (Spinner) findViewById(R.id.listeCouleurRecherche);
         cepage = (EditText) findViewById(R.id.cepage);
         region = (EditText) findViewById(R.id.region);
         //mellisesime = (EditText) findViewById(R.id.millesime);
@@ -79,11 +87,25 @@ public class AffichageRechercheVin extends AppCompatActivity {
 
         this.invisibleRechercheAvancee();
 
+        List liste = new ArrayList();
+        liste.add("");
+        liste.add("Rouge");
+        liste.add("Blanc");
+        liste.add("Rosé");
+        ArrayAdapter adapter = new ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item,
+                liste
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Enfin on passe l'adapter au Spinner et c'est tout
+        robe.setAdapter(adapter);
+
         Intent i = getIntent();
         endroit = i.getIntExtra(AffichageBdd.ENDROIT, 2);
-        if(endroit != 2) {
+        if (endroit != 2) {
             endroit = i.getIntExtra(AffichageCave.ENDROIT, 1);
-            if(endroit != 1){
+            if (endroit != 1) {
                 endroit = i.getIntExtra(AffichagePref.ENDROIT, 3);
             }
         } else {
@@ -95,7 +117,7 @@ public class AffichageRechercheVin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent n;
-                if(endroit!=1) {
+                if (endroit != 1) {
                     n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
 
                 } else {
@@ -115,10 +137,8 @@ public class AffichageRechercheVin extends AppCompatActivity {
         faireRechercheAvancee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
                 avanceeOuPas = true;
                 visibleRechercheAvancee();
-
             }
         });
 
@@ -127,12 +147,42 @@ public class AffichageRechercheVin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO
-                Intent n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
+                Intent n;
+                if (endroit != 1) {
+                    n = new Intent(AffichageRechercheVin.this, AffichageResultatRecherche.class);
+
+                } else {
+                    n = new Intent(AffichageRechercheVin.this, AffichageResultatRechercheCave.class);
+                }
+
+                n.putExtra("couleur", string_couleur);
+                String string_cepage = cepage.getText().toString();
+                n.putExtra("cépage", string_cepage);
+                String string_region = region.getText().toString();
+                n.putExtra("région", string_region);
+                String string_nom = nom.getText().toString();
+                n.putExtra("nom", string_nom);
+
                 //mettre en para les différents champs
-                n.putExtra(TYPE_RECHERCHE,0);
+                n.putExtra(ENDROIT, endroit);
+                n.putExtra(TYPE_RECHERCHE, 1);
                 n.addCategory(Intent.CATEGORY_HOME);
                 n.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(n);
+            }
+        });
+
+        robe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                string_couleur = String.valueOf(robe.getSelectedItem());
+                Toast.makeText(AffichageRechercheVin.this, "couleur du vin : " + string_couleur,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                string_couleur = "";
             }
         });
 

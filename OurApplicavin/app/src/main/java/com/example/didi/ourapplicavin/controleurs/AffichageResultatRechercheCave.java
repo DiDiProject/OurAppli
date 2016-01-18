@@ -43,6 +43,10 @@ public class AffichageResultatRechercheCave extends AppCompatActivity {
     private String nbVinSel = "";
     private String cepageVinSel = "";
     private String millesimeVinSel = "";
+    private String nom = "";
+    private String couleur = "";
+    private String cepage = "";
+    private String region = "";
     private int nbBouteilles; //pour avoir le nb de bouteille (en entier)
     private int nbBouteilleActualiser; //pour aovir le nb de bouteille actualisé
     private int positionTabNom; //pour avoir la position dans le tab du vin sélectionné
@@ -103,6 +107,10 @@ public class AffichageResultatRechercheCave extends AppCompatActivity {
             if (type_recherche == 0) {
                 rechercheParNom();
             } else {
+                nom = i.getStringExtra("nom");
+                couleur = i.getStringExtra("couleur");
+                cepage = i.getStringExtra("cépage");
+                region = i.getStringExtra("région");
                 rechercheParCritere();
             }
         }
@@ -408,9 +416,8 @@ public class AffichageResultatRechercheCave extends AppCompatActivity {
     private void rechercheParNom() {
         listeVins = new String[nbColParLigne];
         liste = new Cave();
-        Cave cave = GestionSauvegarde.getCave();
         Log.i("AffichageResultat", "recherche ds la cave de " + nomVinSel);
-        liste.setMaCave(cave.rechercheVinParNom(nomVinSel));
+        liste.setMaCave(maCave.rechercheVinParNom(nomVinSel));
         Log.i("AffichageResultat", "recherche ds la cave");
         Log.i("AffichageResultat", liste.toString() + "");
         listeVins = new String[liste.getVinsCave().getNombreVins() * nbColParLigne];
@@ -424,10 +431,31 @@ public class AffichageResultatRechercheCave extends AppCompatActivity {
             listeVins[3 + i * nbColParLigne] = vin.getCepage().get(0);
             listeVins[4 + i * nbColParLigne] = vin.getMillesime();
         }
+        if(liste.getVinsCave().getListeVins().isEmpty()){
+            listeVins = new String[1];
+            listeVins[0] = "Aucun vin ne correspond à votre recherche !";
+        }
     }
 
     public void rechercheParCritere() {
+        liste = new Cave();
+        liste.setMaCave(maCave.rechercheVinParCritere(nom, couleur, cepage, region));
         // TODO
+        listeVins = new String[liste.getVinsCave().getNombreVins() * nbColParLigne];
+        for (int i = 0; i < liste.getVinsCave().getNombreVins(); i++) {
+            //pour chaque vin, on affiche le nom (sur la 1ère col), la couleur (la 2ème col),
+            //le nb de bouteille (la 3ème col) et la région (sur la 4ème)
+            Vin vin = liste.getVinsCave().getListeVins().get(i);
+            listeVins[    i * nbColParLigne] = vin.getNom();
+            listeVins[1 + i * nbColParLigne] = vin.getCouleur();
+            listeVins[2 + i * nbColParLigne] = "" + vin.getNbBouteille();
+            listeVins[3 + i * nbColParLigne] = vin.getCepage().get(0);
+            listeVins[4 + i * nbColParLigne] = vin.getMillesime();
+        }
+        if(liste.getVinsCave().getListeVins().isEmpty()){
+            listeVins = new String[1];
+            listeVins[0] = "Aucun vin ne correspond à votre recherche !";
+        }
     }
 
     //Méthode pour enregistrer la cave dans un tableau pour après l'afficher
@@ -443,6 +471,10 @@ public class AffichageResultatRechercheCave extends AppCompatActivity {
             listeVins[2 + i * nbColParLigne] = "" + vin.getNbBouteille();
             listeVins[3 + i * nbColParLigne] = vin.getCepage().get(0);
             listeVins[4 + i * nbColParLigne] = vin.getMillesime();
+        }
+        if(liste.getVinsCave().getListeVins().isEmpty()){
+            listeVins = new String[1];
+            listeVins[0] = "Aucun vin ne correspond à votre recherche !";
         }
     }
 }

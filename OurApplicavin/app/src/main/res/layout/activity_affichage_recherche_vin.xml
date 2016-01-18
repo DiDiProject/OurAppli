@@ -68,21 +68,13 @@
             android:text="Robe :"
             android:textSize="15dp" />
 
-        <EditText
-            android:id="@+id/robe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rechercheParNom"
-            android:layout_marginLeft="70dp" />
-
         <TextView
             android:id="@+id/textCepage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/robe"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="150dp"
             android:layout_marginLeft="10dp"
             android:text="Cépage :" />
 
@@ -90,8 +82,8 @@
             android:id="@+id/cepage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/robe"
-            android:layout_marginLeft="70dp" />
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="130dp"/>
 
         <TextView
             android:id="@+id/textRegion"
@@ -154,9 +146,15 @@
             android:layout_height="wrap_content"
             android:background="#fdbec3"
             android:text="  Recherche Avancée  "
-            android:layout_below="@+id/textRegion"
-            android:layout_toRightOf="@+id/robe"
-            android:layout_toEndOf="@+id/robe" />
+            android:layout_below="@+id/textRegion" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listeCouleurRecherche"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/cepage"
+            android:layout_alignStart="@+id/cepage" />
 
     </RelativeLayout>
 

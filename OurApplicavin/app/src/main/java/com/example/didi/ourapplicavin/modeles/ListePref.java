@@ -39,8 +39,8 @@ public class ListePref implements Serializable {
     }
 
     //Méthode pour recherche des vins par critère dans la bdd
-    public ListeVin rechercheVinParCritere(){
-        return pref.rechercheVinParCritere();
+    public ListeVin rechercheVinParCritere(String nom, String robe, String cepage, String region){
+        return pref.rechercheVinParCritere(nom, robe, cepage, region);
     }
 
     public String toString(){
